@@ -1,12 +1,12 @@
 package DataAccess.DAO;
+import DataAccess.DTO.VistaSesionActivaDTO;
 import DataAccess.IDAO;
 import DataAccess.SQLiteDataHelper;
-import DataAccess.DTO.VistaSesionActivaDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VistaSesionActivaDAO {
+public class VistaSesionActivaDAO extends SQLiteDataHelper implements IDAO<VistaSesionActivaDTO> {
 
     private Connection connection;
 
@@ -38,7 +38,7 @@ public class VistaSesionActivaDAO {
         return lista;
     }
 
-    public VistaSesionActivaDTO readby(Integer id) throws SQLException {
+    public VistaSesionActivaDTO readBy(Integer id) throws SQLException {
         VistaSesionActivaDTO vistaSesionActiva = null;
         String query = "SELECT * FROM VistaSesionActiva WHERE persona_id = ?";
         try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
@@ -58,6 +58,24 @@ public class VistaSesionActivaDAO {
             throw e;//new Exception( e.getMessage(), getClass().getName(), "delete()");
         }
         return vistaSesionActiva;
+    }
+
+    @Override
+    public boolean create(VistaSesionActivaDTO entity) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    }
+
+    @Override
+    public boolean update(VistaSesionActivaDTO entity) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public boolean delete(Integer id) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
     
