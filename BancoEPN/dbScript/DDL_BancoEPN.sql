@@ -52,17 +52,20 @@ CREATE TABLE IF NOT EXISTS
     );
 
 -- Tabla de Tarjeta
-CREATE TABLE IF NOT EXISTS
-    Tarjeta (
-        tarjeta_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        persona_id INTEGER,
-        numero_tarjeta TEXT UNIQUE NOT NULL,
-        fecha_expiracion TEXT NOT NULL,
-        pin TEXT NOT NULL,
-        saldo DECIMAL(10, 2) DEFAULT 0,
-        estado TEXT CHECK (estado IN ('activa', 'bloqueada')) DEFAULT 'activa',
-        FOREIGN KEY (persona_id) REFERENCES Persona (persona_id)
-    );
+CREATE TABLE IF NOT EXISTS Tarjeta (
+    tarjeta_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    persona_id INTEGER,
+    numero_tarjeta TEXT UNIQUE NOT NULL,
+    fecha_expiracion TEXT NOT NULL,
+    pin TEXT NOT NULL,
+    saldo DECIMAL(10, 2) DEFAULT 0,
+    estado TEXT CHECK (estado IN ('activa', 'bloqueada')) DEFAULT 'activa',
+    fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    activo BOOLEAN NOT NULL DEFAULT 1,
+    FOREIGN KEY (persona_id) REFERENCES Persona (persona_id)
+);
+
 
 -- Tabla de Sesion
 CREATE TABLE IF NOT EXISTS
@@ -75,6 +78,9 @@ CREATE TABLE IF NOT EXISTS
         fecha_fin TEXT,
         ip_origen TEXT,
         estado TEXT CHECK (estado IN ('activa', 'cerrada')) DEFAULT 'activa',
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        activo BOOLEAN NOT NULL DEFAULT 1,
         FOREIGN KEY (persona_id) REFERENCES Persona (persona_id)
     );
 
@@ -89,19 +95,22 @@ CREATE TABLE IF NOT EXISTS
     );
 
 -- Tabla de Transaccion
-CREATE TABLE IF NOT EXISTS
-    Transaccion (
-        transaccion_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        origen_tarjeta_id INTEGER,
-        destino_tarjeta_id INTEGER,
-        monto DECIMAL(10, 2) NOT NULL,
-        tipo_transaccion TEXT CHECK (
-            tipo_transaccion IN ('deposito', 'retiro', 'transferencia', 'consumo')
-        ) NOT NULL,
-        fecha_transaccion TEXT DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (origen_tarjeta_id) REFERENCES Tarjeta (tarjeta_id),
-        FOREIGN KEY (destino_tarjeta_id) REFERENCES Tarjeta (tarjeta_id)
-    );
+CREATE TABLE IF NOT EXISTS Transaccion (
+    transaccion_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    origen_tarjeta_id INTEGER,
+    destino_tarjeta_id INTEGER,
+    monto DECIMAL(10, 2) NOT NULL,
+    tipo_transaccion TEXT CHECK (
+        tipo_transaccion IN ('deposito', 'retiro', 'transferencia', 'consumo')
+    ) NOT NULL,
+    fecha_transaccion TEXT DEFAULT CURRENT_TIMESTAMP,
+    fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    activo BOOLEAN NOT NULL DEFAULT 1,
+    FOREIGN KEY (origen_tarjeta_id) REFERENCES Tarjeta (tarjeta_id),
+    FOREIGN KEY (destino_tarjeta_id) REFERENCES Tarjeta (tarjeta_id)
+);
+
 
 -- Vista para mostrar los balances de los clientes
 CREATE VIEW IF NOT EXISTS
