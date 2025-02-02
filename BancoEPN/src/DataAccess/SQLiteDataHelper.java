@@ -8,23 +8,31 @@ public abstract class SQLiteDataHelper {
        private static String DBConnection = "jdbc:sqlite:database//db_BancoEPN.sqlite"; 
     private static Connection conn = null;
     
-    protected SQLiteDataHelper(){}
-    protected static synchronized Connection openConnection() throws Exception{
-        try {
-            if(conn == null)
+    public SQLiteDataHelper() {}
+
+    public static synchronized Connection openConnection() throws SQLException {
+        if (conn == null || conn.isClosed()) {
+            try {
                 conn = DriverManager.getConnection(DBConnection);
-        } catch (SQLException e) {
-            throw e; //new Exception(e,"SQLiteDataHelper","Fallo la coneccion a la base de datos");
-        } 
+                System.out.println("Conexión a la base de datos establecida.");
+            } catch (SQLException e) {
+                System.err.println("Error al conectar con la base de datos: " + e.getMessage());
+                throw e;
+            }
+        }
         return conn;
     }
 
-    protected static void closeConnection() throws Exception{
-        try {
-            if (conn != null)
+    public static void closeConnection() throws SQLException {
+        if (conn != null && !conn.isClosed()) {
+            try {
                 conn.close();
-        } catch (Exception e) {
-            throw e;//new Exception(e,"SQLiteDataHelper", "Fallo la conección con la base de datos");
+                conn = null; // Reinicializar la conexión
+                System.out.println("Conexión a la base de datos cerrada.");
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+                throw e;
+            }
         }
     }
 }
