@@ -6,10 +6,10 @@ public class VistaBalanceDTO {
     private String apellido;
     private String balance_total;
 
-    public VistaBalanceDAO() {
+    public VistaBalanceDTO() {
     }
 
-    public VistaBalanceDAO(Integer persona_id, String nombre, String apellido, String balance_total) {
+    public VistaBalanceDTO(Integer persona_id, String nombre, String apellido, String balance_total) {
         this.persona_id = persona_id;
         this.nombre = nombre;
         this.apellido = apellido;

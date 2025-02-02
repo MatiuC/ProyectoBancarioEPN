@@ -1,13 +1,13 @@
 package DataAccess.DAO;
+import DataAccess.DTO.VistaTransaccionesDTO;
 import DataAccess.IDAO;
 import DataAccess.SQLiteDataHelper;
-import DataAccess.DTO.VistaTransaccionesDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class VistaTransaccionesDAO {
+public class VistaTransaccionesDAO extends SQLiteDataHelper implements IDAO<VistaTransaccionesDTO> {
    
     private Connection connection;
 
@@ -42,7 +42,7 @@ public class VistaTransaccionesDAO {
     }
 
     @Override
-    public VistaTransaccionesDTO readby(Integer id) throws SQLException {
+    public VistaTransaccionesDTO readBy(Integer id) throws SQLException {
         VistaTransaccionesDTO vistaTransacciones = null;
         String query = "SELECT * FROM VistaTransacciones WHERE transacion_id = ?";
         try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
@@ -67,5 +67,23 @@ public class VistaTransaccionesDAO {
 
 
         }
+
+    @Override
+    public boolean create(VistaTransaccionesDTO entity) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    }
+
+    @Override
+    public boolean update(VistaTransaccionesDTO entity) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public boolean delete(Integer id) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
         
 }

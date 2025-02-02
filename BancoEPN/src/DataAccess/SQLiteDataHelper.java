@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract class SQLiteDataHelper {
-       private static String DBConnection = "jdbc:sqlite:database//db_BancoEPN.sqlite"; 
+       private static String DBConnection = "jdbc:sqlite:database\\db_BancoEPN.sqlite"; 
     private static Connection conn = null;
     
     public SQLiteDataHelper() {}
