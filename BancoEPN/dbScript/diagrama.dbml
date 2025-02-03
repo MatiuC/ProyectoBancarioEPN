@@ -1,0 +1,117 @@
+Table EstadoCivil {
+  id_estado_civil INTEGER [pk, increment]
+  nombre_estado_civil TEXT [not null]
+}
+
+Table Ciudad {
+  id_ciudad INTEGER [pk, increment]
+  nombre_ciudad VARCHAR(20) [not null]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+}
+
+Table Rol {
+  id_rol INTEGER [pk, increment]
+  nombre_rol VARCHAR(20) [not null]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+}
+
+Table Persona {
+  Id_persona INTEGER [pk, increment]
+  cedula VARCHAR(10) [not null]
+  nombre VARCHAR(30) [not null]
+  apellido VARCHAR(30) [not null]
+  sexo VARCHAR(15) [not null]
+  estado_civil VARCHAR(15) [not null, ref: > EstadoCivil.id_estado_civil]
+  ciudad VARCHAR(30) [not null, ref: > Ciudad.id_ciudad]
+  edad VARCHAR(3) [not null]
+  fecha_nacimiento DATE [not null]
+  direccion VARCHAR(50) [not null]
+  correo VARCHAR(50) [not null]
+  telefono VARCHAR(10) [not null]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+  Rol VARCHAR [not null, ref: > Rol.nombre_rol]
+}
+
+Table CuentaBancaria {
+  id_cuentabancaria INTEGER [pk, increment]
+  numeroCuenta VARCHAR(8) [not null]
+  id_persona INTEGER [not null, ref: > Persona.Id_persona]
+  saldo FLOAT [not null]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+}
+
+Table cuentaCredito {
+  id_cuentaCredito INTEGER [pk, increment]
+  numeroCuenta VARCHAR(8) [not null]
+  id_persona INTEGER [not null, ref: > Persona.Id_persona]
+  saldo_usado FLOAT [not null]
+  limiteCredito FLOAT [not null]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+}
+
+Table credenciales {
+  id_credenciales INTEGER [pk, increment]
+  usuario VARCHAR(15) [not null]
+  pass VARCHAR(15) [not null]
+    id_persona INTEGER [not null, ref: > Persona.Id_persona]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+}
+
+Table Franquicia {
+  id_franquicia INTEGER [pk, increment]
+  nombre_franquicia VARCHAR(20) [not null]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+}
+
+Table TipoTarjeta {
+  id_tipo_tarjeta INTEGER [pk, increment]
+  nombre_tipo_tarjeta VARCHAR(20) [not null]
+}
+
+Table Tarjeta {
+  Id_tarjeta INTEGER [pk, increment]
+  numero_tarjeta VARCHAR(16) [not null]
+  fecha_expedicion DATE [not null]
+  fecha_vencimiento DATE [not null]
+  cvv VARCHAR(3) [not null]
+  tipo_tarjeta INTEGER [not null, ref: > TipoTarjeta.id_tipo_tarjeta]
+  id_franquicia INTEGER [not null, ref: > Franquicia.id_franquicia]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+  Persona INTEGER [not null, ref: > Persona.Id_persona]
+  id_cuentabancaria INTEGER [not null, ref: > CuentaBancaria.id_cuentabancaria]
+}
+
+Table TipoTransaccion {
+  id_tipo_transaccion INTEGER [pk, increment]
+  nombre_tipo_transaccion VARCHAR(20) [not null]
+}
+
+Table Transacciones {
+  Id_transaccion INTEGER [pk, increment]
+  Origen INTEGER [not null, ref: > CuentaBancaria.id_cuentabancaria]
+  Destino INTEGER [not null, ref: > CuentaBancaria.id_cuentabancaria]
+  Monto FLOAT [not null]
+  Fecha DATE [not null]
+  Hora TIME [not null]
+  TipoTransaccion VARCHAR(15) [not null, ref: > TipoTransaccion.id_tipo_transaccion]
+  Descripcion TEXT [not null]
+  fechaCreacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  fechaModificacion DATETIME [not null, default: 'CURRENT_TIMESTAMP']
+  estado VARCHAR(1) [not null, default: 'A']
+}

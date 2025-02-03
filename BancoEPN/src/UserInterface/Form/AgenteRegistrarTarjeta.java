@@ -266,6 +266,7 @@ public class AgenteRegistrarTarjeta extends JPanel {
         JTextField scanField = new JTextField();
         scanField.requestFocusInWindow(); // Dar foco al campo de texto
         
+        
         scannerPanel.add(scanLabel, BorderLayout.NORTH);
         scannerPanel.add(scanField, BorderLayout.CENTER);
         
@@ -274,6 +275,8 @@ public class AgenteRegistrarTarjeta extends JPanel {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String input = scanField.getText().trim();
+                    textbox.txt = api.nombre
+
                     if (!input.isEmpty()) {
                         scannedCard = input;
                         registerButton.setEnabled(true);
