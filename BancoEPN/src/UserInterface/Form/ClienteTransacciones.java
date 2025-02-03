@@ -12,7 +12,7 @@ public class ClienteTransacciones extends JPanel {
     private JButton btnAnterior;
     private JButton btnSiguiente;
     private int paginaActual = 0;
-    private final int REGISTROS_POR_PAGINA = 20;
+    private final int REGISTROS_POR_PAGINA = 2;
     
     public ClienteTransacciones() {
         setLayout(new BorderLayout());

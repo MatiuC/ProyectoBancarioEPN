@@ -1,154 +1,155 @@
 -- database: ../database/db_BancoEPN.sqlite
--- Eliminar tablas si existen
-DROP TABLE IF EXISTS PersonaRol;
+DROP TABLE IF EXISTS Transacciones;
 
-DROP TABLE IF EXISTS Transaccion;
-
-DROP TABLE IF EXISTS Balance;
-
-DROP TABLE IF EXISTS Sesion;
-
-DROP TABLE IF EXISTS Rol;
+DROP TABLE IF EXISTS TipoTransaccion;
 
 DROP TABLE IF EXISTS Tarjeta;
 
+DROP TABLE IF EXISTS TipoTarjeta;
+
+DROP TABLE IF EXISTS Franquicia;
+
+DROP TABLE IF EXISTS credenciales;
+
+DROP TABLE IF EXISTS cuentaCredito;
+
+DROP TABLE IF EXISTS CuentaBancaria;
+
 DROP TABLE IF EXISTS Persona;
 
--- Eliminar vistas si existen
-DROP VIEW IF EXISTS VistaBalance;
+DROP TABLE IF EXISTS Rol;
 
-DROP VIEW IF EXISTS VistaTransacciones;
+DROP TABLE IF EXISTS Ciudad;
 
-DROP VIEW IF EXISTS VistaSesionActiva;
+DROP TABLE IF EXISTS EstadoCivil;
 
--- Tabla de Persona
-CREATE TABLE IF NOT EXISTS
-    Persona (
-        persona_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
-        apellido TEXT NOT NULL,
-        fecha_nacimiento TEXT,
-        direccion TEXT,
-        email TEXT,
-        telefono TEXT,
-        estado TEXT CHECK (estado IN ('activo', 'inactivo')) DEFAULT 'activo'
+CREATE TABLE
+    EstadoCivil (
+        id_estado_civil INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre_estado_civil TEXT NOT NULL
     );
 
--- Tabla de Rol
-CREATE TABLE IF NOT EXISTS
-    Rol (
-        rol_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre_rol TEXT NOT NULL
-    );
-
--- Tabla de relación Persona-Rol (para asignar roles a personas)
-CREATE TABLE IF NOT EXISTS
-    PersonaRol (
-        persona_id INTEGER,
-        rol_id INTEGER,
-        PRIMARY KEY (persona_id, rol_id),
-        FOREIGN KEY (persona_id) REFERENCES Persona (persona_id),
-        FOREIGN KEY (rol_id) REFERENCES Rol (rol_id)
-    );
-
--- Tabla de Tarjeta
-CREATE TABLE IF NOT EXISTS Tarjeta (
-    tarjeta_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    persona_id INTEGER,
-    numero_tarjeta TEXT UNIQUE NOT NULL,
-    fecha_expiracion TEXT NOT NULL,
-    pin TEXT NOT NULL,
-    saldo DECIMAL(10, 2) DEFAULT 0,
-    estado TEXT CHECK (estado IN ('activa', 'bloqueada')) DEFAULT 'activa',
-    fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    activo BOOLEAN NOT NULL DEFAULT 1,
-    FOREIGN KEY (persona_id) REFERENCES Persona (persona_id)
-);
-
-
--- Tabla de Sesion
-CREATE TABLE IF NOT EXISTS
-    Sesion (
-        sesion_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        persona_id INTEGER,
-        usuario TEXT,
-        contrasenia TEXT,
-        fecha_inicio TEXT DEFAULT CURRENT_TIMESTAMP,
-        fecha_fin TEXT,
-        ip_origen TEXT,
-        estado TEXT CHECK (estado IN ('activa', 'cerrada')) DEFAULT 'activa',
+CREATE TABLE
+    Ciudad (
+        id_ciudad INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre_ciudad VARCHAR(20) NOT NULL,
         fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        activo BOOLEAN NOT NULL DEFAULT 1,
-        FOREIGN KEY (persona_id) REFERENCES Persona (persona_id)
+        estado VARCHAR(1) NOT NULL DEFAULT 'A'
     );
 
--- Tabla de Balance
-CREATE TABLE IF NOT EXISTS
-    Balance (
-        balance_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        persona_id INTEGER,
-        balance_total DECIMAL(15, 2) DEFAULT 0,
-        fecha_actualizacion TEXT DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (persona_id) REFERENCES Persona (persona_id)
+CREATE TABLE
+    Rol (
+        id_rol INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre_rol VARCHAR(20) NOT NULL,
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A'
     );
 
--- Tabla de Transaccion
-CREATE TABLE IF NOT EXISTS Transaccion (
-    transaccion_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    origen_tarjeta_id INTEGER,
-    destino_tarjeta_id INTEGER,
-    monto DECIMAL(10, 2) NOT NULL,
-    tipo_transaccion TEXT CHECK (
-        tipo_transaccion IN ('deposito', 'retiro', 'transferencia', 'consumo')
-    ) NOT NULL,
-    fecha_transaccion TEXT DEFAULT CURRENT_TIMESTAMP,
-    fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    activo BOOLEAN NOT NULL DEFAULT 1,
-    FOREIGN KEY (origen_tarjeta_id) REFERENCES Tarjeta (tarjeta_id),
-    FOREIGN KEY (destino_tarjeta_id) REFERENCES Tarjeta (tarjeta_id)
-);
+CREATE TABLE
+    Persona (
+        Id_persona INTEGER PRIMARY KEY AUTOINCREMENT,
+        cedula VARCHAR(10) NOT NULL,
+        nombre VARCHAR(30) NOT NULL,
+        apellido VARCHAR(30) NOT NULL,
+        sexo VARCHAR(15) NOT NULL,
+        estado_civil VARCHAR(15) NOT NULL REFERENCES EstadoCivil (id_estado_civil),
+        ciudad VARCHAR(30) NOT NULL REFERENCES Ciudad (id_ciudad),
+        edad VARCHAR(3) NOT NULL,
+        fecha_nacimiento DATE NOT NULL,
+        direccion VARCHAR(50) NOT NULL,
+        correo VARCHAR(50) NOT NULL,
+        telefono VARCHAR(10) NOT NULL,
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A',
+        Rol NOT NULL REFERENCES Rol (nombre_rol)
+    );
 
+CREATE TABLE
+    CuentaBancaria (
+        id_cuentabancaria INTEGER PRIMARY KEY AUTOINCREMENT,
+        numeroCuenta VARCHAR(8) NOT NULL,
+        id_persona INTEGER NOT NULL REFERENCES Persona (Id_persona),
+        saldo FLOAT NOT NULL,
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A'
+    );
 
--- Vista para mostrar los balances de los clientes
-CREATE VIEW IF NOT EXISTS
-    VistaBalance AS
-SELECT
-    p.persona_id,
-    p.nombre,
-    p.apellido,
-    b.balance_total
-FROM
-    Persona p
-    JOIN Balance b ON p.persona_id = b.persona_id;
+CREATE TABLE
+    cuentaCredito (
+        id_cuentaCredito INTEGER PRIMARY KEY AUTOINCREMENT,
+        numeroCuenta VARCHAR(8) NOT NULL,
+        id_persona INTEGER NOT NULL REFERENCES Persona (Id_persona),
+        saldo_usado FLOAT NOT NULL,
+        limiteCredito FLOAT NOT NULL,
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A'
+    );
 
--- Vista para mostrar las transacciones de un cliente
-CREATE VIEW IF NOT EXISTS
-    VistaTransacciones AS
-SELECT
-    t.transaccion_id,
-    t.origen_tarjeta_id,
-    t.destino_tarjeta_id,
-    t.monto,
-    t.tipo_transaccion,
-    t.fecha_transaccion
-FROM
-    Transaccion t
-    JOIN Tarjeta tar ON t.origen_tarjeta_id = tar.tarjeta_id;
+CREATE TABLE
+    credenciales (
+        id_credenciales INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_persona INTEGER NOT NULL UNIQUE,
+        usuario VARCHAR(15) NOT NULL,
+        pass VARCHAR(15) NOT NULL,
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A',
+        CONSTRAINT fk_persona FOREIGN KEY (id_persona) REFERENCES Persona (Id_persona) ON UPDATE CASCADE
+    );
 
--- Vista para consultar detalles de la sesión activa de un usuario
-CREATE VIEW IF NOT EXISTS
-    VistaSesionActiva AS
-SELECT
-    p.persona_id,
-    p.nombre,
-    p.apellido,
-    s.fecha_inicio,
-    s.estado
-FROM
-    Sesion s
-    JOIN Persona p ON s.persona_id = p.persona_id
-WHERE
-    s.estado = 'activa';
+CREATE TABLE
+    Franquicia (
+        id_franquicia INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre_franquicia VARCHAR(20) NOT NULL,
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A'
+    );
+
+CREATE TABLE
+    TipoTarjeta (
+        id_tipo_tarjeta INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre_tipo_tarjeta VARCHAR(20) NOT NULL
+    );
+
+CREATE TABLE
+    Tarjeta (
+        Id_tarjeta INTEGER PRIMARY KEY AUTOINCREMENT,
+        numero_tarjeta VARCHAR(16) NOT NULL,
+        fecha_expedicion DATE NOT NULL,
+        fecha_vencimiento DATE NOT NULL,
+        cvv VARCHAR(3) NOT NULL,
+        tipo_tarjeta VARCHAR(20) NOT NULL REFERENCES TipoTarjeta (id_tipo_tarjeta),
+        franquicia VARCHAR(20) NOT NULL REFERENCES Franquicia (id_franquicia),
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A',
+        Persona NOT NULL REFERENCES Persona (Id_persona),
+        id_cuentabancaria NOT NULL REFERENCES CuentaBancaria (id_cuentabancaria)
+    );
+
+CREATE TABLE
+    TipoTransaccion (
+        id_tipo_transaccion INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre_tipo_transaccion VARCHAR(20) NOT NULL
+    );
+
+CREATE TABLE
+    Transacciones (
+        Id_transaccion INTEGER PRIMARY KEY AUTOINCREMENT,
+        Origen INTEGER NOT NULL REFERENCES CuentaBancaria (id_cuentabancaria),
+        Destino INTEGER NOT NULL REFERENCES CuentaBancaria (id_cuentabancaria),
+        Monto FLOAT NOT NULL,
+        Fecha DATE NOT NULL,
+        Hora TIME NOT NULL,
+        TipoTransaccion VARCHAR(15) NOT NULL REFERENCES TipoTransaccion (id_tipo_transaccion),
+        Descripcion TEXT NOT NULL,
+        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        estado VARCHAR(1) NOT NULL DEFAULT 'A'
+    )
