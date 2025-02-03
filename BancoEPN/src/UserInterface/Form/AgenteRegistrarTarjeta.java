@@ -266,6 +266,7 @@ public class AgenteRegistrarTarjeta extends JPanel {
         JTextField scanField = new JTextField();
         scanField.requestFocusInWindow(); // Dar foco al campo de texto
         
+        
         scannerPanel.add(scanLabel, BorderLayout.NORTH);
         scannerPanel.add(scanField, BorderLayout.CENTER);
         
