@@ -3,8 +3,8 @@ package UserInterface.Form;
 import UserInterface.CustomerControl.RoundedTextField;
 import UserInterface.CustomerControl.RoundedButton;
 import javax.swing.*;
-import com.toedter.calendar.JDateChooser;
 import java.awt.*;
+import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -13,7 +13,7 @@ public class ClienteFormPanel extends JPanel {
 
     private RoundedTextField txtNombre, txtApellido, txtCelular, txtCorreo, txtDireccion;
     private JDateChooser dateChooser;
-    private JComboBox<String> comboSexo; // Nuevo campo para seleccionar el sexo
+    private JComboBox<String> comboSexo;
     private MainForm parentFrame;
 
     public ClienteFormPanel(MainForm parentFrame) {
@@ -68,7 +68,7 @@ public class ClienteFormPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy++;
         add(createStyledLabel("Sexo:"), gbc);
-        comboSexo = new JComboBox<>(new String[]{"Seleccionar", "Masculino", "Femenino"}); // Opciones de sexo
+        comboSexo = new JComboBox<>(new String[]{"Seleccionar", "Masculino", "Femenino"});
         comboSexo.setFont(new Font("Montserrat", Font.PLAIN, 16));
         comboSexo.setPreferredSize(new Dimension(230, 40));
         gbc.gridx = 1;
