@@ -1,26 +1,15 @@
 -- database: ../database/db_BancoEPN.sqlite
 DROP TABLE IF EXISTS Transacciones;
-
 DROP TABLE IF EXISTS TipoTransaccion;
-
 DROP TABLE IF EXISTS Tarjeta;
-
 DROP TABLE IF EXISTS TipoTarjeta;
-
 DROP TABLE IF EXISTS Franquicia;
-
 DROP TABLE IF EXISTS credenciales;
-
 DROP TABLE IF EXISTS cuentaCredito;
-
 DROP TABLE IF EXISTS CuentaBancaria;
-
 DROP TABLE IF EXISTS Persona;
-
 DROP TABLE IF EXISTS Rol;
-
 DROP TABLE IF EXISTS Ciudad;
-
 DROP TABLE IF EXISTS EstadoCivil;
 
 CREATE TABLE
@@ -114,11 +103,7 @@ CREATE TABLE
 CREATE TABLE
     TipoTarjeta (
         id_tipo_tarjeta INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre_tipo_tarjeta VARCHAR(20) NOT NULL,
-        fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        estado VARCHAR(1) NOT NULL DEFAULT 'A'
-        
+        nombre_tipo_tarjeta VARCHAR(20) NOT NULL
     );
 
 CREATE TABLE
