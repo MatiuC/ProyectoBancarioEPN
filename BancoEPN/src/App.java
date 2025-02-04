@@ -8,33 +8,6 @@ import java.sql.SQLException;
 
 public class App {
     public static void main(String[] args) {
-       
-      
-
-    try {
-        CuentaBancariaDAO vDAO = new CuentaBancariaDAO();
-        for (CuentaBancariaDTO s : vDAO.readAll()) {
-            System.out.println(s.toString());
-        }
-
-    } catch (SQLException e) {
-        System.out.println("Error de conexión con la base de datos: " + e.getMessage());
-    } catch (Exception e) {
-        System.out.println("Error general: " + e.getMessage());
-    }
-
-    try {
-        PersonaDAO pDAO = new PersonaDAO();
-        for (PersonaDTO p : pDAO.readAll()) {
-            System.out.println(p.toString());
-        }
-
-    } catch (SQLException e) {
-        System.out.println("Error de conexión con la base de datos: " + e.getMessage());
-    } catch (Exception e) {
-        System.out.println("Error general: " + e.getMessage());
-    }
-
     
     try {
         cuentaCreditoDAO cDAO = new cuentaCreditoDAO();

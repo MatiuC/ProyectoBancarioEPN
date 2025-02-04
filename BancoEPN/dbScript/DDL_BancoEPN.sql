@@ -1,26 +1,15 @@
 -- database: ../database/db_BancoEPN.sqlite
 DROP TABLE IF EXISTS Transacciones;
-
 DROP TABLE IF EXISTS TipoTransaccion;
-
 DROP TABLE IF EXISTS Tarjeta;
-
 DROP TABLE IF EXISTS TipoTarjeta;
-
 DROP TABLE IF EXISTS Franquicia;
-
 DROP TABLE IF EXISTS credenciales;
-
 DROP TABLE IF EXISTS cuentaCredito;
-
 DROP TABLE IF EXISTS CuentaBancaria;
-
 DROP TABLE IF EXISTS Persona;
-
 DROP TABLE IF EXISTS Rol;
-
 DROP TABLE IF EXISTS Ciudad;
-
 DROP TABLE IF EXISTS EstadoCivil;
 
 CREATE TABLE

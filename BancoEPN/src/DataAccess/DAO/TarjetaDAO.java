@@ -21,22 +21,25 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
     @Override
     public TarjetaDTO readBy(Integer id) throws Exception {
         TarjetaDTO tarjeta = null;
-        String query = "SELECT * FROM Tarjeta WHERE tarjeta_id = ? AND activo = 1";
+        String query = "SELECT * FROM Tarjeta WHERE Id_tarjeta = ? AND estado= 1";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 tarjeta = new TarjetaDTO(
-                        rs.getInt("tarjeta_id"),
-                        rs.getInt("persona_id"),
+                        rs.getInt("Id_tarjeta"),
                         rs.getString("numero_tarjeta"),
-                        rs.getString("fecha_expiracion"),
-                        rs.getString("pin"),
-                        rs.getDouble("saldo"),
-                        rs.getString("estado"),
+                        rs.getString("fecha_expedicion"),
+                        rs.getString("fecha_vencimiento"),
+                        rs.getString("cvv"),
+                        rs.getInt("tipo_tarjeta"),
+                        rs.getInt("id_franquicia"),
                         rs.getString("fechaCreacion"),
                         rs.getString("fechaModificacion"),
-                        rs.getBoolean("activo")
+                        rs.getString("estado"),
+                        rs.getInt("Persona"),
+                        rs.getInt("id_cuentabancaria")
+                        
                 );
             }
         } catch (SQLException e) {
@@ -48,21 +51,23 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
     @Override
     public List<TarjetaDTO> readAll() throws Exception {
         List<TarjetaDTO> lista = new ArrayList<>();
-        String query = "SELECT * FROM Tarjeta WHERE activo = 1";
+        String query = "SELECT * FROM Tarjeta WHERE estado= 1";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 lista.add(new TarjetaDTO(
-                        rs.getInt("tarjeta_id"),
-                        rs.getInt("persona_id"),
-                        rs.getString("numero_tarjeta"),
-                        rs.getString("fecha_expiracion"),
-                        rs.getString("pin"),
-                        rs.getDouble("saldo"),
-                        rs.getString("estado"),
-                        rs.getString("fechaCreacion"),
-                        rs.getString("fechaModificacion"),
-                        rs.getBoolean("activo")
+                    rs.getInt("Id_tarjeta"),
+                    rs.getString("numero_tarjeta"),
+                    rs.getString("fecha_expedicion"),
+                    rs.getString("fecha_vencimiento"),
+                    rs.getString("cvv"),
+                    rs.getInt("tipo_tarjeta"),
+                    rs.getInt("id_franquicia"),
+                    rs.getString("fechaCreacion"),
+                    rs.getString("fechaModificacion"),
+                    rs.getString("estado"),
+                    rs.getInt("Persona"),
+                    rs.getInt("id_cuentabancaria")
                 ));
             }
         } catch (SQLException e) {
@@ -73,15 +78,19 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
 
     @Override
     public boolean create(TarjetaDTO tarjeta) throws Exception {
-        String query = "INSERT INTO Tarjeta (persona_id, numero_tarjeta, fecha_expiracion, pin, saldo, estado, fechaCreacion, fechaModificacion, activo) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)";
+        String query = "INSERT INTO Tarjeta (numero_tarjeta, fecha_expedicion, fecha_vencimiento, cvv, tipo_tarjeta, id_franquicia, fechaCreacion, fechaModificacion, estado, Persona, id_cuentabancaria) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, tarjeta.getPersonaId());
-            stmt.setString(2, tarjeta.getNumeroTarjeta());
-            stmt.setString(3, tarjeta.getFechaExpiracion());
-            stmt.setString(4, tarjeta.getPin());
-            stmt.setDouble(5, tarjeta.getSaldo());
+            stmt.setString(1, tarjeta.getNumero_tarjeta());
+            stmt.setString(2, tarjeta.getFecha_expedicion());
+            stmt.setString(3, tarjeta.getFecha_vencimiento());
+            stmt.setString(4, tarjeta.getCvv());
+            stmt.setDouble(5, tarjeta.getTipo_tarjeta());
+            stmt.setDouble(5, tarjeta.getId_franquicia());
+            stmt.setString(5, tarjeta.getFechaCreacion());
+            stmt.setString(5, tarjeta.getFechaModificacion());
             stmt.setString(6, tarjeta.getEstado());
-            stmt.setBoolean(7, tarjeta.getActivo());
+            stmt.setInt(7, tarjeta.getPersona());
+            stmt.setDouble(5, tarjeta.getId_cuentabancaria());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -91,16 +100,19 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
 
     @Override
     public boolean update(TarjetaDTO tarjeta) throws Exception {
-        String query = "UPDATE Tarjeta SET persona_id = ?, numero_tarjeta = ?, fecha_expiracion = ?, pin = ?, saldo = ?, estado = ?, fechaModificacion = CURRENT_TIMESTAMP, activo = ? WHERE tarjeta_id = ?";
+        String query = "UPDATE Tarjeta SET numero_tarjeta = ?, fecha_expedicion = ?, fecha_vencimiento = ?, cvv = ?, tipo_tarjeta = ?, id_franquicia = ?, fechaCreacion = CURRENT_TIMESTAMP, fechaModificacion = CURRENT_TIMESTAMP, estado = ?, Persona = ?, id_cuentabancaria = ?  WHERE Id_tarjeta = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, tarjeta.getPersonaId());
-            stmt.setString(2, tarjeta.getNumeroTarjeta());
-            stmt.setString(3, tarjeta.getFechaExpiracion());
-            stmt.setString(4, tarjeta.getPin());
-            stmt.setDouble(5, tarjeta.getSaldo());
+            stmt.setString(1, tarjeta.getNumero_tarjeta());
+            stmt.setString(2, tarjeta.getFecha_expedicion());
+            stmt.setString(3, tarjeta.getFecha_vencimiento());
+            stmt.setString(4, tarjeta.getCvv());
+            stmt.setDouble(5, tarjeta.getTipo_tarjeta());
+            stmt.setDouble(5, tarjeta.getId_franquicia());
+            stmt.setString(5, tarjeta.getFechaCreacion());
+            stmt.setString(5, tarjeta.getFechaModificacion());
             stmt.setString(6, tarjeta.getEstado());
-            stmt.setBoolean(7, tarjeta.getActivo());
-            stmt.setInt(8, tarjeta.getTarjetaId());
+            stmt.setInt(7, tarjeta.getPersona());
+            stmt.setDouble(5, tarjeta.getId_cuentabancaria());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -110,7 +122,7 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
 
     @Override
     public boolean delete(Integer id) throws Exception {
-        String query = "UPDATE Tarjeta SET activo = 0, fechaModificacion = CURRENT_TIMESTAMP WHERE tarjeta_id = ?";
+        String query = "UPDATE Tarjeta SET estado = 0, fechaModificacion = CURRENT_TIMESTAMP WHERE Id_tarjeta = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
