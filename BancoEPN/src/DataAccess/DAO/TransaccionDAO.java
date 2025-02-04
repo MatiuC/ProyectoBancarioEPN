@@ -21,21 +21,23 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
     @Override
     public TransaccionDTO readBy(Integer id) throws Exception {
         TransaccionDTO transaccion = null;
-        String query = "SELECT * FROM Transaccion WHERE transaccion_id = ? AND activo = 1";
+        String query = "SELECT * FROM Transacciones WHERE Id_transaccion = ? AND estado = 'A'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 transaccion = new TransaccionDTO(
-                        rs.getInt("transaccion_id"),
-                        rs.getInt("origen_tarjeta_id"),
-                        rs.getInt("destino_tarjeta_id"),
-                        rs.getDouble("monto"),
-                        rs.getString("tipo_transaccion"),
-                        rs.getString("fecha_transaccion"),
-                        rs.getString("fechaCreacion"),
-                        rs.getString("fechaModificacion"),
-                        rs.getBoolean("activo")
+                        rs.getInt("Id_transaccion"),
+                        rs.getInt("Origen"),
+                        rs.getInt("Destino"),
+                        rs.getDouble("Monto"),
+                        rs.getString("TipoTransaccion"),
+                        rs.getString("Fecha"),
+                        rs.getString("Hora"),
+                        rs.getString("Descripcion"),
+                        rs.getString("FechaCreacion"),
+                        rs.getString("FechaModificacion"),
+                        rs.getString("Estado").equals("A")
                 );
             }
         } catch (SQLException e) {
@@ -47,20 +49,22 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
     @Override
     public List<TransaccionDTO> readAll() throws Exception {
         List<TransaccionDTO> lista = new ArrayList<>();
-        String query = "SELECT * FROM Transaccion WHERE activo = 1";
+        String query = "SELECT * FROM Transacciones WHERE estado = 'A'";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 lista.add(new TransaccionDTO(
-                        rs.getInt("transaccion_id"),
-                        rs.getInt("origen_tarjeta_id"),
-                        rs.getInt("destino_tarjeta_id"),
-                        rs.getDouble("monto"),
-                        rs.getString("tipo_transaccion"),
-                        rs.getString("fecha_transaccion"),
-                        rs.getString("fechaCreacion"),
-                        rs.getString("fechaModificacion"),
-                        rs.getBoolean("activo")
+                        rs.getInt("Id_transaccion"),
+                        rs.getInt("Origen"),
+                        rs.getInt("Destino"),
+                        rs.getDouble("Monto"),
+                        rs.getString("TipoTransaccion"),
+                        rs.getString("Fecha"),
+                        rs.getString("Hora"),
+                        rs.getString("Descripcion"),
+                        rs.getString("FechaCreacion"),
+                        rs.getString("FechaModificacion"),
+                        rs.getString("Estado").equals("A")
                 ));
             }
         } catch (SQLException e) {
@@ -71,14 +75,15 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
 
     @Override
     public boolean create(TransaccionDTO transaccion) throws Exception {
-        String query = "INSERT INTO Transaccion (origen_tarjeta_id, destino_tarjeta_id, monto, tipo_transaccion, fecha_transaccion, fechaCreacion, fechaModificacion, activo) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)";
+        String query = "INSERT INTO Transacciones (Origen, Destino, Monto, TipoTransaccion, Fecha, Hora, Descripcion, fechaCreacion, fechaModificacion, estado) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'A')";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, transaccion.getOrigenTarjetaId());
-            stmt.setInt(2, transaccion.getDestinoTarjetaId());
+            stmt.setInt(1, transaccion.getOrigen());
+            stmt.setInt(2, transaccion.getDestino());
             stmt.setDouble(3, transaccion.getMonto());
             stmt.setString(4, transaccion.getTipoTransaccion());
-            stmt.setString(5, transaccion.getFechaTransaccion());
-            stmt.setBoolean(6, transaccion.getActivo());
+            stmt.setString(5, transaccion.getFecha());
+            stmt.setString(6, transaccion.getHora());
+            stmt.setString(7, transaccion.getDescripcion());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -88,14 +93,16 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
 
     @Override
     public boolean update(TransaccionDTO transaccion) throws Exception {
-        String query = "UPDATE Transaccion SET origen_tarjeta_id = ?, destino_tarjeta_id = ?, monto = ?, tipo_transaccion = ?, fechaModificacion = CURRENT_TIMESTAMP, activo = ? WHERE transaccion_id = ?";
+        String query = "UPDATE Transacciones SET Origen = ?, Destino = ?, Monto = ?, TipoTransaccion = ?, Fecha = ?, Hora = ?, Descripcion = ?, fechaModificacion = CURRENT_TIMESTAMP WHERE Id_transaccion = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, transaccion.getOrigenTarjetaId());
-            stmt.setInt(2, transaccion.getDestinoTarjetaId());
+            stmt.setInt(1, transaccion.getOrigen());
+            stmt.setInt(2, transaccion.getDestino());
             stmt.setDouble(3, transaccion.getMonto());
             stmt.setString(4, transaccion.getTipoTransaccion());
-            stmt.setBoolean(5, transaccion.getActivo());
-            stmt.setInt(6, transaccion.getTransaccionId());
+            stmt.setString(5, transaccion.getFecha());
+            stmt.setString(6, transaccion.getHora());
+            stmt.setString(7, transaccion.getDescripcion());
+            stmt.setInt(8, transaccion.getIdTransaccion());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -105,7 +112,7 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
 
     @Override
     public boolean delete(Integer id) throws Exception {
-        String query = "UPDATE Transaccion SET activo = 0, fechaModificacion = CURRENT_TIMESTAMP WHERE transaccion_id = ?";
+        String query = "UPDATE Transacciones SET estado = 'I', fechaModificacion = CURRENT_TIMESTAMP WHERE Id_transaccion = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

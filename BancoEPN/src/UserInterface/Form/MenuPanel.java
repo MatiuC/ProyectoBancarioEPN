@@ -1,43 +1,87 @@
 package UserInterface.Form;
 
-import UserInterface.CustomerControl.*; // Adjust the package path as necessary
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuPanel extends JPanel {
+    private JPanel selectedPanel;  // Para mantener el panel seleccionado actual
+    private final Color hoverColor = new Color(50, 50, 50);  // Color cuando el mouse está sobre el panel
+    private final Color defaultColor = new Color(33, 33, 33);  // Color de fondo predeterminado (oscuro)
+    private JPanel sidebarPanel;
+    private Map<JPanel, String> menuOptions;
 
-    private MainForm parentFrame;
+    public MenuPanel() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(defaultColor);
 
-    public MenuPanel(MainForm parentFrame) {
-        this.parentFrame = parentFrame;
+        // Crear el panel de la barra lateral (inicialmente invisible o delgada)
+        sidebarPanel = new JPanel();
+        sidebarPanel.setBackground(new Color(255, 165, 0));  // Naranja
+        sidebarPanel.setPreferredSize(new Dimension(5, 50));  // Ancho de la barra lateral
+        add(sidebarPanel);
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Organiza los elementos en vertical
-        setPreferredSize(new Dimension(200, 80));
-        setBackground(new Color(0xEE6C4D)); // Fondo Burnt Sienna
+        menuOptions = new HashMap<>();
 
-        // Cargar el logo en la esquina superior izquierda
-        ImageIcon icon = new ImageIcon("src\\UserInterface\\Resource\\Img\\LogoEPN.jpg"); // Cambia la ruta si es necesario
-        Image scaledImage = icon.getImage().getScaledInstance(120, 130, Image.SCALE_SMOOTH); // Escalar la imagen
-        JLabel logoLabel = new JLabel(new ImageIcon(scaledImage));
-        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Centrar el logo en el panel
+        // Añadir opciones de menú
+        addMenuOption("Home", "home_icon.png");
+        addMenuOption("Profile", "profile_icon.png");
+        addMenuOption("Assets", "assets_icon.png");
+        addMenuOption("Transactions", "transactions_icon.png");
+        addMenuOption("Settings", "settings_icon.png");
+    }
 
-        // Espacio entre el logo y los botones
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(logoLabel);
-        add(Box.createRigidArea(new Dimension(0, 30)));
+    // Método público para agregar una opción al menú con ícono y texto
+    public void addMenuOption(String optionName, String iconPath) {
+        JPanel menuOption = new JPanel();
+        menuOption.setLayout(new FlowLayout(FlowLayout.LEFT));
+        menuOption.setBackground(defaultColor);
 
-        // Botones de navegación
-        RoundedButton inicioButton = new RoundedButton("Inicio");
-        RoundedButton registroButton = new RoundedButton("Registro");
+        // Crear los elementos: ícono y texto
+        ImageIcon icon = new ImageIcon(getClass().getResource("/UserInterface/Resource/Icons/" + iconPath));
+        JLabel iconLabel = new JLabel(icon);
+        JLabel textLabel = new JLabel(optionName);
+        textLabel.setForeground(Color.WHITE);
+        textLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        
+        // Agregar al panel
+        menuOption.add(iconLabel);
+        menuOption.add(textLabel);
 
-        inicioButton.addActionListener(e -> parentFrame.cambiarVista("Inicio"));
-        registroButton.addActionListener(e -> parentFrame.cambiarVista("RegistroClientes"));
+        menuOption.setPreferredSize(new Dimension(200, 50));
 
-        inicioButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        registroButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Listener para el cambio de color al pasar el mouse
+        menuOption.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                menuOption.setBackground(hoverColor); // Cambiar color cuando el mouse pasa por encima
+            }
 
-        add(inicioButton);
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(registroButton);
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (menuOption != selectedPanel) {
+                    menuOption.setBackground(defaultColor); // Volver al color original si no está seleccionado
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (selectedPanel != null) {
+                    selectedPanel.setBackground(defaultColor); // Restablecer el color del panel previamente seleccionado
+                }
+                menuOption.setBackground(new Color(255, 165, 0)); // Cambiar el color cuando se selecciona
+                selectedPanel = menuOption; // Actualizar el panel seleccionado
+
+                // Actualizar la barra lateral para que coincida con la opción seleccionada
+                sidebarPanel.setPreferredSize(new Dimension(5, 50)); // Ajusta el tamaño de la barra lateral
+                revalidate();
+                repaint();
+            }
+        });
+
+        add(menuOption); // Añadir al panel principal
+        menuOptions.put(menuOption, optionName); // Guardamos el panel junto con su nombre
     }
 }

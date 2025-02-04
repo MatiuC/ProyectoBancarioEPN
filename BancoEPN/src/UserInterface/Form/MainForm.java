@@ -7,29 +7,41 @@ public class MainForm extends JFrame {
 
     private JPanel contentPanel;
     private CardLayout cardLayout;
-    
+
     public MainForm() {
-        setTitle("Banco EPN");
-        setSize(1000, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        // Configuración del layout principal
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel menuPanel = new MenuPanel(this);  // Pasamos la referencia del Frame principal
-        
-        // Panel de contenido con CardLayout para cambiar entre vistas
-        contentPanel = new JPanel();
-        cardLayout = new CardLayout();
-        contentPanel.setLayout(cardLayout);
+        try {
+            setTitle("Banco EPN");
+            setSize(1000, 600);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            
+            // Configuración del layout principal
+            JPanel mainPanel = new JPanel(new BorderLayout());
+            MenuPanel menuPanel = new MenuPanel();  // Cambié el constructor para no pasar la referencia del frame
 
-        // Agregar las diferentes vistas
-        contentPanel.add(new InicioPanel(), "Inicio"); // Imagen de fondo
-        contentPanel.add(new ClienteFormPanel(this), "RegistroClientes"); // Formulario de clientes
-        
-        mainPanel.add(menuPanel, BorderLayout.WEST);
-        mainPanel.add(contentPanel, BorderLayout.CENTER);
+            // Panel de contenido con CardLayout para cambiar entre vistas
+            contentPanel = new JPanel();
+            cardLayout = new CardLayout();
+            contentPanel.setLayout(cardLayout);
 
-        add(mainPanel);
+            // Agregar las diferentes vistas
+            contentPanel.add(new InicioPanel(), "Inicio"); // Imagen de fondo
+            contentPanel.add(new ClienteFormPanel(this), "RegistroClientes"); // Formulario de clientes
+
+            // Vincular las vistas con el menú
+            menuPanel.addMenuOption("Home", "home_icon.png");
+            menuPanel.addMenuOption("Profile", "profile_icon.png");
+            menuPanel.addMenuOption("Assets", "assets_icon.png");
+            menuPanel.addMenuOption("Transactions", "transactions_icon.png");
+            menuPanel.addMenuOption("Settings", "settings_icon.png");
+
+            // Configuración de los paneles
+            mainPanel.add(menuPanel, BorderLayout.WEST);
+            mainPanel.add(contentPanel, BorderLayout.CENTER);
+
+            add(mainPanel);
+        } catch (Exception e) {
+            e.printStackTrace();  // Esto imprimirá el error completo para poder revisarlo.
+        }
     }
 
     // Método para cambiar de vista en el CardLayout
