@@ -23,7 +23,7 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
     public CuentaBancariaDTO readBy(Integer id) throws Exception {
         CuentaBancariaDTO cuentaBancaria = null;
         String query = "SELECT * FROM CuentaBancaria WHERE id_cuentabancaria = ?" + id.toString();
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -48,7 +48,7 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
     public List<CuentaBancariaDTO> readAll() throws Exception {
         List<CuentaBancariaDTO> lista = new ArrayList<>();
         String query = "SELECT * FROM CuentaBancaria";
-        try (Statement stmt = openConnection().createStatement();
+        try (Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 lista.add(new CuentaBancariaDTO(
@@ -69,12 +69,12 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
     @Override
     public boolean create(CuentaBancariaDTO entity) throws Exception {
         String query = "INSERT INTO CuentaBancaria (numeroCuenta, id_persona, saldo, fechaCreacion, fechaModificacion, estado) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
-            stmt.setString(1, entity.getnumeroCuenta());
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, entity.getNumero_cuenta());
             stmt.setInt(2, entity.getId_persona());
             stmt.setFloat(3, entity.getSaldo());
-            stmt.setString(4, entity.getfechaCreacion());
-            stmt.setString(5, entity.getfechaModificacion());
+            stmt.setString(4, entity.getFecha_creacion());
+            stmt.setString(5, entity.getFecha_modificacion());
             stmt.setString(6, entity.getEstado());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -84,12 +84,12 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
     @Override
     public boolean update(CuentaBancariaDTO entity) throws Exception {
         String query = "UPDATE CuentaBancaria SET numeroCuenta = ?, id_persona = ?, saldo = ?, fechaCreacion = ?, fechaModificacion = ?, estado = ? WHERE id_cuentabancaria = ?";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
-            stmt.setString(1, entity.getnumeroCuenta());
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, entity.getNumero_cuenta());
             stmt.setInt(2, entity.getId_persona());
             stmt.setFloat(3, entity.getSaldo());
-            stmt.setString(4, entity.getfechaCreacion());
-            stmt.setString(5, entity.getfechaModificacion());
+            stmt.setString(4, entity.getFecha_creacion());
+            stmt.setString(5, entity.getFecha_modificacion());
             stmt.setString(6, entity.getEstado());
             stmt.setInt(7, entity.getId_cuentabancaria());
             return stmt.executeUpdate() > 0;
@@ -100,7 +100,7 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
     @Override
     public boolean delete(Integer id) throws Exception {
         String query = "UPDATE CuentaBancaria SET estado = 'I' WHERE id_cuentabancaria = ?";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

@@ -45,7 +45,7 @@ public class GetDatosCedula {
             }
 
             int status = connection.getResponseCode();
-
+            System.out.println("Status: " + status);
             // Leer la respuesta en texto
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String inputLine;
