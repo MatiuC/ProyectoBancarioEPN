@@ -1,44 +1,9 @@
-
-import BussinesLogic.ApiRequest.GetDatosCedula;
-import DataAccess.DAO.CuentaBancariaDAO;
-import DataAccess.DAO.PersonaDAO;
 import DataAccess.DAO.cuentaCreditoDAO;
-import DataAccess.DTO.CuentaBancariaDTO;
-import DataAccess.DTO.PersonaDTO;
 import DataAccess.DTO.cuentaCreditoDTO;
 import java.sql.SQLException;
 
 public class App {
     public static void main(String[] args) {
-       
-    GetDatosCedula api = new GetDatosCedula();
-    api.sendPostRequest("2300302714");
-
-
-    try {
-        CuentaBancariaDAO vDAO = new CuentaBancariaDAO();
-        for (CuentaBancariaDTO s : vDAO.readAll()) {
-            System.out.println(s.toString());
-        }
-
-    } catch (SQLException e) {
-        System.out.println("Error de conexión con la base de datos: " + e.getMessage());
-    } catch (Exception e) {
-        System.out.println("Error general: " + e.getMessage());
-    }
-
-    try {
-        PersonaDAO pDAO = new PersonaDAO();
-        for (PersonaDTO p : pDAO.readAll()) {
-            System.out.println(p.toString());
-        }
-
-    } catch (SQLException e) {
-        System.out.println("Error de conexión con la base de datos: " + e.getMessage());
-    } catch (Exception e) {
-        System.out.println("Error general: " + e.getMessage());
-    }
-
     
     try {
         cuentaCreditoDAO cDAO = new cuentaCreditoDAO();

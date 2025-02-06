@@ -1,12 +1,14 @@
 package DataAccess.DTO;
 
 public class TransaccionDTO {
-    private Integer transaccionId;
-    private Integer origenTarjetaId;
-    private Integer destinoTarjetaId;
+    private Integer idTransaccion;
+    private Integer origen;
+    private Integer destino;
     private Double monto;
     private String tipoTransaccion;
-    private String fechaTransaccion;
+    private String fecha;
+    private String hora;
+    private String descripcion;
     private String fechaCreacion;
     private String fechaModificacion;
     private Boolean activo;
@@ -15,39 +17,43 @@ public class TransaccionDTO {
     public TransaccionDTO() {}
 
     // Constructor sin ID (para inserción)
-    public TransaccionDTO(Integer origenTarjetaId, Integer destinoTarjetaId, Double monto, String tipoTransaccion, String fechaTransaccion, String fechaCreacion, String fechaModificacion, Boolean activo) {
-        this.origenTarjetaId = origenTarjetaId;
-        this.destinoTarjetaId = destinoTarjetaId;
+    public TransaccionDTO(Integer origen, Integer destino, Double monto, String tipoTransaccion, String fecha, String hora, String descripcion, String fechaCreacion, String fechaModificacion, Boolean activo) {
+        this.origen = origen;
+        this.destino = destino;
         this.monto = monto;
         this.tipoTransaccion = tipoTransaccion;
-        this.fechaTransaccion = fechaTransaccion;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
         this.activo = activo;
     }
 
     // Constructor completo (para consulta)
-    public TransaccionDTO(Integer transaccionId, Integer origenTarjetaId, Integer destinoTarjetaId, Double monto, String tipoTransaccion, String fechaTransaccion, String fechaCreacion, String fechaModificacion, Boolean activo) {
-        this.transaccionId = transaccionId;
-        this.origenTarjetaId = origenTarjetaId;
-        this.destinoTarjetaId = destinoTarjetaId;
+    public TransaccionDTO(Integer idTransaccion, Integer origen, Integer destino, Double monto, String tipoTransaccion, String fecha, String hora, String descripcion, String fechaCreacion, String fechaModificacion, Boolean activo) {
+        this.idTransaccion = idTransaccion;
+        this.origen = origen;
+        this.destino = destino;
         this.monto = monto;
         this.tipoTransaccion = tipoTransaccion;
-        this.fechaTransaccion = fechaTransaccion;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
         this.activo = activo;
     }
 
     // Getters y Setters
-    public Integer getTransaccionId() { return transaccionId; }
-    public void setTransaccionId(Integer transaccionId) { this.transaccionId = transaccionId; }
+    public Integer getIdTransaccion() { return idTransaccion; }
+    public void setIdTransaccion(Integer idTransaccion) { this.idTransaccion = idTransaccion; }
 
-    public Integer getOrigenTarjetaId() { return origenTarjetaId; }
-    public void setOrigenTarjetaId(Integer origenTarjetaId) { this.origenTarjetaId = origenTarjetaId; }
+    public Integer getOrigen() { return origen; }
+    public void setOrigen(Integer origen) { this.origen = origen; }
 
-    public Integer getDestinoTarjetaId() { return destinoTarjetaId; }
-    public void setDestinoTarjetaId(Integer destinoTarjetaId) { this.destinoTarjetaId = destinoTarjetaId; }
+    public Integer getDestino() { return destino; }
+    public void setDestino(Integer destino) { this.destino = destino; }
 
     public Double getMonto() { return monto; }
     public void setMonto(Double monto) { this.monto = monto; }
@@ -55,8 +61,14 @@ public class TransaccionDTO {
     public String getTipoTransaccion() { return tipoTransaccion; }
     public void setTipoTransaccion(String tipoTransaccion) { this.tipoTransaccion = tipoTransaccion; }
 
-    public String getFechaTransaccion() { return fechaTransaccion; }
-    public void setFechaTransaccion(String fechaTransaccion) { this.fechaTransaccion = fechaTransaccion; }
+    public String getFecha() { return fecha; }
+    public void setFecha(String fecha) { this.fecha = fecha; }
+
+    public String getHora() { return hora; }
+    public void setHora(String hora) { this.hora = hora; }
+
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
     public String getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(String fechaCreacion) { this.fechaCreacion = fechaCreacion; }
@@ -69,14 +81,16 @@ public class TransaccionDTO {
 
     @Override
     public String toString() {
-        return "TransaccionDTO { transaccionId=" + transaccionId +
-                ", origenTarjetaId=" + origenTarjetaId +
-                ", destinoTarjetaId=" + destinoTarjetaId +
+        return "TransaccionDTO { idTransaccion=" + idTransaccion +
+                ", origen=" + origen +
+                ", destino=" + destino +
                 ", monto=" + monto +
-                ", tipoTransaccion='" + tipoTransaccion + '\'' +
-                ", fechaTransaccion='" + fechaTransaccion + '\'' +
-                ", fechaCreacion='" + fechaCreacion + '\'' +
-                ", fechaModificacion='" + fechaModificacion + '\'' +
+                ", tipoTransaccion='" + tipoTransaccion + "'" +
+                ", fecha='" + fecha + "'" +
+                ", hora='" + hora + "'" +
+                ", descripcion='" + descripcion + "'" +
+                ", fechaCreacion='" + fechaCreacion + "'" +
+                ", fechaModificacion='" + fechaModificacion + "'" +
                 ", activo=" + activo +
                 " }";
     }
