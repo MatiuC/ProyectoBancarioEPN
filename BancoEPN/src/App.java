@@ -1,8 +1,4 @@
-import DataAccess.DAO.CuentaBancariaDAO;
-import DataAccess.DAO.PersonaDAO;
 import DataAccess.DAO.cuentaCreditoDAO;
-import DataAccess.DTO.CuentaBancariaDTO;
-import DataAccess.DTO.PersonaDTO;
 import DataAccess.DTO.cuentaCreditoDTO;
 import java.sql.SQLException;
 
