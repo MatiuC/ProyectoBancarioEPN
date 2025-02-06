@@ -22,7 +22,7 @@ public PersonaDAO(Connection connection) {
    @Override
    public PersonaDTO readBy(Integer id) throws Exception {
     String query = "SELECT * FROM Persona WHERE id_persona = ?";
-    try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
         stmt.setInt(1, id);
         try (ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
@@ -55,7 +55,7 @@ public PersonaDAO(Connection connection) {
     public List<PersonaDTO>readAll() throws Exception {
         List<PersonaDTO> lista = new ArrayList<>();
         String query = "SELECT * FROM Persona";
-        try (Statement stmt = openConnection().createStatement();
+        try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 lista.add(new PersonaDTO(
@@ -86,8 +86,7 @@ public PersonaDAO(Connection connection) {
     @Override
     public boolean create(PersonaDTO persona) throws Exception {
         String query = "INSERT INTO Persona (id_persona, cedula, nombre, apellido, sexo, estado_civil, ciudad, edad, fecha_nacimiento, direccion, correo, telefono, fechaCreacion, fechaModificacion, estado, Rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
-            stmt.setInt(1, persona.getid_persona());
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(2, persona.getCedula());
             stmt.setString(3, persona.getNombre());
             stmt.setString(4, persona.getApellido());
@@ -116,7 +115,7 @@ public PersonaDAO(Connection connection) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
         LocalDateTime now = LocalDateTime.now();
         String query = "UPDATE Persona SET cedula = ?, nombre = ?, apellido = ?, sexo = ?, estado_civil = ?, ciudad = ?, edad = ?, fecha_nacimiento = ?, direccion = ?, correo = ?, telefono = ?, fechaModificacion = ?, estado = ?, Rol = ? WHERE id_persona = ?";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, persona.getCedula());
             stmt.setString(2, persona.getNombre());
             stmt.setString(3, persona.getApellido());
@@ -131,7 +130,6 @@ public PersonaDAO(Connection connection) {
             stmt.setString(12, dtf.format(now));
             stmt.setString(13, persona.getEstado());
             stmt.setInt(14, persona.getRol());
-            stmt.setInt(15, persona.getid_persona());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -142,7 +140,7 @@ public PersonaDAO(Connection connection) {
     @Override
     public boolean delete(Integer id) throws Exception {
         String query = "UPDATE Persona FROM SET estado = ? WHERE id_persona = ? ";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.setString(2, "I");
             stmt.executeUpdate();

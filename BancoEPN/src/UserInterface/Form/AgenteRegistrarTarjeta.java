@@ -275,7 +275,7 @@ public class AgenteRegistrarTarjeta extends JPanel {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String input = scanField.getText().trim();
-                    // Process the scanned card input
+
 
                     if (!input.isEmpty()) {
                         scannedCard = input;

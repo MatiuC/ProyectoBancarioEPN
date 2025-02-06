@@ -20,7 +20,7 @@ public class cuentaCreditoDAO extends SQLiteDataHelper implements IDAO<cuentaCre
     public cuentaCreditoDTO readBy(Integer id) throws Exception {
         cuentaCreditoDTO cuentaCredito = null;
         String query = "SELECT * FROM cuentaCredito WHERE id_cuentaCredito = ?" + id.toString();
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -46,7 +46,7 @@ public class cuentaCreditoDAO extends SQLiteDataHelper implements IDAO<cuentaCre
     public List<cuentaCreditoDTO> readAll() throws Exception {
         List<cuentaCreditoDTO> lista = new ArrayList<>();
         String query = "SELECT * FROM cuentaCredito";
-        try (Statement stmt = openConnection().createStatement();
+        try (Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 lista.add(new cuentaCreditoDTO(
@@ -70,13 +70,13 @@ public class cuentaCreditoDAO extends SQLiteDataHelper implements IDAO<cuentaCre
     @Override
     public boolean create(cuentaCreditoDTO cuentaCredito) throws Exception {
         String query = "INSERT INTO cuentaCredito (numeroCuenta, id_persona, saldo_usado, limiteCredito, fechaCreacion, fechaModificacion, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
-            stmt.setString(1, cuentaCredito.getnumeroCuenta());
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, cuentaCredito.getNumero_cuenta());
             stmt.setInt(2, cuentaCredito.getId_persona());
-            stmt.setFloat(3, cuentaCredito.getsaldo_usado());
-            stmt.setFloat(4, cuentaCredito.getlimiteCredito());
-            stmt.setString(5, cuentaCredito.getfechaCreacion());
-            stmt.setString(6, cuentaCredito.getfechaModificacion());
+            stmt.setFloat(3, cuentaCredito.getSaldo());
+            stmt.setFloat(4, cuentaCredito.getLimite_credito());
+            stmt.setString(5, cuentaCredito.getFecha_modificacion());
+            stmt.setString(6, cuentaCredito.getFecha_modificacion());
             stmt.setString(7, cuentaCredito.getEstado());
             stmt.execute();
         } catch (SQLException e) {
@@ -88,14 +88,15 @@ public class cuentaCreditoDAO extends SQLiteDataHelper implements IDAO<cuentaCre
     @Override
     public boolean update(cuentaCreditoDTO cuentaCredito) throws Exception {
         String query = "UPDATE cuentaCredito SET numeroCuenta = ? , id_persona = ? , saldo_usado = ? , limiteCredito = ? , fechaCreacion = ? , fechaModificacion = ? , estado = ?  WHERE id_cuentaCredito = ?";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
-            stmt.setString(1, cuentaCredito.getnumeroCuenta());
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, cuentaCredito.getNumero_cuenta());
             stmt.setInt(2, cuentaCredito.getId_persona());
-            stmt.setFloat(3, cuentaCredito.getsaldo_usado());
-            stmt.setFloat(4, cuentaCredito.getlimiteCredito());
-            stmt.setString(5, cuentaCredito.getfechaCreacion());
-            stmt.setString(6, cuentaCredito.getfechaModificacion());
+            stmt.setFloat(3, cuentaCredito.getSaldo());
+            stmt.setFloat(4, cuentaCredito.getLimite_credito());
+            stmt.setString(5, cuentaCredito.getFecha_creacion());
+            stmt.setString(6, cuentaCredito.getFecha_modificacion());
             stmt.setString(7, cuentaCredito.getEstado());
+
             stmt.setInt(8, cuentaCredito.getId_cuentaCredito());
             stmt.execute();
         } catch (SQLException e) {
@@ -107,7 +108,7 @@ public class cuentaCreditoDAO extends SQLiteDataHelper implements IDAO<cuentaCre
     @Override
     public boolean delete(Integer id) throws Exception {
         String query = "UPDATE cuentaCredito SET estado = 'I' WHERE id_cuentaCredito = ?";
-        try (PreparedStatement stmt = openConnection().prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
