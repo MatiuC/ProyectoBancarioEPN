@@ -16,6 +16,7 @@ public class TipoTarjetaDTO {
            this.nombre_tipo_tarjeta = nombre_tipo_tarjeta; 
            this.fechaCreacion = fechaCreacion;
            this.fechaModificacion = fechaModificacion; 
+           this.estado = estado; 
     }
 
     public Integer getId_tipo_tarjeta() {
