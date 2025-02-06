@@ -140,7 +140,7 @@ class PanelSaldo extends JPanel {
         // --- Parte Superior: Ícono de Alcancía ---
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         topPanel.setOpaque(false);
-        ImageIcon piggyIcon = new ImageIcon("BancoEPN\\src\\UserInterface\\Resource\\Icon\\PiggyBank.png");
+        ImageIcon piggyIcon = new ImageIcon("/src/UserInterface/Resource/Icon/PiggyBank.png");
         Image piggyImg = piggyIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         JLabel piggyLabel = new JLabel(new ImageIcon(piggyImg));
         topPanel.add(piggyLabel);
@@ -157,7 +157,7 @@ class PanelSaldo extends JPanel {
         lblAmount.setForeground(Color.decode("#2F4858"));
 
         btnToggleVisibility = new JButton();
-        ImageIcon eyeIcon = new ImageIcon("BancoEPN\\src\\UserInterface\\Resource\\Icon\\eye.png");
+        ImageIcon eyeIcon = new ImageIcon("src\\UserInterface\\Resource\\Icon\\eye.png");
         Image eyeImg = eyeIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         btnToggleVisibility.setIcon(new ImageIcon(eyeImg));
         btnToggleVisibility.setContentAreaFilled(false);
@@ -178,9 +178,9 @@ class PanelSaldo extends JPanel {
         // --- Parte Inferior: Botones de "Transferir", "Pagar" y "Recargas" ---
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         bottomPanel.setOpaque(false);
-        JButton btnTransferir = createActionButton("Transferir", "BancoEPN\\src\\UserInterface\\Resource\\Icon\\transfer.png");
-        JButton btnPagar = createActionButton("Pagar", "BancoEPN\\src\\UserInterface\\Resource\\Icon\\pay.png");
-        JButton btnRecargas = createActionButton("Recargas", "BancoEPN\\src\\UserInterface\\Resource\\Icon\\recharge.png");
+        JButton btnTransferir = createActionButton("Transferir", "src\\UserInterface\\Resource\\Icon\\transfer.png");
+        JButton btnPagar = createActionButton("Pagar", "src\\UserInterface\\Resource\\Icon\\pay.png");
+        JButton btnRecargas = createActionButton("Recargas", "src\\UserInterface\\Resource\\Icon\\recharge.png");
         bottomPanel.add(btnTransferir);
         bottomPanel.add(btnPagar);
         bottomPanel.add(btnRecargas);
@@ -317,10 +317,10 @@ class PanelServiciosFinancieros extends JPanel {
         JPanel gridPanel = new JPanel(new GridLayout(2, 2, 15, 15));
         gridPanel.setOpaque(false);
 
-        gridPanel.add(createServiceModule("Ahorros", "Objetivo: iPad", "BancoEPN\\src\\UserInterface\\Resource\\Icon\\IconAhorro.png"));
-        gridPanel.add(createServiceModule("Inversiones", "Pólizas y más", "BancoEPN\\src\\UserInterface\\Resource\\Icon\\IconInversion.png"));
-        gridPanel.add(createServiceModule("Seguros", "Protección financiera", "BancoEPN\\src\\UserInterface\\Resource\\Icon\\IconSeguro.png"));
-        gridPanel.add(createServiceModule("Préstamos", "Créditos y tasas", "BancoEPN\\src\\UserInterface\\Resource\\Icon\\IconPrestamo.png"));
+        gridPanel.add(createServiceModule("Ahorros", "Objetivo: iPad", "src\\UserInterface\\Resource\\Icon\\IconAhorro.png"));
+        gridPanel.add(createServiceModule("Inversiones", "Pólizas y más", "src\\UserInterface\\Resource\\Icon\\IconInversion.png"));
+        gridPanel.add(createServiceModule("Seguros", "Protección financiera", "src\\UserInterface\\Resource\\Icon\\IconSeguro.png"));
+        gridPanel.add(createServiceModule("Préstamos", "Créditos y tasas", "src\\UserInterface\\Resource\\Icon\\IconPrestamo.png"));
 
         add(gridPanel, BorderLayout.CENTER);
     }

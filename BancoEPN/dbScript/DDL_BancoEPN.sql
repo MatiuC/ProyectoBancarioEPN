@@ -85,7 +85,10 @@ CREATE TABLE Franquicia (
 );
 CREATE TABLE TipoTarjeta (
     id_tipo_tarjeta INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre_tipo_tarjeta VARCHAR(20) NOT NULL
+    nombre_tipo_tarjeta VARCHAR(20) NOT NULL,
+    fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    estado VARCHAR(1) NOT NULL DEFAULT 'A'
 );
 CREATE TABLE Tarjeta (
     Id_tarjeta INTEGER PRIMARY KEY AUTOINCREMENT,

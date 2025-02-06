@@ -1,10 +1,14 @@
+import DataAccess.DAO.BalanceDAO;
+import DataAccess.DAO.TipoTarjetaDAO;
 import DataAccess.DAO.cuentaCreditoDAO;
+import DataAccess.DTO.BalanceDTO;
+import DataAccess.DTO.TipoTarjetaDTO;
 import DataAccess.DTO.cuentaCreditoDTO;
 import java.sql.SQLException;
 
 public class App {
     public static void main(String[] args) {
-    
+    /* 
     try {
         cuentaCreditoDAO cDAO = new cuentaCreditoDAO();
         for (cuentaCreditoDTO c : cDAO.readAll()) {
@@ -15,6 +19,8 @@ public class App {
     } catch (Exception e) {
         System.out.println("Error general: " + e.getMessage());
     }
+*/
+
 
 }
 }

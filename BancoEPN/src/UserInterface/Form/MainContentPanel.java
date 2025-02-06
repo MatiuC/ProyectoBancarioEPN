@@ -1,5 +1,5 @@
-package UserInterface;
 
+package UserInterface.Form;
 import javax.swing.*;
 import java.awt.*;
 
