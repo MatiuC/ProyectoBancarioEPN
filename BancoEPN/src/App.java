@@ -1,4 +1,5 @@
 
+import BussinesLogic.ApiRequest.GetDatosCedula;
 import DataAccess.DAO.CuentaBancariaDAO;
 import DataAccess.DAO.PersonaDAO;
 import DataAccess.DAO.cuentaCreditoDAO;
@@ -10,7 +11,9 @@ import java.sql.SQLException;
 public class App {
     public static void main(String[] args) {
        
-      
+    GetDatosCedula api = new GetDatosCedula();
+    api.sendPostRequest("2300302714");
+
 
     try {
         CuentaBancariaDAO vDAO = new CuentaBancariaDAO();
