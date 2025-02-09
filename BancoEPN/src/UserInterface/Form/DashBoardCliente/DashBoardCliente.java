@@ -3,9 +3,26 @@ import javax.swing.*;
 import java.awt.*;
 
 
+//Capturar el id de la persona que esta logueado y mostrar su nombre 
+
+//Llamar la cuenta del usuario logueado y mostrarla en el dashboard con su saldo
+
+//Llamar a la tabla de transacciones filtrada por el usuario el id de la persona que esta logueado
+
+//Llamar a la logica de ver las tarjetas del usuario logueado
+
+
+
+
+
+
+
 public class DashBoardCliente extends JFrame {
     public DashBoardCliente() {
         setTitle("Dashboard Cliente");
+
+
+
     
     // Obtener el tamaño de la pantalla
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

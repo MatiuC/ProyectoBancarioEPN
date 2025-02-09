@@ -39,14 +39,16 @@ public class PanelMenu {
         // Crear los botones para la barra lateral
         JButton btnHome = new JButton("Home");
         JButton btnCreateNew = new JButton("Registrar Clientes");
+        JButton btnRegisterCard = new JButton("Registrar Tarjeta");
         
 
         styleSidebarButton(btnHome, "src\\UserInterface\\Resource\\Icon\\Home.png"); 
         styleSidebarButton(btnCreateNew, "src\\UserInterface\\Resource\\Icon\\Cliente.png");
+        styleSidebarButton(btnRegisterCard, "src\\UserInterface\\Resource\\Icon\\Tarjeta.png");
 
         sidebar.add(btnHome);
         sidebar.add(btnCreateNew);
-
+        sidebar.add(btnRegisterCard);
         // Crear un panel de contenido donde el formulario cambiará
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(Color.WHITE);
@@ -84,6 +86,25 @@ public class PanelMenu {
             contentPanel.repaint();
             updateButtonColor(btnCreateNew); 
         });
+
+            
+
+        btnRegisterCard.addActionListener(e -> {
+            contentPanel.removeAll();
+            contentPanel.revalidate();
+            contentPanel.repaint();
+
+            // Crear y mostrar el formulario de AgenteRegistrarTarjeta
+            AgenteRegistrarTarjeta agenteForm = new AgenteRegistrarTarjeta();
+            JPanel formPanel = agenteForm.initializeComponents();
+            contentPanel.add(formPanel, BorderLayout.CENTER);
+            contentPanel.revalidate();
+            contentPanel.repaint();
+            updateButtonColor(btnRegisterCard);
+
+        });
+        
+
 
         // Agregar los paneles al panel principal
         mainPanel.add(sidebar, BorderLayout.WEST);

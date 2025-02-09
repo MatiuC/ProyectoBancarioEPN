@@ -29,6 +29,10 @@ public class AgenteRegistrarTarjeta extends JPanel {
         // Cargar datos de ejemplo
         loadSampleData();
     }
+
+    //Llamar a la tabla de clientes
+
+    //Llamar a la logica de registrar tarjeta
     
     private void initializeComponents() {
         // Panel superior (8% de altura)
@@ -301,6 +305,10 @@ public class AgenteRegistrarTarjeta extends JPanel {
     
     public void setUserInfo(String username) {
         userLabel.setText("Usuario: " + username);
+    }
+
+
+
     }
     
     public static void main(String[] args) {

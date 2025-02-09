@@ -19,6 +19,8 @@ import javax.swing.table.JTableHeader;
 import UserInterface.Form.ClienteTransacciones;
 
 public class PanelActividadReciente extends JPanel{
+
+    //Llamar a la tabla de transacciones filtrada por el usuario el id de la persona que esta logueado y mostrar las ultimas 5 transacciones
     public PanelActividadReciente() {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#FFFFFF"));

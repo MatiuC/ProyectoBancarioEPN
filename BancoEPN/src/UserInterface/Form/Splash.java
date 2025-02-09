@@ -12,7 +12,7 @@ public class Splash extends JWindow {
         layeredPane.setPreferredSize(new Dimension(720, 480));
 
         // Imagen de fondo (BackgroundPanel)
-        BackgroundPanel panel = new BackgroundPanel("ProyectoBancarioEPN\\BancoEPN\\src\\UserInterface\\Resource\\Img\\GatoBank.png.jpeg");
+        BackgroundPanel panel = new BackgroundPanel("src\\UserInterface\\Resource\\Img\\GatoBank.png.jpeg");
         panel.setBounds(0, 0, 720, 480);
 
         // Barra de carga personalizada
@@ -53,9 +53,11 @@ public class Splash extends JWindow {
 
         // Abrir MainForm
         SwingUtilities.invokeLater(() -> {
-            MainForm mainForm = new MainForm();
-            mainForm.setVisible(true);
+            RegistroClientesForm loginForm = new RegistroClientesForm();
+            loginForm.setVisible(true);
         });
+
+
     }
 
     public static void main(String[] args) {
