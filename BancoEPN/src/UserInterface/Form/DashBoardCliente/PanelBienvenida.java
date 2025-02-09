@@ -15,7 +15,7 @@ public class PanelBienvenida extends JPanel{
         setOpaque(false);
 
         // Ícono de Usuario y Mensaje de Bienvenida
-        ImageIcon userIconRaw = new ImageIcon("ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconUser.png");
+        ImageIcon userIconRaw = new ImageIcon("src/UserInterface/Resource/Icon/IconUser.png");
         Image userIconImg = userIconRaw.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);//tamaño iconuser
         JLabel userIcon = new JLabel(new ImageIcon(userIconImg));
         JLabel welcomeLabel = new JLabel("Bienvenido, Usuario");
@@ -24,5 +24,6 @@ public class PanelBienvenida extends JPanel{
 
         add(userIcon);
         add(welcomeLabel);
+        
     }
 }

@@ -13,8 +13,8 @@ public class PanelBotones extends JPanel{
         setOpaque(false);
 
         // Crear los botones con iconos y texto
-        JButton btnConoceLoNuevo = TransparentButton.createButton("Conoce lo nuevo", "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconNew.png");
-        JButton btnMostrarSaldos = TransparentButton.createButton("Mostrar saldos", "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconEye.png");
+        JButton btnConoceLoNuevo = TransparentButton.createButton("Conoce lo nuevo", "src/UserInterface/Resource/Icon/IconNew.png");
+        JButton btnMostrarSaldos = TransparentButton.createButton("Mostrar saldos", "src/UserInterface/Resource/Icon/IconEye.png");
 
         add(btnConoceLoNuevo);
         add(btnMostrarSaldos);

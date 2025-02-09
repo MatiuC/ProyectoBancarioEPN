@@ -34,10 +34,10 @@ public class PanelServicioFinanciero extends JPanel{
         servicesPanel.setOpaque(false);
 
         // Añadir iconos a los paneles de servicio
-        servicesPanel.add(createServicePanel("Ahorros", "El arte de guardar dinero hoy para que tu yo del futuro no te odie. Funciona mejor si no lo sacas a la primera tentación de comprar cosas innecesarias.", "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconAhorro.png"));
-        servicesPanel.add(createServicePanel("Inversiones", "Pon tu dinero a trabajar en lugar de dejarlo de vacaciones en tu cuenta. Riesgo incluido, pero también la posibilidad de que en el futuro te sientas un genio financiero.", "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconInversion.png"));
-        servicesPanel.add(createServicePanel("Seguros", "Pagas un poco hoy para no pagar un montón después. Básicamente, es como un paraguas financiero: esperas no necesitarlo, pero cuando llueve, agradeces tenerlo.", "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconSeguro.png"));
-        servicesPanel.add(createServicePanel("Préstamos", "Dinero que no es tuyo, pero que amablemente te prestamos para que cumplas tus sueños… y luego nos lo devuelvas con un poquito de cariño (también conocido como intereses).", "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconPrestamo.png"));
+        servicesPanel.add(createServicePanel("Ahorros", "El arte de guardar dinero hoy para que tu yo del futuro no te odie. Funciona mejor si no lo sacas a la primera tentación de comprar cosas innecesarias.", "src/UserInterface/Resource/Icon/IconAhorro.png"));
+        servicesPanel.add(createServicePanel("Inversiones", "Pon tu dinero a trabajar en lugar de dejarlo de vacaciones en tu cuenta. Riesgo incluido, pero también la posibilidad de que en el futuro te sientas un genio financiero.", "src/UserInterface/Resource/Icon/IconInversion.png"));
+        servicesPanel.add(createServicePanel("Seguros", "Pagas un poco hoy para no pagar un montón después. Básicamente, es como un paraguas financiero: esperas no necesitarlo, pero cuando llueve, agradeces tenerlo.", "src/UserInterface/Resource/Icon/IconSeguro.png"));
+        servicesPanel.add(createServicePanel("Préstamos", "Dinero que no es tuyo, pero que amablemente te prestamos para que cumplas tus sueños… y luego nos lo devuelvas con un poquito de cariño (también conocido como intereses).", "src/UserInterface/Resource/Icon/IconPrestamo.png"));
 
         add(titleLabel, BorderLayout.NORTH);
         add(servicesPanel, BorderLayout.CENTER);
