@@ -13,6 +13,8 @@ public class ClienteTransacciones extends JPanel {
     public ClienteTransacciones() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
+
+        //Llamar a la tabla de transacciones filtrada por el usuario el id de la persona que esta logueado
         
         // Crear la tabla personalizada
         tablaTransacciones = new CustomTransactionTable();

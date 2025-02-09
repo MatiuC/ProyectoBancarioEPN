@@ -10,6 +10,7 @@ public class PanelSaldo extends JPanel {
     private JLabel saldoLabel;
     private JButton btnToggleVisibility;
 
+    //Llamar a la cuenta del usuario logueado y mostrar su saldo
     public PanelSaldo() {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#274156")); 

@@ -1,4 +1,4 @@
-package BussinesLogic.Entities;
+package BussinesLogic.Entities.Agente;
 
 import BussinesLogic.ApiRequest.GetDatosCedula;
 
