@@ -21,7 +21,7 @@ import javax.swing.SwingConstants;
 
 import java.awt.event.MouseEvent;
 
-
+//MATEOOOOOOOOOOO
 public class PanelTarjetaCredito extends JPanel {
     public PanelTarjetaCredito() {
         setLayout(new BorderLayout());
@@ -41,7 +41,7 @@ public class PanelTarjetaCredito extends JPanel {
         centerPanel.setLayout(new BorderLayout());
 
         // Cargar la imagen de la tarjeta desde el archivo y ajustar su tamaño
-        ImageIcon tarjetaImage = new ImageIcon("ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Img/Tarjeta.png");  // Ruta de la imagen
+        ImageIcon tarjetaImage = new ImageIcon("src\\UserInterface\\Resource\\Icon\\Tarjeta.png");  // Ruta de la imagen
         Image image = tarjetaImage.getImage(); // Convertir la imagen a objeto Image
         Image scaledImage = image.getScaledInstance(300, 260, Image.SCALE_SMOOTH); // Redimensionar imagen
         tarjetaImage = new ImageIcon(scaledImage); // Volver a convertir a ImageIcon
