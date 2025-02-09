@@ -70,7 +70,7 @@ public class LoginPanel extends JFrame {
         fieldsPanel.add(passwordLabel);
         fieldsPanel.add(Box.createVerticalStrut(10));
 
-        JPasswordField passwordField = createStyledPasswordField();
+        JPasswordField passwordField = createStyledPasswordField("Contraseña");
         passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
         fieldsPanel.add(passwordField);
         fieldsPanel.add(Box.createVerticalStrut(40));
@@ -157,7 +157,7 @@ public class LoginPanel extends JFrame {
         return field;
     }
 
-    private JPasswordField createStyledPasswordField() {
+    private JPasswordField createStyledPasswordField(String placeholder) {
         JPasswordField field = new JPasswordField();
         field.setPreferredSize(new Dimension(320, 45));
         field.setMaximumSize(new Dimension(320, 45));
@@ -168,6 +168,32 @@ public class LoginPanel extends JFrame {
         ));
         field.setBackground(Color.WHITE);
         field.setForeground(CHARCOAL);
+        
+        // Placeholder
+        field.setEchoChar((char)0); // Mostrar texto normal para el placeholder
+        field.setText(placeholder);
+        field.setForeground(TIMBERWOLF);
+        
+        field.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (String.valueOf(field.getPassword()).equals(placeholder)) {
+                    field.setText("");
+                    field.setEchoChar('•'); // Cambiar a puntos cuando se empiece a escribir
+                    field.setForeground(CHARCOAL);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (field.getPassword().length == 0) {
+                    field.setEchoChar((char)0); // Volver a mostrar texto normal
+                    field.setText(placeholder);
+                    field.setForeground(TIMBERWOLF);
+                }
+            }
+        });
+        
         return field;
     }
 
