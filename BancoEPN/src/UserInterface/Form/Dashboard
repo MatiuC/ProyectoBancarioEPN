@@ -1,0 +1,35 @@
+package UserInterface.Form;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class Dashboard extends JFrame {
+
+    public Dashboard() {
+        setTitle("Crypto Dashboard");
+        setSize(1200, 800);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);  // Centrar la ventana
+
+        // Configuración del layout
+        setLayout(new BorderLayout());
+
+        // Crear el panel de la barra lateral
+        SidebarPanel sidebarPanel = new SidebarPanel();
+
+        // Crear el panel principal para mostrar el contenido
+        MainContentPanel mainContentPanel = new MainContentPanel();
+
+        // Agregar los paneles a la ventana
+        add(sidebarPanel, BorderLayout.WEST);
+        add(mainContentPanel, BorderLayout.CENTER);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Dashboard dashboard = new Dashboard();
+            dashboard.setVisible(true);
+        });
+    }
+}
+

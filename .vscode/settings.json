@@ -1,9 +1,18 @@
 {
+<<<<<<< HEAD
     "java.project.sourcePaths": [
         "src"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
+=======
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "BancoEPN/lib/flatlaf-3.jar",
+        "BancoEPN/lib/flatlaf-intellij-themes-3.0.jar",
+        "BancoEPN/lib/jcalendar-1.4.jar",
+        "BancoEPN/lib/sqlite-jdbc-3.8.11.2.jar"
+>>>>>>> f329cfcf6bb9530de56c9e781790ea3e75180e99
     ]
 }
