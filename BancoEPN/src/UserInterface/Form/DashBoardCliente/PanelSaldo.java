@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.*;
 
+import UserInterface.CustomerControl.RoundedButton;
 
 public class PanelSaldo extends JPanel {
     private boolean balanceVisible = false; // Control de visibilidad del saldo
