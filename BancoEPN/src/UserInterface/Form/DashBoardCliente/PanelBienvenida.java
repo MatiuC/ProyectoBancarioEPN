@@ -21,13 +21,13 @@ public class PanelBienvenida extends JPanel{
 
         //Mostar al usuario el nombre de la persona que esta logueado
 
-        public String nombre;
+        //public String nombre;
 
         // Ícono de Usuario y Mensaje de Bienvenida
         ImageIcon userIconRaw = new ImageIcon("src/UserInterface/Resource/Icon/IconUser.png");
         Image userIconImg = userIconRaw.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);//tamaño iconuser
         JLabel userIcon = new JLabel(new ImageIcon(userIconImg));
-        JLabel welcomeLabel = new JLabel("Bienvenido" + nombre);
+        JLabel welcomeLabel = new JLabel("Bienvenido"); //+nombre
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20)); //tamaño letras
         welcomeLabel.setForeground(Color.decode("#2F4858"));
 
