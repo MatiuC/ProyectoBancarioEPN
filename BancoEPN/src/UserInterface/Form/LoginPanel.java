@@ -19,48 +19,63 @@ public class LoginPanel extends JFrame {
         setTitle("Iniciar sesión");
         setSize(400, 600);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout()); // Cambiado a GridBagLayout para mejor centrado
         setUndecorated(true);
         setResizable(false);
         setBackground(Color.WHITE);
 
         // Panel principal con fondo blanco
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBackground(Color.WHITE);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        
+        // Panel interno para los componentes
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.WHITE);
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
 
         // Título "Hola, inicia sesión"
         JLabel titleLabel = new JLabel("Hola, inicia sesión");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titleLabel.setForeground(CHARCOAL);
-        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
-        mainPanel.add(titleLabel);
-        mainPanel.add(Box.createVerticalStrut(50));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        contentPanel.add(titleLabel);
+        contentPanel.add(Box.createVerticalStrut(50));
+
+        // Panel para campos de entrada
+        JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
+        fieldsPanel.setBackground(Color.WHITE);
+        fieldsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Campo de usuario
         JLabel userLabel = new JLabel("Ingresa tu usuario");
         userLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         userLabel.setForeground(CHARCOAL);
-        userLabel.setAlignmentX(LEFT_ALIGNMENT);
-        mainPanel.add(userLabel);
-        mainPanel.add(Box.createVerticalStrut(10));
+        userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        fieldsPanel.add(userLabel);
+        fieldsPanel.add(Box.createVerticalStrut(10));
 
         JTextField userField = createStyledTextField("Usuario");
-        mainPanel.add(userField);
-        mainPanel.add(Box.createVerticalStrut(30));
+        userField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        fieldsPanel.add(userField);
+        fieldsPanel.add(Box.createVerticalStrut(30));
 
         // Campo de contraseña
         JLabel passwordLabel = new JLabel("Ingresa tu contraseña");
         passwordLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         passwordLabel.setForeground(CHARCOAL);
-        passwordLabel.setAlignmentX(LEFT_ALIGNMENT);
-        mainPanel.add(passwordLabel);
-        mainPanel.add(Box.createVerticalStrut(10));
+        passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        fieldsPanel.add(passwordLabel);
+        fieldsPanel.add(Box.createVerticalStrut(10));
 
         JPasswordField passwordField = createStyledPasswordField();
-        mainPanel.add(passwordField);
-        mainPanel.add(Box.createVerticalStrut(40));
+        passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        fieldsPanel.add(passwordField);
+        fieldsPanel.add(Box.createVerticalStrut(40));
+
+        contentPanel.add(fieldsPanel);
 
         // Botón Continuar
         JButton loginButton = new JButton("Continuar");
@@ -71,25 +86,34 @@ public class LoginPanel extends JFrame {
         loginButton.setMaximumSize(new Dimension(320, 45));
         loginButton.setBorder(new RoundedBorder(8));
         loginButton.setFocusPainted(false);
-        loginButton.setAlignmentX(CENTER_ALIGNMENT);
+        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         loginButton.addActionListener(e -> {
             ValidarIngreso validarIngreso = new ValidarIngreso();
             validarIngreso.ValidarIngreso();
         });
         
-        mainPanel.add(loginButton);
-        mainPanel.add(Box.createVerticalStrut(30));
+        contentPanel.add(loginButton);
+        contentPanel.add(Box.createVerticalStrut(30));
 
         // Link "¿Olvidaste tu usuario o contraseña?"
         JLabel forgotLabel = new JLabel("¿Olvidaste tu usuario o contraseña?");
         forgotLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         forgotLabel.setForeground(LION);
         forgotLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        forgotLabel.setAlignmentX(CENTER_ALIGNMENT);
-        mainPanel.add(forgotLabel);
+        forgotLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        contentPanel.add(forgotLabel);
 
-        // Agregar panel principal al frame
+        // Agregar contentPanel al mainPanel usando GridBagConstraints para centrarlo
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(contentPanel, gbc);
+
+        // Agregar mainPanel al frame
         add(mainPanel);
 
         // Agregar borde al frame
