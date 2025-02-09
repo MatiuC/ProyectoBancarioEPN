@@ -25,14 +25,12 @@ public class MainForm extends JFrame {
 
             // Agregar las diferentes vistas
             contentPanel.add(new InicioPanel(), "Inicio"); // Imagen de fondo
-            contentPanel.add(new ClienteFormPanel(this), "RegistroClientes"); // Formulario de clientes
-
             // Vincular las vistas con el menú
-            menuPanel.addMenuOption("Home", "home_icon.png");
-            menuPanel.addMenuOption("Profile", "profile_icon.png");
-            menuPanel.addMenuOption("Assets", "assets_icon.png");
-            menuPanel.addMenuOption("Transactions", "transactions_icon.png");
-            menuPanel.addMenuOption("Settings", "settings_icon.png");
+            menuPanel.addMenuOption("Home", "src/UserInterface/Resource/Icons/Home.png");
+            menuPanel.addMenuOption("Profile", "src/UserInterface/Resource/Icons/Ayuda.png");
+            menuPanel.addMenuOption("Assets", "src/UserInterface/Resource/Icons/Asesor.png");
+            menuPanel.addMenuOption("Transactions", "src/UserInterface/Resource/Icons/Cliente.png");
+            menuPanel.addMenuOption("Settings", "src/UserInterface/Resource/Icons/Ayuda.png");
 
             // Configuración de los paneles
             mainPanel.add(menuPanel, BorderLayout.WEST);

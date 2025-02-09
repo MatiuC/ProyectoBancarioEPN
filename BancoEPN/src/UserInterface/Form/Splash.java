@@ -42,7 +42,7 @@ public class Splash extends JWindow {
             loadingBar.setProgress(i);
             moneyBagLabel.setLocation(100 + (int) (4.2 * i), 380); // Mueve el GIF horizontalmente
             try {
-                Thread.sleep(50);
+                Thread.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
