@@ -1,4 +1,4 @@
-package UserInterface.Form.DashboardClient;
+package UserInterface.Form.DashBoardCliente;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,13 +12,13 @@ import javax.swing.JPanel;
 public class Panel extends JPanel {
     public Panel() {
         setLayout(new BorderLayout());
-        setBackground(Color.decode("#FFFFFF")); // Fondo blanco
+        setBackground(Color.decode("#D3D3D3")); // Fondo blanco
 
         // ============================
         // Encabezado Superior
         // ============================
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(Color.decode("#FFFFFF"));
+        headerPanel.setBackground(Color.decode("#D3D3D3"));
         headerPanel.setPreferredSize(new Dimension(0, 60));
 
         // Parte Izquierda: Ícono de usuario y bienvenida
@@ -33,7 +33,7 @@ public class Panel extends JPanel {
         // Panel Principal con secciones
         // ============================
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setBackground(Color.decode("#FFFFFF"));
+        mainPanel.setBackground(Color.decode("#D3D3D3"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 15, 15, 15);
         gbc.fill = GridBagConstraints.BOTH;

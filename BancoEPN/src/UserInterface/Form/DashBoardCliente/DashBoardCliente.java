@@ -1,4 +1,4 @@
-package UserInterface.Form.DashboardClient;
+package UserInterface.Form.DashBoardCliente;
 import javax.swing.*;
 import java.awt.*;
 
