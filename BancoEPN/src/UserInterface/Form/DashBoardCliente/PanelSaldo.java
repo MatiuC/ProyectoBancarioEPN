@@ -39,7 +39,7 @@ public class PanelSaldo extends JPanel {
 
         // Añadir el botón "eye" al lado derecho del saldo
         btnToggleVisibility = new JButton();
-        ImageIcon eyeIcon = new ImageIcon("ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconEye.png");
+        ImageIcon eyeIcon = new ImageIcon("src/UserInterface/Resource/Icon/IconEye.png");
         Image eyeImg = eyeIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
         btnToggleVisibility.setIcon(new ImageIcon(eyeImg));
         btnToggleVisibility.setContentAreaFilled(false);
@@ -62,9 +62,9 @@ public class PanelSaldo extends JPanel {
         JButton btnRecargar = new JButton("Recargar");
 
         // Establecer el icono encima del texto para cada botón
-        setButtonIcon(btnTransferir, "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconTransferir.png");
-        setButtonIcon(btnPagar, "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconPagar.png");
-        setButtonIcon(btnRecargar, "ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/IconRecargar.png");
+        setButtonIcon(btnTransferir, "src/UserInterface/Resource/Icon/IconTransferir.png");
+        setButtonIcon(btnPagar, "src/UserInterface/Resource/Icon/IconPagar.png");
+        setButtonIcon(btnRecargar, "src/UserInterface/Resource/Icon/IconRecargar.png");
 
         // Añadir los botones al panel inferior
         bottomButtonsPanel.add(btnTransferir);
@@ -77,7 +77,7 @@ public class PanelSaldo extends JPanel {
         piggyPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         piggyPanel.setOpaque(false); 
 
-        ImageIcon piggyIcon = new ImageIcon("ProyectoBancarioEPN/BancoEPN/src/UserInterface/Resource/Icon/Iconpiggy.png");
+        ImageIcon piggyIcon = new ImageIcon("src/UserInterface/Resource/Icon/Iconpiggy.png");
         Image piggyImg = piggyIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH); // Tamaño del icono
         JLabel piggyLabel = new JLabel(new ImageIcon(piggyImg));
         piggyPanel.add(piggyLabel);
