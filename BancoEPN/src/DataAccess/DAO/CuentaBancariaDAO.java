@@ -12,12 +12,13 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
     
     private Connection connection;
 
-    public CuentaBancariaDAO() throws Exception {
+    public CuentaBancariaDAO() throws SQLException {
     this.connection = openConnection();
     }
     public CuentaBancariaDAO(Connection connection) {
     this.connection = connection;
     }
+
 
     @Override
     public CuentaBancariaDTO readBy(Integer id) throws Exception {
@@ -25,6 +26,30 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
         String query = "SELECT * FROM CuentaBancaria WHERE id_cuentabancaria = ?" + id.toString();
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    cuentaBancaria = new CuentaBancariaDTO(
+                        rs.getInt("id_cuentabancaria"),
+                        rs.getString("numeroCuenta"),
+                        rs.getInt("id_persona"),
+                        rs.getFloat("saldo"),
+                        rs.getString("fechaCreacion"),
+                        rs.getString("fechaModificacion"),
+                        rs.getString("estado")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw e;
+        }    
+        return cuentaBancaria;
+    }
+
+    public CuentaBancariaDTO readByuser(Integer id) throws Exception {
+        CuentaBancariaDTO cuentaBancaria = null;
+        String query = "SELECT * FROM CuentaBancaria WHERE id_persona = ?" + id.toString();
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(3, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     cuentaBancaria = new CuentaBancariaDTO(
@@ -76,10 +101,18 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
             stmt.setString(4, entity.getFecha_creacion());
             stmt.setString(5, entity.getFecha_modificacion());
             stmt.setString(6, entity.getEstado());
-            return stmt.executeUpdate() > 0;
+             stmt.executeUpdate();
+
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    entity.setId_cuentabancaria(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
-            throw e;
+            throw new Exception("Error al crear persona: " + e.getMessage());
         }
+        return true;
     }
     @Override
     public boolean update(CuentaBancariaDTO entity) throws Exception {

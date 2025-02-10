@@ -40,15 +40,18 @@ public class PanelMenu {
         JButton btnHome = new JButton("Home");
         JButton btnCreateNew = new JButton("Registrar Clientes");
         JButton btnRegisterCard = new JButton("Registrar Tarjeta");
+        JButton btncerrar = new JButton("Cerrar sesión");
         
 
         styleSidebarButton(btnHome, "src\\UserInterface\\Resource\\Icon\\Home.png"); 
         styleSidebarButton(btnCreateNew, "src\\UserInterface\\Resource\\Icon\\Cliente.png");
         styleSidebarButton(btnRegisterCard, "src\\UserInterface\\Resource\\Icon\\Tarjeta.png");
+        styleSidebarButton(btncerrar, "src\\UserInterface\\Resource\\Icon\\IconUser.png");
 
         sidebar.add(btnHome);
         sidebar.add(btnCreateNew);
         sidebar.add(btnRegisterCard);
+        sidebar.add(btncerrar);
         // Crear un panel de contenido donde el formulario cambiará
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(Color.WHITE);
@@ -104,9 +107,32 @@ public class PanelMenu {
 
         });
         
+        btncerrar.addActionListener(e -> {  
+            int opcion = JOptionPane.showConfirmDialog(
+                null,
+                "¿Está seguro que desea cerrar sesión?",
+                "Confirmar Cierre de Sesión",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+            );
+            
+            if (opcion == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(
+                    null, 
+                    "Cerrando sesión...", 
+                    "Cierre de Sesión", 
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                frame.dispose();
+                LoginPanel loginFrame = new LoginPanel();
+                loginFrame.setVisible(true);
+            }
+        });
+
 
 
         // Agregar los paneles al panel principal
+
         mainPanel.add(sidebar, BorderLayout.WEST);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
