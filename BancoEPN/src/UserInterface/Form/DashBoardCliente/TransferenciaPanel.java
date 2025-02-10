@@ -73,7 +73,8 @@ public class TransferenciaPanel extends JFrame {
         cuentaDestinoField.setFont(new Font("Arial", Font.PLAIN, 14));
         cuentaDestinoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
-            new EmptyBorder(5, 5, 5, 5)));
+            new EmptyBorder(8, 10, 8, 10)));
+        cuentaDestinoField.setPreferredSize(new Dimension(cuentaDestinoField.getPreferredSize().width, 35));
 
         // Botón validar cuenta
         JButton validarButton = new JButton("Validar cuenta");
@@ -117,7 +118,8 @@ public class TransferenciaPanel extends JFrame {
         montoField.setFont(new Font("Arial", Font.PLAIN, 14));
         montoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
-            new EmptyBorder(8, 10, 8, 10))); // Padding interno más grande
+            new EmptyBorder(8, 10, 8, 10)));
+        montoField.setPreferredSize(new Dimension(montoField.getPreferredSize().width, 35));
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST; // Alinear a la izquierda
         formPanel.add(montoField, gbc);
