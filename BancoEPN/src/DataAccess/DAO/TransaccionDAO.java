@@ -31,13 +31,14 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
                         rs.getInt("Origen"),
                         rs.getInt("Destino"),
                         rs.getDouble("Monto"),
-                        rs.getString("TipoTransaccion"),
+                        rs.getInt("TipoTransaccion"),
                         rs.getString("Fecha"),
                         rs.getString("Hora"),
                         rs.getString("Descripcion"),
                         rs.getString("FechaCreacion"),
                         rs.getString("FechaModificacion"),
                         rs.getString("Estado").equals("A")
+
                 );
             }
         } catch (SQLException e) {
@@ -58,13 +59,14 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
                         rs.getInt("Origen"),
                         rs.getInt("Destino"),
                         rs.getDouble("Monto"),
-                        rs.getString("TipoTransaccion"),
+                        rs.getInt("TipoTransaccion"),
                         rs.getString("Fecha"),
                         rs.getString("Hora"),
                         rs.getString("Descripcion"),
                         rs.getString("FechaCreacion"),
                         rs.getString("FechaModificacion"),
                         rs.getString("Estado").equals("A")
+
                 ));
             }
         } catch (SQLException e) {
@@ -80,12 +82,13 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
             stmt.setInt(1, transaccion.getOrigen());
             stmt.setInt(2, transaccion.getDestino());
             stmt.setDouble(3, transaccion.getMonto());
-            stmt.setString(4, transaccion.getTipoTransaccion());
+            stmt.setInt(4, transaccion.getTipoTransaccion());
             stmt.setString(5, transaccion.getFecha());
             stmt.setString(6, transaccion.getHora());
             stmt.setString(7, transaccion.getDescripcion());
             stmt.executeUpdate();
             return true;
+
         } catch (SQLException e) {
             throw new Exception("Error al insertar transacción: " + e.getMessage());
         }
@@ -98,7 +101,7 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
             stmt.setInt(1, transaccion.getOrigen());
             stmt.setInt(2, transaccion.getDestino());
             stmt.setDouble(3, transaccion.getMonto());
-            stmt.setString(4, transaccion.getTipoTransaccion());
+            stmt.setInt(4, transaccion.getTipoTransaccion());
             stmt.setString(5, transaccion.getFecha());
             stmt.setString(6, transaccion.getHora());
             stmt.setString(7, transaccion.getDescripcion());
@@ -156,6 +159,7 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
                     rs.getString("fecha_transaccion")
                 );
                 // Guardar los nombres en variables temporales
+
                 transaccion.setNombreOrigen(rs.getString("nombre_origen"));
                 transaccion.setNombreDestino(rs.getString("nombre_destino"));
                 transacciones.add(transaccion);

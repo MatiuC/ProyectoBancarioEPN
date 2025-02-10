@@ -66,7 +66,7 @@ public class ValidarTransaccion {
     }
 
     // Crear un registro de la transacción en la base de datos
-    public void registrarTransaccion(Integer cuentaEnvio, Integer cuentaRecepcion, Double monto, String tipoTransaccion, String descripcion) {
+    public void registrarTransaccion(Integer cuentaEnvio, Integer cuentaRecepcion, Double monto, Integer tipoTransaccion, String descripcion) {
         TransaccionDTO transaccion = new TransaccionDTO(
                 cuentaEnvio,
                 cuentaRecepcion,
@@ -93,9 +93,10 @@ public class ValidarTransaccion {
     }
 
     // Método principal que procesa la transacción
-    public String procesarTransaccion(Integer cuentaEnvio, Integer cuentaRecepcion, Double monto, String tipoTransaccion, String descripcion, String email) throws Exception {
+    public String procesarTransaccion(Integer cuentaEnvio, Integer cuentaRecepcion, Double monto, Integer tipoTransaccion, String descripcion, String email) throws Exception {
         if (transferirSaldo(cuentaEnvio, cuentaRecepcion, monto)) {
             registrarTransaccion(cuentaEnvio, cuentaRecepcion, monto, tipoTransaccion, descripcion); // Registrar la transacción
+
             enviarCorreoConfirmacion(email); // Enviar un correo de confirmación
             return "Transacción exitosa"; // Devolver mensaje de éxito
         } else {
@@ -111,10 +112,7 @@ public class ValidarTransaccion {
         return true; // Suponiendo que la transacción es exitosa
     }
 
-    // Método para realizar un ciclo repetido si es necesario
     public void repetirCiclo() {
-        // Lógica para repetir un ciclo si es necesario
-        // Esto puede incluir reintentos o revalidaciones en caso de fallos
         System.out.println("Repetir ciclo de transacción...");
     }
 }

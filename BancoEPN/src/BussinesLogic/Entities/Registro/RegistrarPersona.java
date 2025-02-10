@@ -11,16 +11,30 @@ import javax.mail.MessagingException;
 
 public class RegistrarPersona {
 
-    private BLFactory<PersonaDTO> personaBL;
+    private BLFactory<CuentaBancariaDTO> cuentaBancariaBL;
     private GetDatosCedula getDatosCedula;
     private GenerarCredenciales generador;
     private EnviarMail enviarCorreo;
 
+
     public RegistrarPersona() throws Exception {
             // Initialize components that don't throw checked exceptions first
-            getDatosCedula = new GetDatosCedula();
-            generador = new GenerarCredenciales();
-            enviarCorreo = new EnviarMail();
+            try {
+                    cuentaBancariaBL =  new BLFactory<>(() -> {
+                        try {
+                            return new CuentaBancariaDAO();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                getDatosCedula = new GetDatosCedula();
+                generador = new GenerarCredenciales();
+                enviarCorreo = new EnviarMail();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
 
 
     }
@@ -58,20 +72,28 @@ public class RegistrarPersona {
 
                 CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
                 cuentaBancariaDAO.create(cuentaBancaria);
-
-                // Registrar bono de bienvenida
-                TransaccionDTO transaccion = new TransaccionDTO();
-                transaccion.setOrigen(1); // ID 1 para el banco 
-                transaccion.setDestino(id_persona);
-                transaccion.setMonto(15.0); 
-                transaccion.setFecha(sdf.format(now));
-                transaccion.setHora(sdfTime.format(now));
-                transaccion.setDescripcion("Bono de bienvenida");
-                transaccion.setTipoTransaccion("Deposito");
-                transaccion.setActivo(true);
                 
-                TransaccionDAO transaccionDAO = new TransaccionDAO();
-                transaccionDAO.create(transaccion);
+                // Guardar la persona y obtener el ID generado
+                if (cuentaBancariaBL.add(cuentaBancaria)) {
+                    // Obtener el ID de la cuenta bancaria
+                    
+                    // Registrar bono de bienvenida
+                    TransaccionDTO transaccion = new TransaccionDTO();
+                    transaccion.setOrigen(1); // ID 1 para el banco 
+                    transaccion.setDestino(cuentaBancaria.getId_cuentabancaria());
+                    transaccion.setMonto(15.0); 
+                    transaccion.setFecha(sdf.format(now));
+                    transaccion.setHora(sdfTime.format(now));
+                    transaccion.setDescripcion("Bono de bienvenida");
+                    transaccion.setTipoTransaccion(1);
+                    transaccion.setActivo(true);
+
+                    TransaccionDAO transaccionDAO = new TransaccionDAO();
+                    transaccionDAO.create(transaccion);
+
+                    
+
+                }
 
                 return true;
   
