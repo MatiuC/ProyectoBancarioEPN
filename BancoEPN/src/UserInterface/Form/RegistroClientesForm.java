@@ -313,17 +313,19 @@ public class RegistroClientesForm extends JFrame {
                                 }
                             }
 
-                            // Deshabilitar los campos después de llenarlos
+                            // Deshabilitar solo los campos que vienen de la API y son fijos
                             fieldNombre.setEnabled(false);
                             fieldApellido.setEnabled(false);
                             fieldCiudad.setEnabled(false);
                             fieldEdad.setEnabled(false);
                             dateChooserFechaNacimiento.setEnabled(false);
-                            fieldDireccion.setEnabled(false);
-                            fieldCorreo.setEnabled(false);
-                            fieldTelefono.setEnabled(false);
-                            comboSexo.setEnabled(false);
-                            comboEstadoCivil.setEnabled(false);
+                            
+                            // Mantener editables los campos que pueden cambiar
+                            fieldDireccion.setEnabled(true);
+                            comboSexo.setEnabled(true);
+                            comboEstadoCivil.setEnabled(true);
+                            fieldCorreo.setEnabled(true);
+                            fieldTelefono.setEnabled(true);
 
     
                            dateChooserFechaNacimiento.setDate(persona.getFecha_nacimiento());
@@ -427,17 +429,14 @@ public class RegistroClientesForm extends JFrame {
             fieldCorreo.setText("");
             fieldTelefono.setText("");
 
-            // Habilitar campos
+            // Habilitar campos que se bloquean con la API
             fieldNombre.setEnabled(true);
             fieldApellido.setEnabled(true);
             fieldCiudad.setEnabled(true);
             fieldEdad.setEnabled(true);
             dateChooserFechaNacimiento.setEnabled(true);
-            fieldDireccion.setEnabled(true);
-            fieldCorreo.setEnabled(true);
-            fieldTelefono.setEnabled(true);
-            comboSexo.setEnabled(true);
-            comboEstadoCivil.setEnabled(true);
+
+            // No es necesario habilitar los demás campos ya que nunca se bloquean
         }
 
         public JPanel getFormularioPanel() {
