@@ -60,12 +60,25 @@ public class RegistroClientesForm extends JFrame {
         // Método para crear el panel del formulario
         public JPanel FormularioPanel () {
             JPanel panel = new JPanel();
-            panel.setLayout(new GridLayout(11, 2, 10, 10)); // 11 filas, 2 columnas
+            panel.setLayout(new GridBagLayout());
             panel.setBackground(new Color(0xFF, 0xFF, 0xFF)); // White
 
             // Establecer fuentes y colores para las etiquetas
             Font labelFont = new Font("Arial", Font.BOLD, 14);
             Color labelColor = new Color(0x2F, 0x48, 0x58); // Charcoal
+
+            // Configurar las restricciones del GridBagLayout
+            GridBagConstraints labelConstraints = new GridBagConstraints();
+            labelConstraints.gridx = 0;
+            labelConstraints.fill = GridBagConstraints.HORIZONTAL;
+            labelConstraints.insets = new Insets(5, 20, 5, 10); // top, left, bottom, right
+            labelConstraints.anchor = GridBagConstraints.WEST;
+
+            GridBagConstraints fieldConstraints = new GridBagConstraints();
+            fieldConstraints.gridx = 1;
+            fieldConstraints.fill = GridBagConstraints.HORIZONTAL;
+            fieldConstraints.weightx = 1.0;
+            fieldConstraints.insets = new Insets(5, 10, 5, 20); // top, left, bottom, right
 
 
             JLabel labelCedula = new JLabel("Cédula:");
@@ -124,28 +137,61 @@ public class RegistroClientesForm extends JFrame {
             labelTelefono.setForeground(labelColor);
             fieldTelefono = new RoundedTextField(20);
 
-            panel.add(labelCedula);
-            panel.add(fieldCedula);
-            panel.add(labelNombre);
-            panel.add(fieldNombre);
-            panel.add(labelApellido);
-            panel.add(fieldApellido);
-            panel.add(labelSexo);
-            panel.add(comboSexo);
-            panel.add(labelEstadoCivil);
-            panel.add(comboEstadoCivil);
-            panel.add(labelCiudad);
-            panel.add(fieldCiudad);
-            panel.add(labelEdad);
-            panel.add(fieldEdad);
-            panel.add(labelFechaNacimiento);
-            panel.add(dateChooserFechaNacimiento);
-            panel.add(labelDireccion);
-            panel.add(fieldDireccion);
-            panel.add(labelCorreo);
-            panel.add(fieldCorreo);
-            panel.add(labelTelefono);
-            panel.add(fieldTelefono);
+            // Agregar componentes con las restricciones
+            labelConstraints.gridy = 0;
+            fieldConstraints.gridy = 0;
+            panel.add(labelCedula, labelConstraints);
+            panel.add(fieldCedula, fieldConstraints);
+
+            labelConstraints.gridy = 1;
+            fieldConstraints.gridy = 1;
+            panel.add(labelNombre, labelConstraints);
+            panel.add(fieldNombre, fieldConstraints);
+
+            labelConstraints.gridy = 2;
+            fieldConstraints.gridy = 2;
+            panel.add(labelApellido, labelConstraints);
+            panel.add(fieldApellido, fieldConstraints);
+
+            labelConstraints.gridy = 3;
+            fieldConstraints.gridy = 3;
+            panel.add(labelSexo, labelConstraints);
+            panel.add(comboSexo, fieldConstraints);
+
+            labelConstraints.gridy = 4;
+            fieldConstraints.gridy = 4;
+            panel.add(labelEstadoCivil, labelConstraints);
+            panel.add(comboEstadoCivil, fieldConstraints);
+
+            labelConstraints.gridy = 5;
+            fieldConstraints.gridy = 5;
+            panel.add(labelCiudad, labelConstraints);
+            panel.add(fieldCiudad, fieldConstraints);
+
+            labelConstraints.gridy = 6;
+            fieldConstraints.gridy = 6;
+            panel.add(labelEdad, labelConstraints);
+            panel.add(fieldEdad, fieldConstraints);
+
+            labelConstraints.gridy = 7;
+            fieldConstraints.gridy = 7;
+            panel.add(labelFechaNacimiento, labelConstraints);
+            panel.add(dateChooserFechaNacimiento, fieldConstraints);
+
+            labelConstraints.gridy = 8;
+            fieldConstraints.gridy = 8;
+            panel.add(labelDireccion, labelConstraints);
+            panel.add(fieldDireccion, fieldConstraints);
+
+            labelConstraints.gridy = 9;
+            fieldConstraints.gridy = 9;
+            panel.add(labelCorreo, labelConstraints);
+            panel.add(fieldCorreo, fieldConstraints);
+
+            labelConstraints.gridy = 10;
+            fieldConstraints.gridy = 10;
+            panel.add(labelTelefono, labelConstraints);
+            panel.add(fieldTelefono, fieldConstraints);
             return panel;
         }
 
