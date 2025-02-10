@@ -1,20 +1,15 @@
+import UserInterface.Form.LoginPanel;
+
 
 public class App {
     public static void main(String[] args) {
-    /* 
-    try {
-        cuentaCreditoDAO cDAO = new cuentaCreditoDAO();
-        for (cuentaCreditoDTO c : cDAO.readAll()) {
-            System.out.println(c.toString());
+        try {
+            // Crear y mostrar la ventana de login
+            LoginPanel loginFrame = new LoginPanel();
+            loginFrame.setVisible(true);
+        } catch (Exception e) {
+            System.out.println("Error al iniciar la aplicación: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        System.out.println("Error de conexión con la base de datos: " + e.getMessage());
-    } catch (Exception e) {
-        System.out.println("Error general: " + e.getMessage());
     }
-*/
-
-
-}
-
 }
