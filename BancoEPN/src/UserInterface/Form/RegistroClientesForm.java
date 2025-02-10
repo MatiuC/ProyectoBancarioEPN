@@ -10,8 +10,6 @@ import DataAccess.DTO.PersonaDTO;
 import DataAccess.DAO.PersonaDAO;
 import BussinesLogic.BLFactory;
 import BussinesLogic.ApiRequest.GetDatosCedula;
-import java.sql.Date;
-import BussinesLogic.Entities.Registro.GenerarCredenciales;
 import BussinesLogic.Entities.Registro.RegistrarPersona;
 
 

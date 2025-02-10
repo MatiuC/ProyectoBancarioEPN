@@ -91,9 +91,15 @@ public class LoginPanel extends JFrame {
         
         loginButton.addActionListener(e -> {
             ValidarIngreso validarIngreso = new ValidarIngreso();
-            validarIngreso.ValidarIngreso();
+            if (validarIngreso.validarCredenciales(userField.getText(), passwordField.getPassword())) {
+                JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+            }
+
         });
         
+
         contentPanel.add(loginButton);
         contentPanel.add(Box.createVerticalStrut(30));
 

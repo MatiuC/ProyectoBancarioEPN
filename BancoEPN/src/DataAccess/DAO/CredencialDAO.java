@@ -18,12 +18,12 @@ public class CredencialDAO extends SQLiteDataHelper implements IDAO<CredencialDT
         this.connection = connection;
     }
 
-    @Override
-    public CredencialDTO readBy(Integer id) throws Exception {
+    
+    public CredencialDTO readby(String id) throws Exception {
         CredencialDTO credencial = null;
-        String query = "SELECT * FROM credenciales WHERE id_credenciales = ?";
+        String query = "SELECT * FROM credenciales WHERE usuario = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
+            stmt.setString(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 credencial = new CredencialDTO(
@@ -108,5 +108,29 @@ public class CredencialDAO extends SQLiteDataHelper implements IDAO<CredencialDT
         } catch (SQLException e) {
             throw new Exception("Error al eliminar credenciales: " + e.getMessage());
         }
+    }
+
+    @Override
+    public CredencialDTO readBy(Integer id) throws Exception {
+        CredencialDTO credencial = null;
+        String query = "SELECT * FROM credenciales WHERE id_credenciales = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                credencial = new CredencialDTO(
+                    rs.getInt("id_credenciales"),
+                    rs.getInt("id_persona"),
+                    rs.getString("usuario"),
+                    rs.getString("pass"),
+                    rs.getString("fechaCreacion"),
+                    rs.getString("fechaModificacion"),
+                    rs.getString("estado")
+                );
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error al leer credencial por ID: " + e.getMessage());
+        }
+        return credencial;
     }
 }
