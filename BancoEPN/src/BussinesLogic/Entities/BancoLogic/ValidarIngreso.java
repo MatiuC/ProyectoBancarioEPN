@@ -1,8 +1,10 @@
 package BussinesLogic.Entities.BancoLogic;
 
 import DataAccess.DAO.CredencialDAO;
+import DataAccess.DAO.PersonaDAO;
 import DataAccess.DTO.CredencialDTO;
 import java.sql.SQLException;
+import DataAccess.DTO.PersonaDTO;
 
 public class ValidarIngreso {
 
@@ -17,14 +19,13 @@ public class ValidarIngreso {
     }
 
     // Método para validar las credenciales usando CredencialDAO
-    public boolean validarCredenciales(Integer usuario, String contrasena) {
+    public boolean validarCredenciales(String usuario, char[] password) {
+        String contraseña = String.valueOf(password);
         try {
-            // Buscar las credenciales del usuario en la base de datos por nombre de usuario
-            CredencialDTO credencial = credencialDAO.readBy(usuario);
-
+            CredencialDTO credencial = credencialDAO.readby(usuario);
             if (credencial != null) {
                 // Comparar la contraseña proporcionada con la almacenada
-                return credencial.getPass().equals(contrasena); // Si son iguales, credenciales válidas
+                return credencial.getPass().equals(contraseña); 
             }
         } catch (Exception e) {
             System.err.println("Error al validar credenciales: " + e.getMessage());
@@ -33,9 +34,9 @@ public class ValidarIngreso {
     }
 
     // Método para verificar si la cuenta existe en la base de datos
-    public boolean cuentaExiste(Integer usuario) {
+    public boolean cuentaExiste(String usuario) {
         try {
-            CredencialDTO credencial = credencialDAO.readBy(usuario); // Buscar por usuario
+            CredencialDTO credencial = credencialDAO.readby(usuario); // Buscar por usuario
             return credencial != null; // Si se encuentra, la cuenta existe
         } catch (Exception e) {
             System.err.println("Error al verificar existencia de cuenta: " + e.getMessage());
@@ -44,26 +45,31 @@ public class ValidarIngreso {
     }
 
     // Método para obtener el rol del usuario
-    public String obtenerRol(Integer usuario) {
+    public Integer obtenerRol(String usuario) {
         try {
-            CredencialDTO credencial = credencialDAO.readBy(usuario); // Buscar por usuario
-            return credencial != null ? credencial.getEstado() : "No encontrado"; // Devuelve el estado (rol)
+            CredencialDTO credencial = credencialDAO.readby(usuario); 
+            credencial.getIdPersona();
+            PersonaDAO personaDAO = new PersonaDAO();
+            PersonaDTO persona = personaDAO.readBy(credencial.getIdPersona());
+        
+            return credencial != null ? persona.getRol() : 0; // Devuelve el estado (rol)
+
         } catch (Exception e) {
             System.err.println("Error al obtener rol: " + e.getMessage());
-            return "Error";
+            return 0;
         }
     }
 
     // Método para mostrar la ventana adecuada según el rol
-    public void mostrarVentanas(String rol) {
-        switch (rol.toLowerCase()) {
-            case "cliente":
+    public void mostrarVentanas(int rol) {
+        switch (rol) {
+            case 2:
                 System.out.println("Ventana de Cliente");
                 break;
-            case "cajero":
+            case 3:
                 System.out.println("Ventana de Cajero");
                 break;
-            case "administrador":
+            case 1:
                 System.out.println("Ventana de Administrador");
                 break;
             default:
@@ -73,10 +79,11 @@ public class ValidarIngreso {
     }
 
     // Método principal para validar el ingreso del usuario
-    public void validarIngreso(Integer usuario, String contrasena) {
+    public void validarIngreso(String usuario, char[] contrasena) {
         if (validarCredenciales(usuario, contrasena)) {
             if (cuentaExiste(usuario)) {
-                String rol = obtenerRol(usuario);
+                int rol = obtenerRol(usuario);
+
                 mostrarVentanas(rol); // Mostrar la ventana según el rol
             } else {
                 System.out.println("Cuenta no existe.");
