@@ -82,9 +82,10 @@ public class LoginPanel extends JFrame {
         loginButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         loginButton.setForeground(Color.WHITE);
         loginButton.setBackground(CHARCOAL);
-        loginButton.setPreferredSize(new Dimension(320, 45));
-        loginButton.setMaximumSize(new Dimension(320, 45));
-        loginButton.setBorder(new RoundedBorder(8));
+        loginButton.setPreferredSize(new Dimension(320, 55));
+        loginButton.setMaximumSize(new Dimension(320, 55));
+        loginButton.setBorder(BorderFactory.createLineBorder(CHARCOAL, 3));
+        loginButton.setOpaque(true);
         loginButton.setFocusPainted(false);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
