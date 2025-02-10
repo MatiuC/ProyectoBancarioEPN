@@ -1,12 +1,11 @@
 package DataAccess.DAO;
 
+import DataAccess.DTO.CuentaBancariaDTO;
+import DataAccess.IDAO;
+import DataAccess.SQLiteDataHelper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import DataAccess.IDAO;
-import DataAccess.SQLiteDataHelper;
-import DataAccess.DTO.CuentaBancariaDTO;
 
 public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBancariaDTO> {
     
@@ -140,7 +139,7 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
             throw e;
         }
     }
-
+    
 
     public boolean actualizarSaldo(Integer id, Double monto) throws Exception {
         String query = "UPDATE CuentaBancaria SET saldo = saldo + ? WHERE id_cuentabancaria = ?";
@@ -153,3 +152,4 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
         }
     }
 }
+
