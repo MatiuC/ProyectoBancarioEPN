@@ -36,19 +36,26 @@ public class TransferenciaPanel extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Título
+        // Panel para el título
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        titlePanel.setBackground(Color.decode("#D3D3D3"));
         JLabel titleLabel = new JLabel("Realizar Transferencia");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         titleLabel.setForeground(Color.decode("#274156"));
+        titlePanel.add(titleLabel);
+
+        // Agregar el panel del título
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(30, 30, 40, 30); // Margen especial para el título
+        gbc.insets = new Insets(30, 30, 40, 30);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.CENTER;
-        formPanel.add(titleLabel, gbc);
+        formPanel.add(titlePanel, gbc);
 
-        // Restaurar márgenes normales
+        // Restaurar márgenes y configuraciones normales
         gbc.insets = new Insets(20, 30, 20, 30);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Campo cuenta destino
         JLabel cuentaLabel = new JLabel("Número de Cuenta Destino:");
