@@ -18,12 +18,12 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
         this.connection = connection;
     }
 
-    @Override
-    public TarjetaDTO readBy(Integer id) throws Exception {
+        @Override
+    public TarjetaDTO readBy(Integer numeroTarjeta) throws Exception {
         TarjetaDTO tarjeta = null;
-        String query = "SELECT * FROM Tarjeta WHERE Id_tarjeta = ? AND estado = 1";
+        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 1";  // Cambiamos la consulta para buscar por numero_tarjeta
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
+            stmt.setInt(1, numeroTarjeta);  // Aquí pasamos el número de tarjeta como String
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 tarjeta = new TarjetaDTO(
@@ -46,7 +46,36 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
         }
         return tarjeta;
     }
+    
 
+    public TarjetaDTO readBy(String numeroTarjeta) throws Exception {
+        TarjetaDTO tarjeta = null;
+        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 1";  // Cambiamos la consulta para buscar por numero_tarjeta
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, numeroTarjeta);  // Aquí pasamos el número de tarjeta como String
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                tarjeta = new TarjetaDTO(
+                        rs.getInt("Id_tarjeta"),
+                        rs.getString("numero_tarjeta"),
+                        rs.getString("fecha_expedicion"),
+                        rs.getString("fecha_vencimiento"),
+                        rs.getString("cvv"),
+                        rs.getInt("tipo_tarjeta"),
+                        rs.getInt("id_franquicia"),
+                        rs.getString("fechaCreacion"),
+                        rs.getString("fechaModificacion"),
+                        rs.getString("estado"),
+                        rs.getInt("Persona"),
+                        rs.getInt("id_cuentabancaria")
+                );
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error al leer tarjeta: " + e.getMessage());
+        }
+        return tarjeta;
+    }
+    
     @Override
     public List<TarjetaDTO> readAll() throws Exception {
         List<TarjetaDTO> lista = new ArrayList<>();

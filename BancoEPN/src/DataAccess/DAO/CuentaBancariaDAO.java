@@ -107,4 +107,13 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
             throw e;
         }
     }
+    
+    public void actualizarSaldo(Integer cuentaId, Double monto) throws SQLException {
+        String query = "UPDATE CuentaBancaria SET saldo = saldo + ? WHERE id_cuentabancaria = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setDouble(1, monto); // Actualiza el saldo con el monto
+            stmt.setInt(2, cuentaId);  // Identificador de la cuenta
+            stmt.executeUpdate();
+        }
+    }
 }
