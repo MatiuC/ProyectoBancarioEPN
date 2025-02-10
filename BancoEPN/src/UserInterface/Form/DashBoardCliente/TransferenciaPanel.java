@@ -66,10 +66,11 @@ public class TransferenciaPanel extends JFrame {
         formPanel.add(cuentaLabel, gbc);
 
         // Panel para agrupar el campo de cuenta y el botón validar
-        JPanel cuentaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        JPanel cuentaPanel = new JPanel();
+        cuentaPanel.setLayout(new BoxLayout(cuentaPanel, BoxLayout.X_AXIS));
         cuentaPanel.setBackground(Color.decode("#D3D3D3"));
 
-        cuentaDestinoField = new JTextField(15); // Reducir el ancho del campo de texto
+        cuentaDestinoField = new JTextField(12);
         cuentaDestinoField.setFont(new Font("Arial", Font.PLAIN, 14));
         cuentaDestinoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
@@ -100,8 +101,13 @@ public class TransferenciaPanel extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
         });
 
+        // Agregar un espacio rígido entre el campo y el botón
         cuentaPanel.add(cuentaDestinoField);
+        cuentaPanel.add(Box.createRigidArea(new Dimension(10, 0)));
         cuentaPanel.add(validarButton);
+
+        // Establecer el tamaño preferido del panel para que coincida con el campo de monto
+        cuentaPanel.setPreferredSize(new Dimension(350, 35));
 
         gbc.gridx = 1;
         formPanel.add(cuentaPanel, gbc);
@@ -111,17 +117,18 @@ public class TransferenciaPanel extends JFrame {
         montoLabel.setFont(new Font("Arial", Font.BOLD, 16));
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.EAST; // Alinear a la derecha
+        gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(montoLabel, gbc);
 
-        montoField = new JTextField(15); // Mismo tamaño que el campo de cuenta
+        // Configurar el campo de monto para que coincida exactamente con el panel de cuenta
+        montoField = new JTextField();
         montoField.setFont(new Font("Arial", Font.PLAIN, 14));
         montoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
             new EmptyBorder(8, 10, 8, 10)));
-        montoField.setPreferredSize(new Dimension(montoField.getPreferredSize().width, 35));
+        montoField.setPreferredSize(new Dimension(350, 35));
         gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST; // Alinear a la izquierda
+        gbc.anchor = GridBagConstraints.WEST;
         formPanel.add(montoField, gbc);
 
         // Panel para botones
