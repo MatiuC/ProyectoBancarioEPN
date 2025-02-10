@@ -146,3 +146,8 @@ FROM Persona;
 PRAGMA table_info(Tarjeta);
 
 
+CREATE VIEW IF NOT EXISTS Vista_Personas AS
+SELECT nombre, apellido, cedula
+FROM Persona;
+
+PRAGMA table_info(Tarjeta);
