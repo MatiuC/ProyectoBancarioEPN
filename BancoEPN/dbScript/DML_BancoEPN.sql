@@ -118,8 +118,8 @@ VALUES
         '2023-01-01',
         '2026-01-01',
         '123',
-        'Debito',
-        'Visa',
+        1,
+        1,
         1,
         1
     ),
@@ -128,8 +128,8 @@ VALUES
         '2023-01-01',
         '2026-01-01',
         '456',
-        'Credito',
-        'MasterCard',
+        2,
+        2,
         2,
         2
     );
@@ -138,6 +138,7 @@ INSERT INTO
     TipoTransaccion (nombre_tipo_transaccion)
 VALUES
     ('Deposito'),
+    ('Transferencia'),
     ('Retiro');
 
 INSERT INTO
@@ -156,7 +157,7 @@ VALUES
         2,
         100.00,
         '2023-10-01',
-        '12:00:00',
-        'Deposito',
+        '12:00',
+        2,
         'Transferencia de prueba'
-    ),
+    );

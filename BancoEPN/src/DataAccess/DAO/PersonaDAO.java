@@ -9,13 +9,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Date;
 
 public class PersonaDAO extends SQLiteDataHelper implements IDAO<PersonaDTO> {
 private Connection connection;
 
-public PersonaDAO() throws Exception {
+public PersonaDAO() throws SQLException {
     this.connection = openConnection();
 }
+
 public PersonaDAO(Connection connection) {
     this.connection = connection;
 }
@@ -35,7 +37,7 @@ public PersonaDAO(Connection connection) {
                         rs.getString("estado_civil"),
                         rs.getString("ciudad"),
                         rs.getString("edad"),
-                        rs.getString("fecha_nacimiento"),
+                        rs.getDate("fecha_nacimiento"),
                         rs.getString("direccion"),
                         rs.getString("correo"),
                         rs.getString("telefono"),
@@ -67,7 +69,7 @@ public PersonaDAO(Connection connection) {
                         rs.getString("estado_civil"),
                         rs.getString("ciudad"),
                         rs.getString("edad"),
-                        rs.getString("fecha_nacimiento"),
+                        rs.getDate("fecha_nacimiento"),
                         rs.getString("direccion"),
                         rs.getString("correo"),
                         rs.getString("telefono"),
@@ -94,22 +96,31 @@ public PersonaDAO(Connection connection) {
             stmt.setString(6, persona.getEstado_civil());
             stmt.setString(7, persona.getCiudad());
             stmt.setString(8, persona.getEdad());
-            stmt.setString(9, persona.getFecha_nacimiento());
+            stmt.setDate(9, persona.getFecha_nacimiento());
             stmt.setString(10, persona.getDireccion());
             stmt.setString(11, persona.getcorreo());
             stmt.setString(12, persona.getTelefono());
+
             stmt.setString(13, persona.getFechaCreacion());
             stmt.setString(14, persona.getFechaModificacion());
-            stmt.setInt(15, persona.getRol());
-            stmt.setString(16, persona.getEstado());
+            stmt.setString(15, persona.getEstado());
+            stmt.setInt(16, persona.getRol());
 
             
+
+
             stmt.executeUpdate();
-            return true;    
-        }catch (SQLException e) {
-            throw e;//new Exception( e.getMessage(), getClass().getName(), "delete()");
+            
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    persona.setPersona_id(generatedKeys.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error al crear persona: " + e.getMessage());
+        }
+        return true;
     }
-}
 @Override
     public boolean update(PersonaDTO persona) throws Exception {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
@@ -123,10 +134,11 @@ public PersonaDAO(Connection connection) {
             stmt.setString(5, persona.getEstado_civil());
             stmt.setString(6, persona.getCiudad());
             stmt.setString(7, persona.getEdad());
-            stmt.setString(8, persona.getFecha_nacimiento());
+            stmt.setDate(8, persona.getFecha_nacimiento());
             stmt.setString(9, persona.getDireccion());
             stmt.setString(10, persona.getcorreo());
             stmt.setString(11, persona.getTelefono());
+
             stmt.setString(12, dtf.format(now));
             stmt.setString(13, persona.getEstado());
             stmt.setInt(14, persona.getRol());

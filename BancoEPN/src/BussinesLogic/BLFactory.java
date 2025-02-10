@@ -5,10 +5,9 @@ import java.util.function.Supplier;
 
 import DataAccess.IDAO;
 
-public class BLFactory<T> {
-private final IDAO<T> oDAO;
- 
-    // Constructor que usa un Supplier para crear la instancia de T
+public class BLFactory<T>  {
+    private final IDAO<T> oDAO;
+
     public BLFactory(Supplier<IDAO<T>> supplier) {
         this.oDAO = supplier.get(); 
     }
