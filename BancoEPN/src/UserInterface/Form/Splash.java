@@ -53,9 +53,10 @@ public class Splash extends JWindow {
 
         // Abrir MainForm
         SwingUtilities.invokeLater(() -> {
-            RegistroClientesForm loginForm = new RegistroClientesForm();
+            LoginPanel loginForm = new LoginPanel();
             loginForm.setVisible(true);
         });
+
 
 
     }
