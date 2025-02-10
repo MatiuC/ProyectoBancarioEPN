@@ -122,4 +122,20 @@ CREATE TABLE Transacciones (
     fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(1) NOT NULL DEFAULT 'A'
-)
+);
+CREATE VIEW IF NOT EXISTS VistaTransacciones AS
+SELECT 
+    t.Id_transaccion,
+    po.nombre || ' ' || po.apellido as nombre_origen,
+    pd.nombre || ' ' || pd.apellido as nombre_destino,
+    t.Monto,
+    tt.nombre_tipo_transaccion,
+    t.Fecha || ' ' || t.Hora as fecha_transaccion
+FROM Transacciones t
+INNER JOIN CuentaBancaria cbo ON t.Origen = cbo.id_cuentabancaria
+INNER JOIN CuentaBancaria cbd ON t.Destino = cbd.id_cuentabancaria
+INNER JOIN Persona po ON cbo.id_persona = po.Id_persona
+INNER JOIN Persona pd ON cbd.id_persona = pd.Id_persona
+INNER JOIN TipoTransaccion tt ON t.TipoTransaccion = tt.id_tipo_transaccion
+WHERE t.estado = 'A';
+

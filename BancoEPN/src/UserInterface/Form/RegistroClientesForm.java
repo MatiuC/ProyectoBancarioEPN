@@ -10,16 +10,15 @@ import DataAccess.DTO.PersonaDTO;
 import DataAccess.DAO.PersonaDAO;
 import BussinesLogic.BLFactory;
 import BussinesLogic.ApiRequest.GetDatosCedula;
-import java.sql.Date;
-import BussinesLogic.Entities.Registro.GenerarCredenciales;
 import BussinesLogic.Entities.Registro.RegistrarPersona;
+import UserInterface.CustomerControl.RoundedTextField;
 
 
 
 
 public class RegistroClientesForm extends JFrame {
 
-    private JTextField fieldCedula, fieldNombre, fieldApellido, fieldCiudad, fieldEdad, fieldDireccion, fieldCorreo, fieldTelefono;
+    private RoundedTextField fieldCedula, fieldNombre, fieldApellido, fieldCiudad, fieldEdad, fieldDireccion, fieldCorreo, fieldTelefono;
     private JComboBox<String> comboSexo, comboEstadoCivil;
     private JDateChooser dateChooserFechaNacimiento;
 
@@ -36,8 +35,7 @@ public class RegistroClientesForm extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+        setContentPane(getFormularioPanel());
     }
 
     private void initializeBusinessLogic() throws SQLException {
@@ -60,29 +58,44 @@ public class RegistroClientesForm extends JFrame {
         // Método para crear el panel del formulario
         public JPanel FormularioPanel () {
             JPanel panel = new JPanel();
-            panel.setLayout(new GridLayout(11, 2, 10, 10)); // 11 filas, 2 columnas
-            panel.setBackground(Color.white); // Fondo gris claro
+            panel.setLayout(new GridBagLayout());
+            panel.setBackground(new Color(0xFF, 0xFF, 0xFF)); // White
 
             // Establecer fuentes y colores para las etiquetas
             Font labelFont = new Font("Arial", Font.BOLD, 14);
-            Color labelColor = new Color(0, 51, 102); // Azul oscuro
+            Color labelColor = new Color(0x2F, 0x48, 0x58); // Charcoal
+
+            // Configurar las restricciones del GridBagLayout
+            GridBagConstraints labelConstraints = new GridBagConstraints();
+            labelConstraints.gridx = 0;
+            labelConstraints.fill = GridBagConstraints.HORIZONTAL;
+            labelConstraints.insets = new Insets(5, 20, 5, 10); // top, left, bottom, right
+            labelConstraints.anchor = GridBagConstraints.WEST;
+
+            GridBagConstraints fieldConstraints = new GridBagConstraints();
+            fieldConstraints.gridx = 1;
+            fieldConstraints.fill = GridBagConstraints.HORIZONTAL;
+            fieldConstraints.weightx = 1.0;
+            fieldConstraints.insets = new Insets(5, 10, 5, 20); // top, left, bottom, right
 
 
             JLabel labelCedula = new JLabel("Cédula:");
             labelCedula.setFont(labelFont);
             labelCedula.setForeground(labelColor);
-            fieldCedula = new JTextField(20);
-
+            fieldCedula = new RoundedTextField(20);
+            fieldCedula.setDisabledTextColor(Color.BLACK);
 
             JLabel labelNombre = new JLabel("Nombre:");
             labelNombre.setFont(labelFont);
             labelNombre.setForeground(labelColor);
-            fieldNombre = new JTextField(20);
+            fieldNombre = new RoundedTextField(20);
+            fieldNombre.setDisabledTextColor(Color.BLACK);
 
             JLabel labelApellido = new JLabel("Apellido:");
             labelApellido.setFont(labelFont);
             labelApellido.setForeground(labelColor);
-            fieldApellido = new JTextField(20);
+            fieldApellido = new RoundedTextField(20);
+            fieldApellido.setDisabledTextColor(Color.BLACK);
 
             JLabel labelSexo = new JLabel("Sexo:");
             labelSexo.setFont(labelFont);
@@ -97,12 +110,14 @@ public class RegistroClientesForm extends JFrame {
             JLabel labelCiudad = new JLabel("Ciudad:");
             labelCiudad.setFont(labelFont);
             labelCiudad.setForeground(labelColor);
-            fieldCiudad = new JTextField(20);
+            fieldCiudad = new RoundedTextField(20);
+            fieldCiudad.setDisabledTextColor(Color.BLACK);
 
             JLabel labelEdad = new JLabel("Edad:");
             labelEdad.setFont(labelFont);
             labelEdad.setForeground(labelColor);
-            fieldEdad = new JTextField(20);
+            fieldEdad = new RoundedTextField(20);
+            fieldEdad.setDisabledTextColor(Color.BLACK);
 
             JLabel labelFechaNacimiento = new JLabel("Fecha de Nacimiento:");
             labelFechaNacimiento.setFont(labelFont);
@@ -112,40 +127,100 @@ public class RegistroClientesForm extends JFrame {
             JLabel labelDireccion = new JLabel("Dirección:");
             labelDireccion.setFont(labelFont);
             labelDireccion.setForeground(labelColor);
-            fieldDireccion = new JTextField(20);
+            fieldDireccion = new RoundedTextField(20);
 
             JLabel labelCorreo = new JLabel("Correo:");
             labelCorreo.setFont(labelFont);
             labelCorreo.setForeground(labelColor);
-            fieldCorreo = new JTextField(20);
+            fieldCorreo = new RoundedTextField(20);
 
             JLabel labelTelefono = new JLabel("Teléfono:");
             labelTelefono.setFont(labelFont);
             labelTelefono.setForeground(labelColor);
-            fieldTelefono = new JTextField(20);
+            fieldTelefono = new RoundedTextField(20);
 
-            panel.add(labelCedula);
-            panel.add(fieldCedula);
-            panel.add(labelNombre);
-            panel.add(fieldNombre);
-            panel.add(labelApellido);
-            panel.add(fieldApellido);
-            panel.add(labelSexo);
-            panel.add(comboSexo);
-            panel.add(labelEstadoCivil);
-            panel.add(comboEstadoCivil);
-            panel.add(labelCiudad);
-            panel.add(fieldCiudad);
-            panel.add(labelEdad);
-            panel.add(fieldEdad);
-            panel.add(labelFechaNacimiento);
-            panel.add(dateChooserFechaNacimiento);
-            panel.add(labelDireccion);
-            panel.add(fieldDireccion);
-            panel.add(labelCorreo);
-            panel.add(fieldCorreo);
-            panel.add(labelTelefono);
-            panel.add(fieldTelefono);
+            // Agregar componentes con las restricciones
+            // Agregar cédula con botón consultar
+            labelConstraints.gridy = 0;
+            panel.add(labelCedula, labelConstraints);
+
+            // Panel para campo de cédula y botón consultar
+            JPanel cedulaPanel = new JPanel(new BorderLayout(5, 0));
+            cedulaPanel.setBackground(new Color(0xFF, 0xFF, 0xFF)); // White
+
+            // Crear y configurar el botón consultar
+            JButton buttonConsultar = new JButton("Consultar");
+            buttonConsultar.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
+            buttonConsultar.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
+            buttonConsultar.setFont(new Font("Arial", Font.BOLD, 14));
+            buttonConsultar.addActionListener(e -> consultarCedula());
+
+            // Agregar campo y botón al panel
+            cedulaPanel.add(fieldCedula, BorderLayout.CENTER);
+            cedulaPanel.add(buttonConsultar, BorderLayout.EAST);
+
+            // Configurar y agregar el panel de cédula
+            GridBagConstraints fieldPanelConstraints = new GridBagConstraints();
+            fieldPanelConstraints.gridx = 1;
+            fieldPanelConstraints.gridy = 0;
+            fieldPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+            fieldPanelConstraints.weightx = 1.0;
+            fieldPanelConstraints.insets = new Insets(5, 10, 5, 20);
+            panel.add(cedulaPanel, fieldPanelConstraints);
+
+            // Ajustar la posición de los demás campos para empezar después del panel de cédula
+            labelConstraints.gridwidth = 1;
+            fieldConstraints.gridwidth = 1;
+
+            labelConstraints.gridy = 1;
+            fieldConstraints.gridy = 1;
+            panel.add(labelNombre, labelConstraints);
+            panel.add(fieldNombre, fieldConstraints);
+
+            labelConstraints.gridy = 2;
+            fieldConstraints.gridy = 2;
+            panel.add(labelApellido, labelConstraints);
+            panel.add(fieldApellido, fieldConstraints);
+
+            labelConstraints.gridy = 3;
+            fieldConstraints.gridy = 3;
+            panel.add(labelSexo, labelConstraints);
+            panel.add(comboSexo, fieldConstraints);
+
+            labelConstraints.gridy = 4;
+            fieldConstraints.gridy = 4;
+            panel.add(labelEstadoCivil, labelConstraints);
+            panel.add(comboEstadoCivil, fieldConstraints);
+
+            labelConstraints.gridy = 5;
+            fieldConstraints.gridy = 5;
+            panel.add(labelCiudad, labelConstraints);
+            panel.add(fieldCiudad, fieldConstraints);
+
+            labelConstraints.gridy = 6;
+            fieldConstraints.gridy = 6;
+            panel.add(labelEdad, labelConstraints);
+            panel.add(fieldEdad, fieldConstraints);
+
+            labelConstraints.gridy = 7;
+            fieldConstraints.gridy = 7;
+            panel.add(labelFechaNacimiento, labelConstraints);
+            panel.add(dateChooserFechaNacimiento, fieldConstraints);
+
+            labelConstraints.gridy = 8;
+            fieldConstraints.gridy = 8;
+            panel.add(labelDireccion, labelConstraints);
+            panel.add(fieldDireccion, fieldConstraints);
+
+            labelConstraints.gridy = 9;
+            fieldConstraints.gridy = 9;
+            panel.add(labelCorreo, labelConstraints);
+            panel.add(fieldCorreo, fieldConstraints);
+
+            labelConstraints.gridy = 10;
+            fieldConstraints.gridy = 10;
+            panel.add(labelTelefono, labelConstraints);
+            panel.add(fieldTelefono, fieldConstraints);
             return panel;
         }
 
@@ -153,12 +228,12 @@ public class RegistroClientesForm extends JFrame {
         public JPanel createButtonPanel() {
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
-            panel.setBackground(Color.WHITE); // Fondo gris claro
+            panel.setBackground(new Color(0xD3, 0xD3, 0xD3)); // Timberwolf
 
             // Crear botones con colores personalizados
             JButton buttonGuardar = new JButton("Guardar");
-            buttonGuardar.setBackground(new Color(0, 102, 204)); // Azul
-            buttonGuardar.setForeground(Color.WHITE);
+            buttonGuardar.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
+            buttonGuardar.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
             buttonGuardar.setFont(new Font("Arial", Font.BOLD, 14));
 
             // Acción para el botón "Guardar"
@@ -174,8 +249,8 @@ public class RegistroClientesForm extends JFrame {
             });
 
             JButton buttonNuevoRegistro = new JButton("Nuevo Registro");
-            buttonNuevoRegistro.setBackground(new Color(204, 0, 0)); // Rojo
-            buttonNuevoRegistro.setForeground(Color.WHITE);
+            buttonNuevoRegistro.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
+            buttonNuevoRegistro.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
             buttonNuevoRegistro.setFont(new Font("Arial", Font.BOLD, 14));
 
             // Acción para el botón "Nuevo Registro"
@@ -185,22 +260,8 @@ public class RegistroClientesForm extends JFrame {
                 }
             });
 
-            
-            JButton buttonConsultar = new JButton("Consultar");
-            buttonConsultar.setBackground(new Color(0, 102, 204)); // Azul
-            buttonConsultar.setForeground(Color.WHITE);
-            buttonConsultar.setFont(new Font("Arial", Font.BOLD, 14));
-
-
-            buttonConsultar.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    consultarCedula();
-                }
-            });
-
             panel.add(buttonGuardar);
             panel.add(buttonNuevoRegistro);
-            panel.add(buttonConsultar);
 
             return panel;
         }
@@ -235,18 +296,17 @@ public class RegistroClientesForm extends JFrame {
                     try {
                         PersonaDTO persona = get();
                         if (persona != null) {
-                            fieldCedula.setText(persona.getCedula());
-                            fieldNombre.setText(persona.getNombre());
-                            fieldApellido.setText(persona.getApellido());
-                            fieldCiudad.setText(persona.getCiudad());
-                            fieldEdad.setText(persona.getEdad());
-                            dateChooserFechaNacimiento.setDate(persona.getFecha_nacimiento());
-                            fieldDireccion.setText(persona.getDireccion());
-                            fieldCorreo.setText(persona.getcorreo());
-                            fieldTelefono.setText(persona.getTelefono());
-                            
-                            
-    
+                           // Establecer los valores
+                           fieldCedula.setText(persona.getCedula());
+                           fieldNombre.setText(persona.getNombre());
+                           fieldApellido.setText(persona.getApellido());
+                           fieldCiudad.setText(persona.getCiudad());
+                           fieldEdad.setText(persona.getEdad());
+                           dateChooserFechaNacimiento.setDate(persona.getFecha_nacimiento());
+                           fieldDireccion.setText(persona.getDireccion());
+                           fieldCorreo.setText(persona.getcorreo());
+                           fieldTelefono.setText(persona.getTelefono());
+
                             // Seleccionar el estado civil correspondiente
                             for (int i = 0; i < comboEstadoCivil.getItemCount(); i++) {
                                 if (comboEstadoCivil.getItemAt(i).equals(persona.getEstado_civil())) {
@@ -254,6 +314,20 @@ public class RegistroClientesForm extends JFrame {
                                     break;
                                 }
                             }
+
+                            // Deshabilitar solo los campos que vienen de la API y son fijos
+                            fieldNombre.setEnabled(false);
+                            fieldApellido.setEnabled(false);
+                            fieldCiudad.setEnabled(false);
+                            fieldEdad.setEnabled(false);
+                            dateChooserFechaNacimiento.setEnabled(false);
+                            
+                            // Mantener editables los campos que pueden cambiar
+                            fieldDireccion.setEnabled(true);
+                            comboSexo.setEnabled(true);
+                            comboEstadoCivil.setEnabled(true);
+                            fieldCorreo.setEnabled(true);
+                            fieldTelefono.setEnabled(true);
 
     
                            dateChooserFechaNacimiento.setDate(persona.getFecha_nacimiento());
@@ -342,8 +416,9 @@ public class RegistroClientesForm extends JFrame {
                    && !fieldCorreo.getText().isEmpty() && !fieldTelefono.getText().isEmpty();
         }
 
-        // Método para limpiar los campos del formulario
+        // Método para limpiar los campos del formulario y habilitarlos
         private void clearForm() {
+            // Limpiar campos
             fieldCedula.setText("");
             fieldNombre.setText("");
             fieldApellido.setText("");
@@ -355,6 +430,15 @@ public class RegistroClientesForm extends JFrame {
             fieldDireccion.setText("");
             fieldCorreo.setText("");
             fieldTelefono.setText("");
+
+            // Habilitar campos que se bloquean con la API
+            fieldNombre.setEnabled(true);
+            fieldApellido.setEnabled(true);
+            fieldCiudad.setEnabled(true);
+            fieldEdad.setEnabled(true);
+            dateChooserFechaNacimiento.setEnabled(true);
+
+            // No es necesario habilitar los demás campos ya que nunca se bloquean
         }
 
         public JPanel getFormularioPanel() {

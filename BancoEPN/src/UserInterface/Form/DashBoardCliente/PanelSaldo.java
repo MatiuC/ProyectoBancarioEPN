@@ -2,8 +2,12 @@ package UserInterface.Form.DashBoardCliente;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+
 import javax.swing.border.*;
 
+import DataAccess.DAO.CuentaBancariaDAO;
+import DataAccess.DTO.CuentaBancariaDTO;
 import UserInterface.CustomerControl.RoundedButton;
 
 public class PanelSaldo extends JPanel {
@@ -11,8 +15,9 @@ public class PanelSaldo extends JPanel {
     private JLabel saldoLabel;
     private JButton btnToggleVisibility;
 
+
     //Llamar a la cuenta del usuario logueado y mostrar su saldo
-    public PanelSaldo() {
+    public PanelSaldo(int id) {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#274156")); 
         setPreferredSize(new Dimension(350, 250)); // Ancho 350, Alto 250
@@ -49,7 +54,13 @@ public class PanelSaldo extends JPanel {
         btnToggleVisibility.setFocusPainted(false);
         saldoPanel.add(btnToggleVisibility);
 
-        btnToggleVisibility.addActionListener(e -> toggleSaldoVisibility()); 
+        btnToggleVisibility.addActionListener(e -> {
+            try {
+                toggleSaldoVisibility(id);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }); 
 
         
         add(saldoPanel, BorderLayout.NORTH);
@@ -90,9 +101,17 @@ public class PanelSaldo extends JPanel {
     }
 
     // Método para alternar la visibilidad del saldo
-    private void toggleSaldoVisibility() {
-        balanceVisible = !balanceVisible;
-        saldoLabel.setText(balanceVisible ? "Saldo: $5000" : "Saldo: $*****");
+    private void toggleSaldoVisibility(int id) throws SQLException {
+        try {
+
+            CuentaBancariaDAO c = new   CuentaBancariaDAO();
+            CuentaBancariaDTO ct = c.readByuser(id);
+            balanceVisible = !balanceVisible;
+            saldoLabel.setText(balanceVisible ? "Saldo: $" + ct.getSaldo() : "Saldo: $*****");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al mostrar el saldo: " + e.getMessage());
+        }
     }
 
     // Método para agregar un icono encima del texto en los botones

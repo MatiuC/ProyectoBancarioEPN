@@ -1,216 +1,283 @@
 package UserInterface.Form;
 
+import BussinesLogic.Entities.BancoLogic.ValidarIngreso;
+import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.*;
 import javax.swing.border.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import BussinesLogic.Entities.BancoLogic.ValidarIngreso;
+import UserInterface.Form.DashBoardCliente.DashBoardCliente;
+import UserInterface.Form.PanelMenu;
+
 
 
 public class LoginPanel extends JFrame {
+ // Los colores se mantienen igual que en tu código anterior
+ private static final Color CHARCOAL = new Color(47, 72, 88); // #2F4858
+ private static final Color LION = new Color(182, 142, 109); // #B68E6D
+ private static final Color TIMBERWOLF = new Color(211, 211, 211); // #D3D3D3
+ private static final Color DARK_CHARCOAL = new Color(39, 65, 86); // #274156
 
-    public LoginPanel() {
-        // Configuración de la ventana
-        setTitle("Iniciar sesión");
-        setSize(500, 500); // Tamaño más compacto
-        setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
-        setUndecorated(true); // Eliminar la barra de título y botones
-        setResizable(false); // Deshabilitar la opción de maximizar/minimizar
+ public LoginPanel() {
+     // Configuración de la ventana
+     setTitle("Iniciar sesión");
+     setSize(400, 600);
+     setLocationRelativeTo(null);
+     setLayout(new GridBagLayout()); // Cambiado a GridBagLayout para mejor centrado
+     setUndecorated(true);
+     setResizable(false);
+     setBackground(Color.WHITE);
 
-        // Panel principal
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(new Color(39, 56, 75));  // Color de fondo charcoal
+     // Panel principal con fondo blanco
+     JPanel mainPanel = new JPanel();
+     mainPanel.setLayout(new GridBagLayout());
+     mainPanel.setBackground(Color.WHITE);
+     
+     // Panel interno para los componentes
+     JPanel contentPanel = new JPanel();
+     contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+     contentPanel.setBackground(Color.WHITE);
+     contentPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
 
-        // Contenedor de logo y texto
-        JPanel logoPanel = new JPanel();
-        logoPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
-        logoPanel.setBackground(new Color(39, 56, 75));  // Fondo charcoal para el logo
+     // Título "Hola, inicia sesión"
+     JLabel titleLabel = new JLabel("Hola, inicia sesión");
+     titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
+     titleLabel.setForeground(CHARCOAL);
+     titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+     contentPanel.add(titleLabel);
+     contentPanel.add(Box.createVerticalStrut(50));
 
-        // Redimensionar el logo
-        ImageIcon logoIcon = new ImageIcon("src\\UserInterface\\Resource\\Img\\LOGO.jpg");
-        Image logoImage = logoIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH); // Ajusta el tamaño aquí (ancho, alto)
-        JLabel logoLabel = new JLabel(new ImageIcon(logoImage));
-        logoPanel.add(logoLabel);
+     // Panel para campos de entrada
+     JPanel fieldsPanel = new JPanel();
+     fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS));
+     fieldsPanel.setBackground(Color.WHITE);
+     fieldsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        mainPanel.add(logoPanel, BorderLayout.NORTH);
+     // Campo de usuario
+     JLabel userLabel = new JLabel("Ingresa tu usuario");
+     userLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+     userLabel.setForeground(CHARCOAL);
+     userLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+     fieldsPanel.add(userLabel);
+     fieldsPanel.add(Box.createVerticalStrut(10));
 
-        // Panel de formulario de inicio de sesión
-        JPanel loginFormPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        loginFormPanel.setBackground(new Color(39, 56, 75));
-        loginFormPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+     JTextField userField = createStyledTextField("Usuario");
+     userField.setAlignmentX(Component.CENTER_ALIGNMENT);
+     fieldsPanel.add(userField);
+     fieldsPanel.add(Box.createVerticalStrut(30));
 
-        // Panel interno para organizar elementos verticalmente y centrados
-        JPanel innerPanel = new JPanel();
-        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
-        innerPanel.setBackground(new Color(39, 56, 75));
-        innerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+     // Campo de contraseña
+     JLabel passwordLabel = new JLabel("Ingresa tu contraseña");
+     passwordLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+     passwordLabel.setForeground(CHARCOAL);
+     passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+     fieldsPanel.add(passwordLabel);
+     fieldsPanel.add(Box.createVerticalStrut(10));
 
-        // Título de inicio de sesión
-        JLabel titleLabel = new JLabel("Hola, inicia sesión");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
-        titleLabel.setForeground(Color.WHITE);
-        innerPanel.add(titleLabel);
-        innerPanel.add(Box.createVerticalStrut(20));
+     JPasswordField passwordField = createStyledPasswordField("Contraseña");
+     passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+     fieldsPanel.add(passwordField);
+     fieldsPanel.add(Box.createVerticalStrut(40));
 
-        // Panel para usuario
-        JPanel userPanel = new JPanel();
-        userPanel.setLayout(new BoxLayout(userPanel, BoxLayout.Y_AXIS));
-        userPanel.setBackground(new Color(39, 56, 75));
-        userPanel.setAlignmentX(CENTER_ALIGNMENT);
+     contentPanel.add(fieldsPanel);
 
-        JLabel userLabel = new JLabel("Ingresa usuario:");
-        userLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        userLabel.setForeground(Color.WHITE);
-        userLabel.setAlignmentX(CENTER_ALIGNMENT);
-        userPanel.add(userLabel);
-        userPanel.add(Box.createVerticalStrut(5));
+     // Botón Continuar
+     JButton loginButton = new JButton("Continuar");
+     loginButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+     loginButton.setForeground(Color.WHITE);
+     loginButton.setBackground(CHARCOAL);
+     loginButton.setPreferredSize(new Dimension(320, 55));
+     loginButton.setMaximumSize(new Dimension(320, 55));
+     loginButton.setBorder(BorderFactory.createLineBorder(CHARCOAL, 3));
+     loginButton.setOpaque(true);
+     loginButton.setFocusPainted(false);
+     loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+     
+     loginButton.addActionListener(e -> {
+         ValidarIngreso validarIngreso = new ValidarIngreso();
+         if (validarIngreso.validarCredenciales(userField.getText(), passwordField.getPassword())) {
+             JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+             int rol = validarIngreso.obtenerRol(userField.getText());
+             validarIngreso.mostrarVentanas(rol);
+             if (rol == 1) {
 
-        JTextField usernameField = new JTextField(15);
-        usernameField.setFont(new Font("Arial", Font.PLAIN, 14));
-        usernameField.setBackground(Color.WHITE);
-        usernameField.setPreferredSize(new Dimension(200, 30));
-        usernameField.setMaximumSize(new Dimension(200, 30));
-        usernameField.setAlignmentX(CENTER_ALIGNMENT);
-        usernameField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        usernameField.setOpaque(true);
-        userPanel.add(usernameField);
+             }
+             if (rol == 2) {
+                 this.setVisible(false);
+                 DashBoardCliente dashBoardCliente = new DashBoardCliente(validarIngreso.obtenerId(userField.getText()));
+                 dashBoardCliente.setVisible(true);  
+             }
 
-        innerPanel.add(userPanel);
+             if (rol == 3) {
+                 this.setVisible(false);
+                 new PanelMenu();
+             }
+         } else {
+             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+         }
+     });
+     
+     contentPanel.add(loginButton);
+     contentPanel.add(Box.createVerticalStrut(30));
 
-        innerPanel.add(Box.createVerticalStrut(10));
+     // Link "¿Olvidaste tu usuario o contraseña?"
+     JLabel forgotLabel = new JLabel("¿Olvidaste tu usuario o contraseña?");
+     forgotLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+     forgotLabel.setForeground(LION);
+     forgotLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+     forgotLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+     contentPanel.add(forgotLabel);
 
-        // Panel para contraseña
-        JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
-        passwordPanel.setBackground(new Color(39, 56, 75));
-        passwordPanel.setAlignmentX(CENTER_ALIGNMENT);
+     // Añadir espacio vertical
+     contentPanel.add(Box.createVerticalStrut(20)); // Esto crea un espacio de 10 píxeles
 
-        JLabel passwordLabel = new JLabel("Ingresa contraseña:");
-        passwordLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        passwordLabel.setForeground(Color.WHITE);
-        passwordLabel.setAlignmentX(CENTER_ALIGNMENT);
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(Box.createVerticalStrut(5));
+     // Botón para abrir el panel ATM
+     JButton openATMButton = new JButton("Abrir ATM ");
+     openATMButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+     openATMButton.setForeground(Color.WHITE);
+     openATMButton.setBackground(CHARCOAL);
+     openATMButton.setPreferredSize(new Dimension(320, 55));
+     openATMButton.setMaximumSize(new Dimension(320, 55));
+     openATMButton.setBorder(BorderFactory.createLineBorder(CHARCOAL, 3));
+     openATMButton.setOpaque(true);
+     openATMButton.setFocusPainted(false);
+     openATMButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPasswordField passwordField = new JPasswordField(15);
-        passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
-        passwordField.setBackground(Color.WHITE);
-        passwordField.setPreferredSize(new Dimension(200, 30));
-        passwordField.setMaximumSize(new Dimension(200, 30));
-        passwordField.setAlignmentX(CENTER_ALIGNMENT);
-        passwordField.setText("Ingresa tu Contraseña");
-        passwordField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        passwordField.setOpaque(true);
-        passwordPanel.add(passwordField);
+     openATMButton.addActionListener(e -> {
+         // Abrir el panel ATM
+         //ATMPanel atmPanel = new ATMPanel();  // METODO PARA VINCULAR EL ATMPANEL
+         //atmPanel.setVisible(true);
+     });
 
-        innerPanel.add(passwordPanel);
+     // Agregar el botón debajo del enlace
+     contentPanel.add(openATMButton);
 
-        innerPanel.add(Box.createVerticalStrut(10));
+     // Agregar contentPanel al mainPanel usando GridBagConstraints para centrarlo
+     GridBagConstraints gbc = new GridBagConstraints();
+     gbc.gridx = 0;
+     gbc.gridy = 0;
+     gbc.weightx = 1;
+     gbc.weighty = 1;
+     gbc.anchor = GridBagConstraints.CENTER;
+     mainPanel.add(contentPanel, gbc);
 
-        // Panel para checkbox y enlace
-        JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-        optionsPanel.setBackground(new Color(39, 56, 75));
-        optionsPanel.setAlignmentX(CENTER_ALIGNMENT);
+     // Agregar mainPanel al frame
+     add(mainPanel);
 
-        JCheckBox rememberMeCheckBox = new JCheckBox("Recordarme");
-        rememberMeCheckBox.setFont(new Font("Arial", Font.PLAIN, 14));
-        rememberMeCheckBox.setBackground(new Color(39, 56, 75));
-        rememberMeCheckBox.setForeground(Color.WHITE);
-        rememberMeCheckBox.setAlignmentX(CENTER_ALIGNMENT);
-        optionsPanel.add(rememberMeCheckBox);
-        optionsPanel.add(Box.createVerticalStrut(10));
+     // Agregar borde al frame
+     getRootPane().setBorder(BorderFactory.createLineBorder(TIMBERWOLF, 1));
+ }
 
-        JLabel forgotLabel = new JLabel("<html><a href='#'>¿Olvidaste tu usuario o contraseña?</a></html>");
-        forgotLabel.setForeground(new Color(38, 72, 235));
-        forgotLabel.setAlignmentX(CENTER_ALIGNMENT);
-        optionsPanel.add(forgotLabel);
+ // Método para crear el campo de texto personalizado
+ private JTextField createStyledTextField(String placeholder) {
+     JTextField field = new JTextField();
+     field.setPreferredSize(new Dimension(320, 45));
+     field.setMaximumSize(new Dimension(320, 45));
+     field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+     field.setBorder(BorderFactory.createCompoundBorder(
+         new RoundedBorder(8),
+         BorderFactory.createEmptyBorder(0, 15, 0, 15)
+     ));
+     field.setBackground(Color.WHITE);
+     field.setForeground(CHARCOAL);
 
-        innerPanel.add(optionsPanel);
-        loginFormPanel.add(innerPanel);
+     // Placeholder
+     field.setText(placeholder);
+     field.setForeground(TIMBERWOLF);
+     
+     field.addFocusListener(new FocusListener() {
+         @Override
+         public void focusGained(FocusEvent e) {
+             if (field.getText().equals(placeholder)) {
+                 field.setText("");
+                 field.setForeground(CHARCOAL);
+             }
+         }
 
-        // Generar código QR (simulación)
-        JPanel qrPanel = new JPanel();
-        qrPanel.setLayout(new BoxLayout(qrPanel, BoxLayout.Y_AXIS));
-        qrPanel.setBackground(new Color(39, 56, 75));  // Fondo para el panel QR
+         @Override
+         public void focusLost(FocusEvent e) {
+             if (field.getText().isEmpty()) {
+                 field.setText(placeholder);
+                 field.setForeground(TIMBERWOLF);
+             }
+         }
+     });
 
-        // Imagen del gato (lado derecho)
-        JLabel catLabel = new JLabel();
-        ImageIcon catIcon = new ImageIcon("src\\UserInterface\\Resource\\Img\\EPN.jpeg"); // Asegúrate de colocar la ruta correcta
-        // Redimensionar la imagen del gato
-        Image catImage = catIcon.getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH); // Ajusta el tamaño aquí (ancho, alto)
-        catLabel.setIcon(new ImageIcon(catImage)); // Asignamos la imagen redimensionada
-        
-        qrPanel.add(catLabel); // Añadir al panel
-        
+     return field;
+ }
 
-        // Panel para el botón (para centrarlo)
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.setBackground(new Color(39, 56, 75));
+ // Método para crear el campo de contraseña personalizado
+ private JPasswordField createStyledPasswordField(String placeholder) {
+     JPasswordField field = new JPasswordField();
+     field.setPreferredSize(new Dimension(320, 45));
+     field.setMaximumSize(new Dimension(320, 45));
+     field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+     field.setBorder(BorderFactory.createCompoundBorder(
+         new RoundedBorder(8),
+         BorderFactory.createEmptyBorder(0, 15, 0, 15)
+     ));
+     field.setBackground(Color.WHITE);
+     field.setForeground(CHARCOAL);
+     
+     // Placeholder
+     field.setEchoChar((char)0); // Mostrar texto normal para el placeholder
+     field.setText(placeholder);
+     field.setForeground(TIMBERWOLF);
+     
+     field.addFocusListener(new FocusListener() {
+         @Override
+         public void focusGained(FocusEvent e) {
+             if (String.valueOf(field.getPassword()).equals(placeholder)) {
+                 field.setText("");
+                 field.setEchoChar('•'); // Cambiar a puntos cuando se empiece a escribir
+                 field.setForeground(CHARCOAL);
+             }
+         }
 
-        // Botón de iniciar sesión
-        JButton generateQrButton = new JButton("Iniciar Sesion");
-        generateQrButton.setBackground(new Color(38, 72, 235));  // Azul
-        generateQrButton.setForeground(Color.WHITE); // Texto blanco
-        generateQrButton.setFont(new Font("Arial", Font.BOLD, 14));
-        generateQrButton.setPreferredSize(new Dimension(150, 35));
-        generateQrButton.setBorder(new RoundedBorder(15));
-        generateQrButton.setFocusPainted(false);
-        buttonPanel.add(generateQrButton);
+         @Override
+         public void focusLost(FocusEvent e) {
+             if (field.getPassword().length == 0) {
+                 field.setEchoChar((char)0); // Volver a mostrar texto normal
+                 field.setText(placeholder);
+                 field.setForeground(TIMBERWOLF);
+             }
+         }
+     });
+     
+     return field;
+ }
 
-        //Implementacion de la logica Entities.ValidarIngreso con boton de iniciar sesion
-        generateQrButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ValidarIngreso validarIngreso = new ValidarIngreso();
-                validarIngreso.ValidarIngreso();
+ // Clase para crear bordes redondeados
+ private static class RoundedBorder implements Border {
+     private int radius;
 
-            }
-        });
+     public RoundedBorder(int radius) {
+         this.radius = radius;
+     }
 
+     @Override
+     public Insets getBorderInsets(Component c) {
+         return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+     }
 
+     @Override
+     public boolean isBorderOpaque() {
+         return true;
+     }
 
-
-        // Añadir todo el formulario al panel principal
-
-        mainPanel.add(loginFormPanel, BorderLayout.CENTER); // Centrar el formulario
-        mainPanel.add(qrPanel, BorderLayout.EAST);
-        
-        // Actualizar el botón con borde simple
-        generateQrButton.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        // Agregar panel principal al JFrame
-        add(mainPanel);
-    }
-
-
-    // Clase para crear bordes redondeados
-    public static class RoundedBorder implements Border {
-        private int radius;
-
-        public RoundedBorder(int radius) {
-            this.radius = radius;
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
-        }
-
-        @Override
-        public boolean isBorderOpaque() {
-            return true;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            g.setColor(new Color(200, 200, 200)); // Gris más claro para mejor visibilidad
-            g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
-        }
-    }
+     @Override
+     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+         Graphics2D g2d = (Graphics2D) g.create();
+         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+         g2d.setColor(TIMBERWOLF);
+         g2d.drawRoundRect(x, y, width - 1, height - 1, radius * 2, radius * 2);
+         g2d.dispose();
+     }
+ }
+//  public static void main(String[] args) {
+    // // Crear e iniciar el panel de Login
+    // LoginPanel loginPanel = new LoginPanel();
+    // loginPanel.setVisible(true); // Hacer visible la ventana de LoginPanel
+// }
+    
 }
