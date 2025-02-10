@@ -84,7 +84,7 @@ public class TransferenciaPanel extends JFrame {
         validarButton.setForeground(Color.WHITE);
         validarButton.setFocusPainted(false);
         validarButton.setBorderPainted(false);
-        validarButton.setPreferredSize(new Dimension(150, 35));
+        validarButton.setPreferredSize(new Dimension(150, 40));
         validarButton.addActionListener(e -> {
             String numeroCuenta = cuentaDestinoField.getText();
             if (numeroCuenta.isEmpty()) {
