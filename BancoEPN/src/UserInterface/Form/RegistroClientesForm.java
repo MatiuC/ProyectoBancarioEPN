@@ -35,7 +35,7 @@ public class RegistroClientesForm extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setContentPane(getFormularioPanel());
+        setContentPane(FormularioPanel());
     }
 
     private void initializeBusinessLogic() throws SQLException {
@@ -440,6 +440,7 @@ public class RegistroClientesForm extends JFrame {
 
             // No es necesario habilitar los demás campos ya que nunca se bloquean
         }
+
 
         public JPanel getFormularioPanel() {
             JPanel formPanel = new JPanel();

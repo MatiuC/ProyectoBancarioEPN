@@ -99,11 +99,12 @@ public class PanelMenu {
 
             // Crear y mostrar el formulario de AgenteRegistrarTarjeta
             AgenteRegistrarTarjeta agenteForm = new AgenteRegistrarTarjeta();
-            JPanel formPanel = agenteForm.initializeComponents();
+            JPanel formPanel = agenteForm.getFormularioPanel();
             contentPanel.add(formPanel, BorderLayout.CENTER);
             contentPanel.revalidate();
             contentPanel.repaint();
             updateButtonColor(btnRegisterCard);
+
 
         });
         

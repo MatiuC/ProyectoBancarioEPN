@@ -174,15 +174,14 @@ public class AgenteRegistrarTarjeta extends JPanel {
         JOptionPane.showMessageDialog(this, "Tarjeta registrada correctamente.");
         resetComponentStates();
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Registro de Tarjeta - BANCO EPN");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(600, 500);
-            frame.setLocationRelativeTo(null);
-            frame.setContentPane(new AgenteRegistrarTarjeta());
-            frame.setVisible(true);
-        });
+    public JPanel getFormularioPanel() {
+        setLayout(new BorderLayout());
+        initializeComponents();
+        setupListeners();
+        loadClientData();
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new BorderLayout());
+        return formPanel;
     }
+
 }
