@@ -14,8 +14,11 @@ public class ATMPanel extends JFrame {
         // Configuración de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
-        setResizable(false);
         setLocationRelativeTo(null);
+         setLayout(new GridBagLayout()); // Cambiado a GridBagLayout para mejor centrado
+        setUndecorated(true);
+        setResizable(false);
+         setBackground(Color.WHITE);
 
         // Panel principal
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -34,18 +37,34 @@ public class ATMPanel extends JFrame {
         JButton btnRetirar = createStyledButton("Retirar");
         btnRetirar.setPreferredSize(new Dimension(140, 50));
 
+        //Boton Salir
+        // Botón "Retirar"
+        JButton btnSalir = createStyledButton("Salir");
+        btnSalir.setPreferredSize(new Dimension(140, 50));
+
         // Acción para abrir el panel de Retiro
         btnRetirar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     new RetirarPanel();
-                } catch (SQLException e1) {
-                    // TODO Auto-generated catch block
+                } catch (SQLException e1) {                   
                     e1.printStackTrace();
                 } // Abre la ventana de retiro
             }
         });
+
+        //Accion para salir
+        btnSalir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                LoginPanel loginPanel = new LoginPanel();
+                loginPanel.setVisible(true);
+            }
+
+        });
+
 
         // Centrar botón en el panel
         GridBagConstraints gbc = new GridBagConstraints();
@@ -53,6 +72,12 @@ public class ATMPanel extends JFrame {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         buttonPanel.add(btnRetirar, gbc);
+
+        // Configurar restricciones para el botón Salir
+        gbc.gridy = 1;         // Mover a la siguiente fila
+        gbc.weighty = 1.0;     // Dar peso vertical
+        gbc.anchor = GridBagConstraints.SOUTH; // Anclar en la parte inferior
+        buttonPanel.add(btnSalir, gbc);
 
         // Agregar paneles
         mainPanel.add(imagePanel, BorderLayout.WEST);
@@ -91,7 +116,4 @@ public class ATMPanel extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new ATMPanel());
-    }
 }

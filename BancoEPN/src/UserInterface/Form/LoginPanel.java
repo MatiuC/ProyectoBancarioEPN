@@ -145,8 +145,9 @@ public class LoginPanel extends JFrame {
 
      openATMButton.addActionListener(e -> {
          // Abrir el panel ATM
-         //ATMPanel atmPanel = new ATMPanel();  // METODO PARA VINCULAR EL ATMPANEL
-         //atmPanel.setVisible(true);
+         dispose();
+         ATMPanel atmPanel = new ATMPanel();  // METODO PARA VINCULAR EL ATMPANEL
+         atmPanel.setVisible(true);
      });
 
      // Agregar el botón debajo del enlace
@@ -274,10 +275,4 @@ public class LoginPanel extends JFrame {
          g2d.dispose();
      }
  }
-//  public static void main(String[] args) {
-    // // Crear e iniciar el panel de Login
-    // LoginPanel loginPanel = new LoginPanel();
-    // loginPanel.setVisible(true); // Hacer visible la ventana de LoginPanel
-// }
-    
 }
