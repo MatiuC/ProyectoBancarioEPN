@@ -175,12 +175,39 @@ public class AgenteRegistrarTarjeta extends JPanel {
         resetComponentStates();
     }
     public JPanel getFormularioPanel() {
-        setLayout(new BorderLayout());
-        initializeComponents();
-        setupListeners();
-        loadClientData();
-        JPanel formPanel = new JPanel();
-        formPanel.setLayout(new BorderLayout());
+        // Create a new instance of the panel with all components
+        JPanel formPanel = new JPanel(new BorderLayout());
+        
+        // Add the top panel
+        formPanel.add(topPanel, BorderLayout.NORTH);
+        
+        // Create and add the center panel with all components
+        JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Panel for table
+        JScrollPane scrollPane = new JScrollPane(clientTable);
+        scrollPane.setPreferredSize(new Dimension(405, 200));
+        
+        // Panel for card input
+        JPanel cardInputPanel = new JPanel(new FlowLayout());
+        cardInputPanel.add(new JLabel("Número de Tarjeta:"));
+        cardInputPanel.add(cardNumberField);
+        
+        // Panel for buttons
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.add(selectButton);
+        buttonPanel.add(addCardButton);
+        buttonPanel.add(registerButton);
+        
+        // Add all components to center panel
+        centerPanel.add(cardInputPanel, BorderLayout.NORTH);
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+        centerPanel.add(buttonPanel, BorderLayout.SOUTH);
+        
+        // Add center panel to form panel
+        formPanel.add(centerPanel, BorderLayout.CENTER);
+        
         return formPanel;
     }
 
