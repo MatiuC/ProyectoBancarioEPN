@@ -6,17 +6,17 @@ import DataAccess.DAO.TransaccionDAO;
 import DataAccess.DTO.CuentaBancariaDTO;
 import DataAccess.DTO.TransaccionDTO;
 import java.util.List;
+import BussinesLogic.Entities.ATM.Retiro;
+import DataAccess.DAO.TarjetaDAO;
+import DataAccess.DTO.TarjetaDTO;
 public class App {
     public static void main(String[] args) {
-
-
         try {
-            CuentaBancariaDAO c = new CuentaBancariaDAO();
-            CuentaBancariaDTO ct = c.readByuser(3);
-            // System.out.println(ct);
-            System.out.println(ct.getSaldo());
+           TarjetaDAO tarjetaDAO = new TarjetaDAO();
+           TarjetaDTO tarjeta = tarjetaDAO.readBy(2);
+           System.out.println(tarjeta);
         } catch (Exception e) {
-            // TODO: handle exception
+            
         }
 
         try {

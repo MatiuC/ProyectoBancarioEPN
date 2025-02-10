@@ -26,35 +26,65 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
     @Override
     public TarjetaDTO readBy(Integer numeroTarjeta) throws Exception {
         TarjetaDTO tarjeta = null;
-        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 'A'";
+        String query = "SELECT * FROM Tarjeta WHERE id_tarjeta = ? AND estado = 'A'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, numeroTarjeta);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                tarjeta = extractTarjeta(rs);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new TarjetaDTO(
+                        rs.getInt("id_tarjeta"),
+                        rs.getString("numero_tarjeta"),
+                        rs.getString("fecha_expedicion"),
+                        rs.getString("fecha_vencimiento"),
+                        rs.getString("cvv"),
+
+                        rs.getInt("tipo_tarjeta"),
+                        rs.getInt("id_franquicia"),
+                        rs.getString("fechaCreacion"),
+                        rs.getString("fechaModificacion"),
+                        rs.getString("estado"),
+                        rs.getInt("Persona"),
+                        rs.getInt("id_cuentabancaria")
+
+
+                );
             }
-        } catch (SQLException e) {
-            throw new Exception("Error al leer tarjeta: " + e.getMessage());
         }
-        return tarjeta;
+    } catch (SQLException e) {
+        throw e;
+    }
+    return tarjeta;
     }
 
     /**
      * Método para leer una tarjeta por número (tipo String).
      */
-    public TarjetaDTO ReadBy(String numeroTarjeta) throws Exception {
-        TarjetaDTO tarjeta = null;
-        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 'A'";
+    public TarjetaDTO ReadBy(String numeroTarjeta) throws SQLException {
+        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 'A'" + numeroTarjeta.toString();
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(2, numeroTarjeta);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                tarjeta = extractTarjeta(rs);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new TarjetaDTO(
+                        rs.getInt("Id_tarjeta"),
+                        rs.getString("numero_tarjeta"),
+                        rs.getString("fecha_expedicion"),
+                        rs.getString("fecha_vencimiento"),
+                        rs.getString("cvv"),
+                        rs.getInt("tipo_tarjeta"),
+                        rs.getInt("id_franquicia"),
+                        rs.getString("fechaCreacion"),
+                        rs.getString("fechaModificacion"),
+                        rs.getString("estado"),
+                        rs.getInt("Persona"),
+                        rs.getInt("id_cuentabancaria")
+                    );
+                }
             }
         } catch (SQLException e) {
-            throw new Exception("Error al leer tarjeta: " + e.getMessage());
+            throw e;
         }
-        return tarjeta;
+        return null;
     }
 
     /**
@@ -75,6 +105,7 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
             rs.getInt("Persona"),
             rs.getInt("id_cuentabancaria")
         );
+        
     }
 
     /**
