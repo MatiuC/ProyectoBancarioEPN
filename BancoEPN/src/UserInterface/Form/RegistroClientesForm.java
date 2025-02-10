@@ -85,17 +85,19 @@ public class RegistroClientesForm extends JFrame {
             labelCedula.setFont(labelFont);
             labelCedula.setForeground(labelColor);
             fieldCedula = new RoundedTextField(20);
-
+            fieldCedula.setDisabledTextColor(Color.BLACK);
 
             JLabel labelNombre = new JLabel("Nombre:");
             labelNombre.setFont(labelFont);
             labelNombre.setForeground(labelColor);
             fieldNombre = new RoundedTextField(20);
+            fieldNombre.setDisabledTextColor(Color.BLACK);
 
             JLabel labelApellido = new JLabel("Apellido:");
             labelApellido.setFont(labelFont);
             labelApellido.setForeground(labelColor);
             fieldApellido = new RoundedTextField(20);
+            fieldApellido.setDisabledTextColor(Color.BLACK);
 
             JLabel labelSexo = new JLabel("Sexo:");
             labelSexo.setFont(labelFont);
@@ -111,11 +113,13 @@ public class RegistroClientesForm extends JFrame {
             labelCiudad.setFont(labelFont);
             labelCiudad.setForeground(labelColor);
             fieldCiudad = new RoundedTextField(20);
+            fieldCiudad.setDisabledTextColor(Color.BLACK);
 
             JLabel labelEdad = new JLabel("Edad:");
             labelEdad.setFont(labelFont);
             labelEdad.setForeground(labelColor);
             fieldEdad = new RoundedTextField(20);
+            fieldEdad.setDisabledTextColor(Color.BLACK);
 
             JLabel labelFechaNacimiento = new JLabel("Fecha de Nacimiento:");
             labelFechaNacimiento.setFont(labelFont);
@@ -294,16 +298,16 @@ public class RegistroClientesForm extends JFrame {
                     try {
                         PersonaDTO persona = get();
                         if (persona != null) {
-                            // Establecer los valores
-                            fieldCedula.setText(persona.getCedula());
-                            fieldNombre.setText(persona.getNombre());
-                            fieldApellido.setText(persona.getApellido());
-                            fieldCiudad.setText(persona.getCiudad());
-                            fieldEdad.setText(persona.getEdad());
-                            dateChooserFechaNacimiento.setDate(persona.getFecha_nacimiento());
-                            fieldDireccion.setText(persona.getDireccion());
-                            fieldCorreo.setText(persona.getcorreo());
-                            fieldTelefono.setText(persona.getTelefono());
+                           // Establecer los valores
+                           fieldCedula.setText(persona.getCedula());
+                           fieldNombre.setText(persona.getNombre());
+                           fieldApellido.setText(persona.getApellido());
+                           fieldCiudad.setText(persona.getCiudad());
+                           fieldEdad.setText(persona.getEdad());
+                           dateChooserFechaNacimiento.setDate(persona.getFecha_nacimiento());
+                           fieldDireccion.setText(persona.getDireccion());
+                           fieldCorreo.setText(persona.getcorreo());
+                           fieldTelefono.setText(persona.getTelefono());
 
                             // Seleccionar el estado civil correspondiente
                             for (int i = 0; i < comboEstadoCivil.getItemCount(); i++) {
