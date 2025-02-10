@@ -43,7 +43,7 @@ public class Panel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1; // Solo ocupa 1 columna
-        mainPanel.add(new PanelSaldo(), gbc);
+        mainPanel.add(new PanelSaldo(id), gbc);
         
         // Actividad Reciente (Centro)
         gbc.gridx = 1;
