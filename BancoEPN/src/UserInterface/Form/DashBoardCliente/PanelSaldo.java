@@ -79,6 +79,14 @@ public class PanelSaldo extends JPanel {
         // Añadir los ActionListeners a los botones
         btnPagar.addActionListener(e -> JOptionPane.showMessageDialog(this, "Opción en desarrollo"));
         btnRecargar.addActionListener(e -> JOptionPane.showMessageDialog(this, "Opción en desarrollo"));
+        btnTransferir.addActionListener(e -> {
+            Window window = SwingUtilities.getWindowAncestor(this);
+            if (window != null) {
+                window.dispose();
+                TransferenciaPanel transferenciaPanel = new TransferenciaPanel(id);
+                transferenciaPanel.setVisible(true);
+            }
+        });
 
         // Añadir los botones al panel inferior
         bottomButtonsPanel.add(btnTransferir);
