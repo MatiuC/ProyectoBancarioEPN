@@ -35,7 +35,7 @@ public class RegistrarTarjeta {
     // Método principal para crear y registrar la tarjeta
     public void crearTarjeta(Integer persona, Integer cuentaBancariaId, Integer tipoTarjeta, Integer franquicia) {
         // Crear valores aleatorios para los atributos
-        String numeroTarjeta = "4" + (1000000000000000L + new Random().nextLong() % 9000000000000000L);  // Tarjeta Visa con 14 dígitos
+        String numeroTarjeta = "4" + (1000000L + new Random().nextLong() % 9000000L);  // Tarjeta Visa con 14 dígitos
         String cvv = generarCCV();  // Generamos el CCV
         String fechaExpedicion = generarFechaExpedicion();  // Fecha de expedición (hoy)
         String fechaVencimiento = generarFechaExpiracion();  // Fecha de expiración generada aleatoriamente

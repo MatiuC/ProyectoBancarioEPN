@@ -10,113 +10,89 @@ import java.util.List;
 public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
     private Connection connection;
 
+    // Constructor con conexión abierta
     public TarjetaDAO() throws SQLException {
         this.connection = openConnection();
     }
 
+    // Constructor que recibe una conexión externa
     public TarjetaDAO(Connection connection) {
         this.connection = connection;
     }
 
-        @Override
+    /**
+     * Método para leer una tarjeta por número (tipo Integer).
+     */
+    @Override
     public TarjetaDTO readBy(Integer numeroTarjeta) throws Exception {
         TarjetaDTO tarjeta = null;
-        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 1";  // Cambiamos la consulta para buscar por numero_tarjeta
+        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 'A'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, numeroTarjeta);  // Aquí pasamos el número de tarjeta como String
+            stmt.setInt(1, numeroTarjeta);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                tarjeta = new TarjetaDTO(
-                        rs.getInt("Id_tarjeta"),
-                        rs.getString("numero_tarjeta"),
-                        rs.getString("fecha_expedicion"),
-                        rs.getString("fecha_vencimiento"),
-                        rs.getString("cvv"),
-                        rs.getInt("tipo_tarjeta"),
-                        rs.getInt("id_franquicia"),
-                        rs.getString("fechaCreacion"),
-                        rs.getString("fechaModificacion"),
-                        rs.getString("estado"),
-                        rs.getInt("Persona"),
-                        rs.getInt("id_cuentabancaria")
-                );
+                tarjeta = extractTarjeta(rs);
             }
         } catch (SQLException e) {
             throw new Exception("Error al leer tarjeta: " + e.getMessage());
         }
         return tarjeta;
     }
-    
 
-    public TarjetaDTO readBy(String numeroTarjeta) throws Exception {
+    /**
+     * Método para leer una tarjeta por número (tipo String).
+     */
+    public TarjetaDTO ReadBy(String numeroTarjeta) throws Exception {
         TarjetaDTO tarjeta = null;
-        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 1";  // Cambiamos la consulta para buscar por numero_tarjeta
+        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 'A'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, numeroTarjeta);  // Aquí pasamos el número de tarjeta como String
+            stmt.setString(2, numeroTarjeta);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                tarjeta = new TarjetaDTO(
-                        rs.getInt("Id_tarjeta"),
-                        rs.getString("numero_tarjeta"),
-                        rs.getString("fecha_expedicion"),
-                        rs.getString("fecha_vencimiento"),
-                        rs.getString("cvv"),
-                        rs.getInt("tipo_tarjeta"),
-                        rs.getInt("id_franquicia"),
-                        rs.getString("fechaCreacion"),
-                        rs.getString("fechaModificacion"),
-                        rs.getString("estado"),
-                        rs.getInt("Persona"),
-                        rs.getInt("id_cuentabancaria")
-                );
+                tarjeta = extractTarjeta(rs);
             }
         } catch (SQLException e) {
             throw new Exception("Error al leer tarjeta: " + e.getMessage());
         }
         return tarjeta;
     }
-    
-    @Override
-    public List<TarjetaDTO> readAll() throws Exception {
-        List<TarjetaDTO> lista = new ArrayList<>();
-        String query = "SELECT * FROM Tarjeta WHERE estado = 1";
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
-                lista.add(new TarjetaDTO(
-                        rs.getInt("Id_tarjeta"),
-                        rs.getString("numero_tarjeta"),
-                        rs.getString("fecha_expedicion"),
-                        rs.getString("fecha_vencimiento"),
-                        rs.getString("cvv"),
-                        rs.getInt("tipo_tarjeta"),
-                        rs.getInt("id_franquicia"),
-                        rs.getString("fechaCreacion"),
-                        rs.getString("fechaModificacion"),
-                        rs.getString("estado"),
-                        rs.getInt("Persona"),
-                        rs.getInt("id_cuentabancaria")
-                ));
-            }
-        } catch (SQLException e) {
-            throw new Exception("Error al listar tarjetas: " + e.getMessage());
-        }
-        return lista;
+
+    /**
+     * Método auxiliar para extraer una tarjeta desde ResultSet.
+     */
+    private TarjetaDTO extractTarjeta(ResultSet rs) throws SQLException {
+        return new TarjetaDTO(
+            rs.getInt("Id_tarjeta"),
+            rs.getString("numero_tarjeta"),
+            rs.getString("fecha_expedicion"),
+            rs.getString("fecha_vencimiento"),
+            rs.getString("cvv"),
+            rs.getInt("tipo_tarjeta"),
+            rs.getInt("id_franquicia"),
+            rs.getString("fechaCreacion"),
+            rs.getString("fechaModificacion"),
+            rs.getString("estado"),
+            rs.getInt("Persona"),
+            rs.getInt("id_cuentabancaria")
+        );
     }
 
-        @Override
+    /**
+     * Método para insertar una nueva tarjeta en la base de datos.
+     */
+    @Override
     public boolean create(TarjetaDTO tarjeta) throws Exception {
-        String query = "INSERT INTO Tarjeta (numero_tarjeta, fecha_expedicion, fecha_vencimiento, cvv, tipo_tarjeta, franquicia, fechaCreacion, fechaModificacion, estado, Persona, id_cuentabancaria) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?, ?)";
+        String query = "INSERT INTO Tarjeta (numero_tarjeta, fecha_expedicion, fecha_vencimiento, cvv, tipo_tarjeta, id_franquicia, fechaCreacion, fechaModificacion, estado, Persona, id_cuentabancaria) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, tarjeta.getNumero_tarjeta());
             stmt.setString(2, tarjeta.getFecha_expedicion());
             stmt.setString(3, tarjeta.getFecha_vencimiento());
             stmt.setString(4, tarjeta.getCvv());
             stmt.setInt(5, tarjeta.getTipo_tarjeta());
-            stmt.setInt(6, tarjeta.getId_franquicia());  // Aquí es donde estamos pasando el valor de franquicia
+            stmt.setInt(6, tarjeta.getId_franquicia());
             stmt.setString(7, tarjeta.getEstado());
             stmt.setInt(8, tarjeta.getPersona());
-            stmt.setInt(9, tarjeta.getId_cuentabancaria());  // Asegúrate de pasar el valor de id_cuentabancaria
+            stmt.setInt(9, tarjeta.getId_cuentabancaria());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -124,22 +100,23 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
         }
     }
 
+    /**
+     * Método para actualizar una tarjeta en la base de datos.
+     */
     @Override
     public boolean update(TarjetaDTO tarjeta) throws Exception {
-        String query = "UPDATE Tarjeta SET numero_tarjeta = ?, fecha_expedicion = ?, fecha_vencimiento = ?, cvv = ?, tipo_tarjeta = ?, id_franquicia = ?, fechaCreacion = CURRENT_TIMESTAMP, fechaModificacion = CURRENT_TIMESTAMP, estado = ?, Persona = ?, id_cuentabancaria = ? WHERE Id_tarjeta = ?";
+        String query = "UPDATE Tarjeta SET numero_tarjeta = ?, fecha_expedicion = ?, fecha_vencimiento = ?, cvv = ?, tipo_tarjeta = ?, id_franquicia = ?, estado = ?, Persona = ?, id_cuentabancaria = ? WHERE Id_tarjeta = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, tarjeta.getNumero_tarjeta());
             stmt.setString(2, tarjeta.getFecha_expedicion());
             stmt.setString(3, tarjeta.getFecha_vencimiento());
             stmt.setString(4, tarjeta.getCvv());
             stmt.setInt(5, tarjeta.getTipo_tarjeta());
-            stmt.setInt(6, tarjeta.getId_franquicia());  // Asegúrate de que id_franquicia se pasa correctamente
-            stmt.setString(7, tarjeta.getFechaCreacion());
-            stmt.setString(8, tarjeta.getFechaModificacion());
-            stmt.setString(9, tarjeta.getEstado());
-            stmt.setInt(10, tarjeta.getPersona());
-            stmt.setInt(11, tarjeta.getId_cuentabancaria());  // id_cuentabancaria
-            stmt.setInt(12, tarjeta.getId_tarjeta());  // ID de la tarjeta para actualizar
+            stmt.setInt(6, tarjeta.getId_franquicia());
+            stmt.setString(7, tarjeta.getEstado());
+            stmt.setInt(8, tarjeta.getPersona());
+            stmt.setInt(9, tarjeta.getId_cuentabancaria());
+            stmt.setInt(10, tarjeta.getId_tarjeta());
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -147,9 +124,12 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
         }
     }
 
+    /**
+     * Método para eliminar (desactivar) una tarjeta.
+     */
     @Override
     public boolean delete(Integer id) throws Exception {
-        String query = "UPDATE Tarjeta SET estado = 0, fechaModificacion = CURRENT_TIMESTAMP WHERE Id_tarjeta = ?";
+        String query = "UPDATE Tarjeta SET estado = '0', fechaModificacion = CURRENT_TIMESTAMP WHERE Id_tarjeta = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
@@ -157,5 +137,23 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
         } catch (SQLException e) {
             throw new Exception("Error al eliminar tarjeta: " + e.getMessage());
         }
+    }
+
+    /**
+     * Método para leer todas las tarjetas activas.
+     */
+    @Override
+    public List<TarjetaDTO> readAll() throws Exception {
+        List<TarjetaDTO> lista = new ArrayList<>();
+        String query = "SELECT * FROM Tarjeta WHERE estado = 'A'";
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                lista.add(extractTarjeta(rs));
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error al listar tarjetas: " + e.getMessage());
+        }
+        return lista;
     }
 }
