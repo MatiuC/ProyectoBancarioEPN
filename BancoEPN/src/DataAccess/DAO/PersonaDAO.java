@@ -59,6 +59,27 @@ public PersonaDAO(Connection connection) {
     }
     return null;
 }
+
+    // Método para leer datos de la VISTA en lugar de la tabla completa
+    public List<PersonaDTO> readFromView() throws Exception {
+        List<PersonaDTO> lista = new ArrayList<>();
+        String query = "SELECT cedula, nombre, apellido FROM Vista_Personas"; // Leer desde la vista
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                lista.add(new PersonaDTO(
+                        rs.getString("cedula"),
+                        rs.getString("nombre"),
+                        rs.getString("apellido")
+                ));
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+        return lista;
+    }
+
+
 @Override
     public List<PersonaDTO>readAll() throws Exception {
         List<PersonaDTO> lista = new ArrayList<>();

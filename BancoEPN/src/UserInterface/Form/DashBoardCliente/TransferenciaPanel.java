@@ -3,6 +3,10 @@ package UserInterface.Form.DashBoardCliente;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import BussinesLogic.Entities.BancoLogic.ValidarTransaccion;
+import DataAccess.DAO.CuentaBancariaDAO;
+import DataAccess.DTO.CuentaBancariaDTO;
+
 
 public class TransferenciaPanel extends JFrame {
     private JTextField cuentaDestinoField;
@@ -85,7 +89,7 @@ public class TransferenciaPanel extends JFrame {
         validarButton.setFocusPainted(false);
         validarButton.setBorderPainted(false);
         validarButton.setPreferredSize(new Dimension(150, 40));
-        validarButton.addActionListener(e -> {
+        validarButton.addActionListener(e -> { 
             String numeroCuenta = cuentaDestinoField.getText();
             if (numeroCuenta.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
@@ -94,11 +98,32 @@ public class TransferenciaPanel extends JFrame {
                     JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            // Aquí iría la lógica de validación de cuenta
-            JOptionPane.showMessageDialog(this,
-                "Validación de cuenta en desarrollo",
-                "Información",
-                JOptionPane.INFORMATION_MESSAGE);
+
+
+            try {
+                
+            ValidarTransaccion validarTransaccion = new ValidarTransaccion();
+            CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
+            System.out.println(numeroCuenta);
+            CuentaBancariaDTO cuentaBancariaDTO = cuentaBancariaDAO.readBycta(numeroCuenta);
+            System.out.println(cuentaBancariaDTO.getId_persona());
+                if(validarTransaccion.cuentaDeEnvioExiste(cuentaBancariaDTO.getId_persona())){
+                    JOptionPane.showMessageDialog(this,
+                        "Cuenta válida",
+                        "Cuenta válida",
+                        JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                        "Cuenta inválida",
+                        "Cuenta inválida",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                    "Error al validar la cuenta: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         // Agregar un espacio rígido entre el campo y el botón

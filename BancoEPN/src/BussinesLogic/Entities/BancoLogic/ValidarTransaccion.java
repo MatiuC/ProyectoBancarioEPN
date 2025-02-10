@@ -16,10 +16,14 @@ public class ValidarTransaccion {
         this.cuentaBancariaDAO = new CuentaBancariaDAO(); // Instanciamos el DAO para las cuentas bancarias
     }
 
+    
+    
+
     // Validar si la cuenta de envío existe
+
     public boolean cuentaDeEnvioExiste(Integer cuentaEnvio) throws Exception {
         try {
-            CuentaBancariaDTO cuenta = cuentaBancariaDAO.readBy(cuentaEnvio); // Verificamos si la cuenta de envío existe
+            CuentaBancariaDTO cuenta = cuentaBancariaDAO.readByuser(cuentaEnvio); // Verificamos si la cuenta de envío existe
             return cuenta != null; // Si la cuenta existe, retorna true
         } catch (SQLException e) {
             System.err.println("Error al verificar existencia de la cuenta de envío: " + e.getMessage());

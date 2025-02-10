@@ -24,7 +24,6 @@ private Integer id_rol;
 private String estado;
 
     public PersonaDTO() {}
-
     public PersonaDTO(Integer persona_id, String cedula, String nombre,
     String apellido, String sexo, String estado_civil, String ciudad,
     String edad, Date fecha_nacimiento, String direccion,
@@ -46,6 +45,14 @@ private String estado;
     this.id_rol = id_rol;
     this.estado = estado;
     }
+
+    // Constructor para la vista
+    public PersonaDTO(String cedula, String nombre, String apellido) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
 
     public Integer getPersona_id() {
         return persona_id;

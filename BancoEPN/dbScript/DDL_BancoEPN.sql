@@ -98,7 +98,7 @@ CREATE TABLE Tarjeta (
     fecha_vencimiento DATE NOT NULL,
     cvv VARCHAR(3) NOT NULL,
     tipo_tarjeta INTEGER NOT NULL REFERENCES TipoTarjeta (id_tipo_tarjeta),
-    franquicia INTEGER NOT NULL REFERENCES Franquicia (id_franquicia),
+    franquicia INTEGER REFERENCES Franquicia (id_franquicia),
     fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(1) NOT NULL DEFAULT 'A',
@@ -138,4 +138,11 @@ INNER JOIN Persona po ON cbo.id_persona = po.Id_persona
 INNER JOIN Persona pd ON cbd.id_persona = pd.Id_persona
 INNER JOIN TipoTransaccion tt ON t.TipoTransaccion = tt.id_tipo_transaccion
 WHERE t.estado = 'A';
+
+CREATE VIEW IF NOT EXISTS Vista_Personas AS
+SELECT nombre, apellido, cedula
+FROM Persona;
+
+PRAGMA table_info(Tarjeta);
+
 
