@@ -19,8 +19,8 @@ INSERT INTO
     Rol (nombre_rol)
 VALUES
     ('Administrador'),
-    ('Cliente');
-
+    ('Cliente'),
+    ('Cajero');
 INSERT INTO
     Persona (
         cedula,
@@ -45,7 +45,7 @@ VALUES
         1,
         1,
         '30',
-        '1993-01-01',
+        '2025-02-10 14:30:45.123',
         'Av. Siempre Viva',
         'juan.perez@example.com',
         '0998765432',
@@ -59,18 +59,33 @@ VALUES
         2,
         3,
         '25',
-        '1998-02-02',
+        '2025-02-10 14:30:45.123',
         'Calle Falsa 123',
         'maria.gomez@example.com',
         '0987654321',
-        1
+        3
+    ),
+    (
+        '0304050607',
+        'Carlos',
+        'Lopez',
+        'Masculino',
+        1,
+        1,
+        '35',
+        '2025-02-10 14:30:45.123',
+        'Av. Principal 456',
+        'carlos.lopez@example.com',
+        '0976543210',
+        2
     );
 
 INSERT INTO
     CuentaBancaria (numeroCuenta, id_persona, saldo)
 VALUES
     ('12345678', 1, 1000.00),
-    ('87654321', 2, 2000.00);
+    ('87654321', 2, 2000.00),
+    ('12345678', 3, 3000.00);
 
 INSERT INTO
     cuentaCredito (
@@ -87,7 +102,8 @@ INSERT INTO
     credenciales (id_persona, usuario, pass)
 VALUES
     (1, 'juanp', 'password123'),
-    (2, 'mariag', 'password456');
+    (2, 'mariag', '123'),
+    (3, 'carlosl', '123');
 
 INSERT INTO
     Franquicia (nombre_franquicia)
@@ -154,10 +170,50 @@ INSERT INTO
 VALUES
     (
         1,
-        2,
+        3,
         100.00,
         '2023-10-01',
         '12:00',
         2,
         'Transferencia de prueba'
+    ),
+    (
+        1,
+        3,
+        100.00,
+        '2023-10-01',
+        '12:00',
+        2,
+        'Transferencia de prueba'
+
+    ),
+    (
+        3,
+        1,
+        100.00,
+        '2023-10-01',
+        '12:00',
+        2,
+        'Transferencia de prueba'
+
+    ),
+    (
+        3,
+        1,
+        100.00,
+        '2023-10-01',
+        '12:00',
+        2,
+        'Transferencia de prueba'
+
+    ),
+    (
+        3,
+        1,
+        100.00,
+        '2023-10-01',
+        '12:00',
+        2,
+        'Transferencia de prueba'
+
     );

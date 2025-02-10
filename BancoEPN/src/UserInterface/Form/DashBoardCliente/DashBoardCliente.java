@@ -2,7 +2,6 @@ package UserInterface.Form.DashBoardCliente;
 import javax.swing.*;
 import java.awt.*;
 
-
 //Capturar el id de la persona que esta logueado y mostrar su nombre 
 
 //Llamar la cuenta del usuario logueado y mostrarla en el dashboard con su saldo
@@ -11,19 +10,10 @@ import java.awt.*;
 
 //Llamar a la logica de ver las tarjetas del usuario logueado
 
-
-
-
-
-
-
 public class DashBoardCliente extends JFrame {
-    public DashBoardCliente() {
+    public DashBoardCliente(int id) {
         setTitle("Dashboard Cliente");
 
-
-
-    
     // Obtener el tamaño de la pantalla
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     
@@ -36,15 +26,10 @@ public class DashBoardCliente extends JFrame {
     setLocationRelativeTo(null); // Centrar la ventana
     setLayout(new BorderLayout());
     
-    add(new Panel(), BorderLayout.CENTER);
+    add(new Panel(id), BorderLayout.CENTER);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            DashBoardCliente frame = new DashBoardCliente();
-            frame.setVisible(true);
-        });
-    }
+
 }
   
 

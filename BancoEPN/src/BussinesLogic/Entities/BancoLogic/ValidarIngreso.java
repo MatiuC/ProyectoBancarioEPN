@@ -45,14 +45,14 @@ public class ValidarIngreso {
     }
 
     // Método para obtener el rol del usuario
-    public Integer obtenerRol(String usuario) {
+    public int obtenerRol(String usuario) {
         try {
             CredencialDTO credencial = credencialDAO.readby(usuario); 
-            credencial.getIdPersona();
             PersonaDAO personaDAO = new PersonaDAO();
-            PersonaDTO persona = personaDAO.readBy(credencial.getIdPersona());
-        
-            return credencial != null ? persona.getRol() : 0; // Devuelve el estado (rol)
+            
+            return personaDAO.readBy(credencial.getIdPersona()).getRol(); // Devuelve el estado (rol)
+
+
 
         } catch (Exception e) {
             System.err.println("Error al obtener rol: " + e.getMessage());
@@ -60,21 +60,38 @@ public class ValidarIngreso {
         }
     }
 
+    //Obtener el id del usuario
+    public int obtenerId(String usuario) {
+        try {
+            CredencialDTO credencial = credencialDAO.readby(usuario);
+
+            PersonaDAO personaDAO = new PersonaDAO();
+            return personaDAO.readBy(credencial.getIdPersona()).getPersona_id();
+
+        } catch (Exception e) {
+            System.err.println("Error al obtener id: " + e.getMessage());
+            return 0;
+        }
+
+
+    }
+
+
     // Método para mostrar la ventana adecuada según el rol
-    public void mostrarVentanas(int rol) {
+    public int mostrarVentanas(int rol) {
         switch (rol) {
             case 2:
                 System.out.println("Ventana de Cliente");
-                break;
+                return 2;
             case 3:
                 System.out.println("Ventana de Cajero");
-                break;
+                return 3;
             case 1:
                 System.out.println("Ventana de Administrador");
-                break;
+                return 1;
             default:
                 System.out.println("Rol no reconocido");
-                break;
+                return 0;
         }
     }
 
