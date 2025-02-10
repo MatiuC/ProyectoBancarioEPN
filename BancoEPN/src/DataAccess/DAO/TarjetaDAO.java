@@ -113,7 +113,7 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
      */
     @Override
     public boolean create(TarjetaDTO tarjeta) throws Exception {
-        String query = "INSERT INTO Tarjeta (numero_tarjeta, fecha_expedicion, fecha_vencimiento, cvv, tipo_tarjeta, id_franquicia, fechaCreacion, fechaModificacion, estado, Persona, id_cuentabancaria) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?, ?)";
+        String query = "INSERT INTO Tarjeta (numero_tarjeta, fecha_expedicion, fecha_vencimiento, cvv, tipo_tarjeta, franquicia, fechaCreacion, fechaModificacion, estado, Persona, id_cuentabancaria) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, tarjeta.getNumero_tarjeta());
             stmt.setString(2, tarjeta.getFecha_expedicion());
@@ -176,7 +176,7 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
     @Override
     public List<TarjetaDTO> readAll() throws Exception {
         List<TarjetaDTO> lista = new ArrayList<>();
-        String query = "SELECT * FROM Tarjeta WHERE estado = 'A'";
+        String query = "SELECT * FROM Tarjeta WHERE estado = A";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
