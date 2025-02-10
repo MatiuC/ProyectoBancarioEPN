@@ -20,4 +20,4 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 Bryan -Cuidad, EstadoCivil, Rol
 Dhalin - Tarjeta, TipoTarjeta, Franquicia
 Dylan - Transacciones, TipoTransaccion, credenciales
-Matiu - Persona, cuenta bancaria, cuenta credito
+Mateo - Persona, cuenta bancaria, cuenta credito
