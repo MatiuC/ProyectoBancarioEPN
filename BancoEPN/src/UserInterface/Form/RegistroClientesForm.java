@@ -138,10 +138,37 @@ public class RegistroClientesForm extends JFrame {
             fieldTelefono = new RoundedTextField(20);
 
             // Agregar componentes con las restricciones
+            // Agregar cédula con botón consultar
             labelConstraints.gridy = 0;
-            fieldConstraints.gridy = 0;
             panel.add(labelCedula, labelConstraints);
-            panel.add(fieldCedula, fieldConstraints);
+
+            // Panel para campo de cédula y botón consultar
+            JPanel cedulaPanel = new JPanel(new BorderLayout(5, 0));
+            cedulaPanel.setBackground(new Color(0xFF, 0xFF, 0xFF)); // White
+
+            // Crear y configurar el botón consultar
+            JButton buttonConsultar = new JButton("Consultar");
+            buttonConsultar.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
+            buttonConsultar.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
+            buttonConsultar.setFont(new Font("Arial", Font.BOLD, 14));
+            buttonConsultar.addActionListener(e -> consultarCedula());
+
+            // Agregar campo y botón al panel
+            cedulaPanel.add(fieldCedula, BorderLayout.CENTER);
+            cedulaPanel.add(buttonConsultar, BorderLayout.EAST);
+
+            // Configurar y agregar el panel de cédula
+            GridBagConstraints fieldPanelConstraints = new GridBagConstraints();
+            fieldPanelConstraints.gridx = 1;
+            fieldPanelConstraints.gridy = 0;
+            fieldPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+            fieldPanelConstraints.weightx = 1.0;
+            fieldPanelConstraints.insets = new Insets(5, 10, 5, 20);
+            panel.add(cedulaPanel, fieldPanelConstraints);
+
+            // Ajustar la posición de los demás campos para empezar después del panel de cédula
+            labelConstraints.gridwidth = 1;
+            fieldConstraints.gridwidth = 1;
 
             labelConstraints.gridy = 1;
             fieldConstraints.gridy = 1;
@@ -231,22 +258,8 @@ public class RegistroClientesForm extends JFrame {
                 }
             });
 
-            
-            JButton buttonConsultar = new JButton("Consultar");
-            buttonConsultar.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
-            buttonConsultar.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
-            buttonConsultar.setFont(new Font("Arial", Font.BOLD, 14));
-
-
-            buttonConsultar.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    consultarCedula();
-                }
-            });
-
             panel.add(buttonGuardar);
             panel.add(buttonNuevoRegistro);
-            panel.add(buttonConsultar);
 
             return panel;
         }
