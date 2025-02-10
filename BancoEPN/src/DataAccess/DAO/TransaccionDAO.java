@@ -121,4 +121,48 @@ public class TransaccionDAO extends SQLiteDataHelper implements IDAO<Transaccion
             throw new Exception("Error al eliminar transacción: " + e.getMessage());
         }
     }
+
+    public List<TransaccionDTO> obtenerUltimasTransacciones(int idCliente) throws Exception {
+        List<TransaccionDTO> transacciones = new ArrayList<>();
+        String query = "SELECT t.Id_transaccion, " +
+                      "t.Origen, t.Destino, " +
+                      "po.nombre || ' ' || po.apellido as nombre_origen, " +
+                      "pd.nombre || ' ' || pd.apellido as nombre_destino, " +
+                      "t.Monto, " +
+                      "tt.nombre_tipo_transaccion, " +
+                      "t.Fecha || ' ' || t.Hora as fecha_transaccion " +
+                      "FROM Transacciones t " +
+                      "INNER JOIN CuentaBancaria cbo ON t.Origen = cbo.id_cuentabancaria " +
+                      "INNER JOIN CuentaBancaria cbd ON t.Destino = cbd.id_cuentabancaria " +
+                      "INNER JOIN Persona po ON cbo.id_persona = po.Id_persona " +
+                      "INNER JOIN Persona pd ON cbd.id_persona = pd.Id_persona " +
+                      "INNER JOIN TipoTransaccion tt ON t.TipoTransaccion = tt.id_tipo_transaccion " +
+                      "WHERE (cbo.id_persona = ? OR cbd.id_persona = ?) " +
+                      "AND t.estado = 'A' " +
+                      "ORDER BY t.fecha DESC, t.hora DESC LIMIT 5";
+        
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, idCliente);
+            stmt.setInt(2, idCliente);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                TransaccionDTO transaccion = new TransaccionDTO(
+                    rs.getInt("Id_transaccion"),
+                    rs.getInt("Origen"),
+                    rs.getInt("Destino"),
+                    rs.getDouble("Monto"),
+                    rs.getString("nombre_tipo_transaccion"),
+                    rs.getString("fecha_transaccion")
+                );
+                // Guardar los nombres en variables temporales
+                transaccion.setNombreOrigen(rs.getString("nombre_origen"));
+                transaccion.setNombreDestino(rs.getString("nombre_destino"));
+                transacciones.add(transaccion);
+            }
+        } catch (SQLException e) {
+            throw new Exception("Error al obtener las últimas transacciones: " + e.getMessage());
+        }
+        return transacciones;
+    }
 }

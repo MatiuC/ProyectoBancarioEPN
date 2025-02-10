@@ -12,6 +12,8 @@ public class TransaccionDTO {
     private String fechaCreacion;
     private String fechaModificacion;
     private Boolean activo;
+    private String nombreOrigen;
+    private String nombreDestino;
 
     // Constructor vacío
     public TransaccionDTO() {}
@@ -29,6 +31,17 @@ public class TransaccionDTO {
         this.fechaModificacion = fechaModificacion;
         this.activo = activo;
     }
+
+    //Contructor para la vista de transacciones
+    public TransaccionDTO(Integer idTransaccion, Integer origen, Integer destino, Double monto, String tipoTransaccion, String fecha) {
+        this.idTransaccion = idTransaccion;
+        this.origen = origen;
+        this.destino = destino;
+        this.monto = monto;
+        this.tipoTransaccion = tipoTransaccion;
+        this.fecha = fecha;
+    }
+
 
     // Constructor completo (para consulta)
     public TransaccionDTO(Integer idTransaccion, Integer origen, Integer destino, Double monto, String tipoTransaccion, String fecha, String hora, String descripcion, String fechaCreacion, String fechaModificacion, Boolean activo) {
@@ -78,6 +91,12 @@ public class TransaccionDTO {
 
     public Boolean getActivo() { return activo; }
     public void setActivo(Boolean activo) { this.activo = activo; }
+
+    public String getNombreOrigen() { return nombreOrigen; }
+    public void setNombreOrigen(String nombreOrigen) { this.nombreOrigen = nombreOrigen; }
+
+    public String getNombreDestino() { return nombreDestino; }
+    public void setNombreDestino(String nombreDestino) { this.nombreDestino = nombreDestino; }
 
     @Override
     public String toString() {

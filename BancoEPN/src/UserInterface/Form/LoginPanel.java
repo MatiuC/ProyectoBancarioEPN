@@ -6,6 +6,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import javax.swing.*;
 import javax.swing.border.*;
+import UserInterface.Form.DashBoardCliente.DashBoardCliente;
+import UserInterface.Form.PanelMenu;
+
+
 
 public class LoginPanel extends JFrame {
 
@@ -93,9 +97,28 @@ public class LoginPanel extends JFrame {
             ValidarIngreso validarIngreso = new ValidarIngreso();
             if (validarIngreso.validarCredenciales(userField.getText(), passwordField.getPassword())) {
                 JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+                int rol = validarIngreso.obtenerRol(userField.getText());
+                validarIngreso.mostrarVentanas(rol);
+                if (rol == 1) {
+
+                }
+                if (rol == 2) {
+                    this.setVisible(false);
+                    DashBoardCliente dashBoardCliente = new DashBoardCliente(validarIngreso.obtenerId(userField.getText()));
+                    dashBoardCliente.setVisible(true);  
+                }
+
+                if (rol == 3) {
+                    this.setVisible(false);
+                    new PanelMenu();
+                }
+
+
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
             }
+
+
 
         });
         

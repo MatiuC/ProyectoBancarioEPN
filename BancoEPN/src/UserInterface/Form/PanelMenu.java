@@ -166,9 +166,5 @@ public class PanelMenu {
         PanelMenu.selectedButton = selectedButton;
     }
 
-    public static void main(String[] args) {
-        // Crear la ventana principal con la barra lateral y contenido
-        new PanelMenu(); // Instanciar la clase que maneja la interfaz
-    }
 }
 
