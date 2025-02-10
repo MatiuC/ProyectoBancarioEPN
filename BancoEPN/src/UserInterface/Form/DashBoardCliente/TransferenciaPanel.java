@@ -66,11 +66,10 @@ public class TransferenciaPanel extends JFrame {
         formPanel.add(cuentaLabel, gbc);
 
         // Panel para agrupar el campo de cuenta y el botón validar
-        JPanel cuentaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        JPanel cuentaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
         cuentaPanel.setBackground(Color.decode("#D3D3D3"));
 
-        cuentaDestinoField = new JTextField(20);
-        cuentaPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10)); // Espacio entre campo y botón
+        cuentaDestinoField = new JTextField(15); // Reducir el ancho del campo de texto
         cuentaDestinoField.setFont(new Font("Arial", Font.PLAIN, 14));
         cuentaDestinoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
@@ -115,7 +114,7 @@ public class TransferenciaPanel extends JFrame {
         gbc.anchor = GridBagConstraints.EAST; // Alinear a la derecha
         formPanel.add(montoLabel, gbc);
 
-        montoField = new JTextField(20);
+        montoField = new JTextField(15); // Mismo tamaño que el campo de cuenta
         montoField.setFont(new Font("Arial", Font.PLAIN, 14));
         montoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
