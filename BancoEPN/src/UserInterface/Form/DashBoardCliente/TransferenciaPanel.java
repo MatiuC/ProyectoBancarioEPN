@@ -50,13 +50,45 @@ public class TransferenciaPanel extends JFrame {
         gbc.gridwidth = 1;
         formPanel.add(cuentaLabel, gbc);
 
+        // Panel para agrupar el campo de cuenta y el botón validar
+        JPanel cuentaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        cuentaPanel.setBackground(Color.decode("#D3D3D3"));
+
         cuentaDestinoField = new JTextField(20);
         cuentaDestinoField.setFont(new Font("Arial", Font.PLAIN, 14));
         cuentaDestinoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
             new EmptyBorder(5, 5, 5, 5)));
+
+        // Botón validar cuenta
+        JButton validarButton = new JButton("Validar cuenta");
+        validarButton.setFont(new Font("Arial", Font.BOLD, 14));
+        validarButton.setBackground(new Color(52, 152, 219));
+        validarButton.setForeground(Color.WHITE);
+        validarButton.setFocusPainted(false);
+        validarButton.setBorderPainted(false);
+        validarButton.setPreferredSize(new Dimension(120, 35));
+        validarButton.addActionListener(e -> {
+            String numeroCuenta = cuentaDestinoField.getText();
+            if (numeroCuenta.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                    "Por favor ingrese un número de cuenta",
+                    "Campo Vacío",
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            // Aquí iría la lógica de validación de cuenta
+            JOptionPane.showMessageDialog(this,
+                "Validación de cuenta en desarrollo",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        cuentaPanel.add(cuentaDestinoField);
+        cuentaPanel.add(validarButton);
+
         gbc.gridx = 1;
-        formPanel.add(cuentaDestinoField, gbc);
+        formPanel.add(cuentaPanel, gbc);
 
         // Campo monto
         JLabel montoLabel = new JLabel("Monto a Transferir: $");
