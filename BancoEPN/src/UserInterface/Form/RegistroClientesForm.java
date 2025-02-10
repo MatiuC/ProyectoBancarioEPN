@@ -294,6 +294,7 @@ public class RegistroClientesForm extends JFrame {
                     try {
                         PersonaDTO persona = get();
                         if (persona != null) {
+                            // Establecer los valores
                             fieldCedula.setText(persona.getCedula());
                             fieldNombre.setText(persona.getNombre());
                             fieldApellido.setText(persona.getApellido());
@@ -303,9 +304,7 @@ public class RegistroClientesForm extends JFrame {
                             fieldDireccion.setText(persona.getDireccion());
                             fieldCorreo.setText(persona.getcorreo());
                             fieldTelefono.setText(persona.getTelefono());
-                            
-                            
-    
+
                             // Seleccionar el estado civil correspondiente
                             for (int i = 0; i < comboEstadoCivil.getItemCount(); i++) {
                                 if (comboEstadoCivil.getItemAt(i).equals(persona.getEstado_civil())) {
@@ -313,6 +312,18 @@ public class RegistroClientesForm extends JFrame {
                                     break;
                                 }
                             }
+
+                            // Deshabilitar los campos después de llenarlos
+                            fieldNombre.setEnabled(false);
+                            fieldApellido.setEnabled(false);
+                            fieldCiudad.setEnabled(false);
+                            fieldEdad.setEnabled(false);
+                            dateChooserFechaNacimiento.setEnabled(false);
+                            fieldDireccion.setEnabled(false);
+                            fieldCorreo.setEnabled(false);
+                            fieldTelefono.setEnabled(false);
+                            comboSexo.setEnabled(false);
+                            comboEstadoCivil.setEnabled(false);
 
     
                            dateChooserFechaNacimiento.setDate(persona.getFecha_nacimiento());
@@ -401,8 +412,9 @@ public class RegistroClientesForm extends JFrame {
                    && !fieldCorreo.getText().isEmpty() && !fieldTelefono.getText().isEmpty();
         }
 
-        // Método para limpiar los campos del formulario
+        // Método para limpiar los campos del formulario y habilitarlos
         private void clearForm() {
+            // Limpiar campos
             fieldCedula.setText("");
             fieldNombre.setText("");
             fieldApellido.setText("");
@@ -414,6 +426,18 @@ public class RegistroClientesForm extends JFrame {
             fieldDireccion.setText("");
             fieldCorreo.setText("");
             fieldTelefono.setText("");
+
+            // Habilitar campos
+            fieldNombre.setEnabled(true);
+            fieldApellido.setEnabled(true);
+            fieldCiudad.setEnabled(true);
+            fieldEdad.setEnabled(true);
+            dateChooserFechaNacimiento.setEnabled(true);
+            fieldDireccion.setEnabled(true);
+            fieldCorreo.setEnabled(true);
+            fieldTelefono.setEnabled(true);
+            comboSexo.setEnabled(true);
+            comboEstadoCivil.setEnabled(true);
         }
 
         public JPanel getFormularioPanel() {
