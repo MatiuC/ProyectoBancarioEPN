@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 
 
 public class Panel extends JPanel {
-    public Panel() {
+  ;
+    public Panel(int id) {
         setLayout(new BorderLayout());
         setBackground(Color.decode("#D3D3D3")); // Fondo blanco
 
@@ -22,7 +23,7 @@ public class Panel extends JPanel {
         headerPanel.setPreferredSize(new Dimension(0, 60));
 
         // Parte Izquierda: Ícono de usuario y bienvenida
-        headerPanel.add(new PanelBienvenida(), BorderLayout.WEST);
+        headerPanel.add(new PanelBienvenida(id), BorderLayout.WEST);
 
         // Parte Derecha: Botones "Conoce lo nuevo" y "Mostrar saldos"
         headerPanel.add(new PanelBotones(), BorderLayout.EAST);
@@ -42,13 +43,13 @@ public class Panel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1; // Solo ocupa 1 columna
-        mainPanel.add(new PanelSaldo(), gbc);
+        mainPanel.add(new PanelSaldo(id), gbc);
         
         // Actividad Reciente (Centro)
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 1; // Solo ocupa 1 columna en el centro
-        mainPanel.add(new PanelActividadReciente(), gbc);
+        mainPanel.add(new PanelActividadReciente(id), gbc);
         
         // Tarjeta de Crédito (Derecha)
         gbc.gridx = 2;

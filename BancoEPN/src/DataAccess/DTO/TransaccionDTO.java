@@ -5,24 +5,28 @@ public class TransaccionDTO {
     private Integer origen;
     private Integer destino;
     private Double monto;
-    private String tipoTransaccion;
+    private Integer tipoTransaccion;
+    private String nombreTipoTransaccion;
     private String fecha;
     private String hora;
     private String descripcion;
     private String fechaCreacion;
     private String fechaModificacion;
     private Boolean activo;
+    private String nombreOrigen;
+    private String nombreDestino;
 
     // Constructor vacío
     public TransaccionDTO() {}
 
     // Constructor sin ID (para inserción)
-    public TransaccionDTO(Integer origen, Integer destino, Double monto, String tipoTransaccion, String fecha, String hora, String descripcion, String fechaCreacion, String fechaModificacion, Boolean activo) {
+    public TransaccionDTO(Integer origen, Integer destino, Double monto, Integer tipoTransaccion, String fecha, String hora, String descripcion, String fechaCreacion, String fechaModificacion, Boolean activo) {
         this.origen = origen;
         this.destino = destino;
         this.monto = monto;
         this.tipoTransaccion = tipoTransaccion;
         this.fecha = fecha;
+
         this.hora = hora;
         this.descripcion = descripcion;
         this.fechaCreacion = fechaCreacion;
@@ -30,13 +34,27 @@ public class TransaccionDTO {
         this.activo = activo;
     }
 
+    //Contructor para la vista de transacciones
+    public TransaccionDTO(Integer idTransaccion, Integer origen, Integer destino, Double monto, String nombreTipoTransaccion, String fecha) {
+        this.idTransaccion = idTransaccion;
+        this.origen = origen;
+        this.destino = destino;
+        this.monto = monto;
+        this.nombreTipoTransaccion = nombreTipoTransaccion;
+        this.fecha = fecha;
+
+
+    }
+
+
     // Constructor completo (para consulta)
-    public TransaccionDTO(Integer idTransaccion, Integer origen, Integer destino, Double monto, String tipoTransaccion, String fecha, String hora, String descripcion, String fechaCreacion, String fechaModificacion, Boolean activo) {
+    public TransaccionDTO(Integer idTransaccion, Integer origen, Integer destino, Double monto, Integer tipoTransaccion, String fecha, String hora, String descripcion, String fechaCreacion, String fechaModificacion, Boolean activo) {
         this.idTransaccion = idTransaccion;
         this.origen = origen;
         this.destino = destino;
         this.monto = monto;
         this.tipoTransaccion = tipoTransaccion;
+
         this.fecha = fecha;
         this.hora = hora;
         this.descripcion = descripcion;
@@ -58,8 +76,9 @@ public class TransaccionDTO {
     public Double getMonto() { return monto; }
     public void setMonto(Double monto) { this.monto = monto; }
 
-    public String getTipoTransaccion() { return tipoTransaccion; }
-    public void setTipoTransaccion(String tipoTransaccion) { this.tipoTransaccion = tipoTransaccion; }
+    public Integer getTipoTransaccion() { return tipoTransaccion; }
+    public void setTipoTransaccion(Integer tipoTransaccion) { this.tipoTransaccion = tipoTransaccion; }
+
 
     public String getFecha() { return fecha; }
     public void setFecha(String fecha) { this.fecha = fecha; }
@@ -79,9 +98,19 @@ public class TransaccionDTO {
     public Boolean getActivo() { return activo; }
     public void setActivo(Boolean activo) { this.activo = activo; }
 
+    public String getNombreOrigen() { return nombreOrigen; }
+    public void setNombreOrigen(String nombreOrigen) { this.nombreOrigen = nombreOrigen; }
+
+    public String getNombreDestino() { return nombreDestino; }
+    public void setNombreDestino(String nombreDestino) { this.nombreDestino = nombreDestino; }
+
+    public String getNombreTipoTransaccion() { return nombreTipoTransaccion; }
+    public void setNombreTipoTransaccion(String nombreTipoTransaccion) { this.nombreTipoTransaccion = nombreTipoTransaccion; }
+
     @Override
     public String toString() {
         return "TransaccionDTO { idTransaccion=" + idTransaccion +
+
                 ", origen=" + origen +
                 ", destino=" + destino +
                 ", monto=" + monto +
