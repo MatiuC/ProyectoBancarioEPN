@@ -68,6 +68,30 @@ public class CuentaBancariaDAO extends SQLiteDataHelper implements IDAO<CuentaBa
         return cuentaBancaria;
     }
 
+    public CuentaBancariaDTO readBycta(String id) throws Exception {
+        CuentaBancariaDTO cuentaBancaria = null;
+        String query = "SELECT * FROM CuentaBancaria WHERE numeroCuenta = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    cuentaBancaria = new CuentaBancariaDTO(
+                        rs.getInt("id_cuentabancaria"),
+                        rs.getString("numeroCuenta"),
+                        rs.getInt("id_persona"),
+                        rs.getFloat("saldo"),
+                        rs.getString("fechaCreacion"),
+                        rs.getString("fechaModificacion"),
+                        rs.getString("estado")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw e;
+        }    
+        return cuentaBancaria;
+    }
+
     @Override
     public List<CuentaBancariaDTO> readAll() throws Exception {
         List<CuentaBancariaDTO> lista = new ArrayList<>();

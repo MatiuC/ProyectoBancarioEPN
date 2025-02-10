@@ -12,9 +12,9 @@ import DataAccess.DTO.TarjetaDTO;
 public class App {
     public static void main(String[] args) {
         try {
-           TarjetaDAO tarjetaDAO = new TarjetaDAO();
-           TarjetaDTO tarjeta = tarjetaDAO.readBy(2);
-           System.out.println(tarjeta);
+           CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
+           CuentaBancariaDTO cuentaBancaria = cuentaBancariaDAO.readBycta("40344247");
+           System.out.println(cuentaBancaria);
         } catch (Exception e) {
             
         }
