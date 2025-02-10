@@ -32,26 +32,33 @@ public class RegistrarTarjeta {
         return sdf.format(Calendar.getInstance().getTime());  // Fecha actual
     }
 
+
     // Método principal para crear y registrar la tarjeta
-    public void crearTarjeta(Integer persona, Integer cuentaBancariaId, Integer tipoTarjeta, Integer franquicia) {
-        // Crear valores aleatorios para los atributos
-        String numeroTarjeta = "4" + (1000000L + new Random().nextLong() % 9000000L);  // Tarjeta Visa con 14 dígitos
-        String cvv = generarCCV();  // Generamos el CCV
-        String fechaExpedicion = generarFechaExpedicion();  // Fecha de expedición (hoy)
-        String fechaVencimiento = generarFechaExpiracion();  // Fecha de expiración generada aleatoriamente
+    // Método principal para crear y registrar la tarjeta
+    public void crearTarjeta(String numeroTarjeta, Integer persona, Integer cuentaBancariaId, Integer tipoTarjeta, Integer franquicia) {
+        // Validar que el número de tarjeta no esté vacío
+        if (numeroTarjeta == null || numeroTarjeta.trim().isEmpty()) {
+            System.err.println("Error: El número de tarjeta no puede estar vacío.");
+            return;
+        }
+    
+        // Crear valores aleatorios para los atributos restantes
+        String cvv = generarCCV();
+        String fechaExpedicion = generarFechaExpedicion();
+        String fechaVencimiento = generarFechaExpiracion();
     
         // Creamos una nueva instancia de TarjetaDTO
         TarjetaDTO tarjeta = new TarjetaDTO(
             null,  // El ID será generado automáticamente por la base de datos
-            numeroTarjeta,
+            numeroTarjeta,  // Ahora recibimos el número desde la interfaz gráfica
             fechaExpedicion,
             fechaVencimiento,
             cvv,
-            tipoTarjeta,  // Suponiendo que el tipo de tarjeta es un número (por ejemplo: 1 = Débito, 2 = Crédito)
-            franquicia,  // ID de la franquicia (por ejemplo: 1 = Visa, 2 = MasterCard)
-            "",  // Se generará automáticamente la fecha de creación
-            "",  // Se generará automáticamente la fecha de modificación
-            "A",  // Estado activo por defecto
+            tipoTarjeta = 1,
+            franquicia = 2,
+            "",
+            "",
+            "A",
             persona,
             cuentaBancariaId
         );
@@ -59,25 +66,16 @@ public class RegistrarTarjeta {
         try {
             // Llamamos al DAO para guardar la tarjeta en la base de datos
             TarjetaDAO tarjetaDAO = new TarjetaDAO();
-            boolean result = tarjetaDAO.create(tarjeta);  // Guarda la tarjeta en la base de datos
+            boolean result = tarjetaDAO.create(tarjeta);
             if (result) {
                 System.out.println("Tarjeta registrada con éxito!");
             } else {
                 System.out.println("Error al registrar la tarjeta.");
             }
         } catch (SQLException e) {
-            // Aquí manejamos específicamente las excepciones SQL
             System.err.println("Error al crear la tarjeta: " + e.getMessage());
         } catch (Exception e) {
-            // Aquí manejamos otras excepciones generales
             System.err.println("Error al crear la tarjeta: " + e.getMessage());
         }
-    }
-    
-
-    // Método para enviar un correo de confirmación (simulado)
-    public void enviarCorreoConfirmacion(String email) {
-        System.out.println("Enviando correo de confirmación a: " + email);
-        // Aquí puedes integrar la lógica para enviar un correo real (JavaMail)
-    }
+    }  
 }
