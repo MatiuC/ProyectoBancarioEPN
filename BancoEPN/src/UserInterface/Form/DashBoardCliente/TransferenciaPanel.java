@@ -32,22 +32,30 @@ public class TransferenciaPanel extends JFrame {
         formPanel.setLayout(new GridBagLayout());
         formPanel.setBackground(Color.decode("#D3D3D3"));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(20, 30, 20, 30); // Márgenes más amplios
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
 
         // Título
         JLabel titleLabel = new JLabel("Realizar Transferencia");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 28));
         titleLabel.setForeground(Color.decode("#274156"));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
+        gbc.insets = new Insets(30, 30, 40, 30); // Margen especial para el título
+        gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(titleLabel, gbc);
+
+        // Restaurar márgenes normales
+        gbc.insets = new Insets(20, 30, 20, 30);
 
         // Campo cuenta destino
         JLabel cuentaLabel = new JLabel("Número de Cuenta Destino:");
         cuentaLabel.setFont(new Font("Arial", Font.BOLD, 16));
         gbc.gridy = 1;
         gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.EAST; // Alinear a la derecha
         formPanel.add(cuentaLabel, gbc);
 
         // Panel para agrupar el campo de cuenta y el botón validar
@@ -95,18 +103,20 @@ public class TransferenciaPanel extends JFrame {
         montoLabel.setFont(new Font("Arial", Font.BOLD, 16));
         gbc.gridx = 0;
         gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.EAST; // Alinear a la derecha
         formPanel.add(montoLabel, gbc);
 
         montoField = new JTextField(20);
         montoField.setFont(new Font("Arial", Font.PLAIN, 14));
         montoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
-            new EmptyBorder(5, 5, 5, 5)));
+            new EmptyBorder(8, 10, 8, 10))); // Padding interno más grande
         gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST; // Alinear a la izquierda
         formPanel.add(montoField, gbc);
 
         // Panel para botones
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 20));
         buttonPanel.setBackground(Color.decode("#D3D3D3"));
 
         // Botón transferir
@@ -135,9 +145,16 @@ public class TransferenciaPanel extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
+        gbc.insets = new Insets(40, 30, 30, 30); // Más espacio arriba de los botones
+        gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(buttonPanel, gbc);
 
-        mainPanel.add(formPanel, BorderLayout.CENTER);
+        // Centra el formulario en el panel principal
+        JPanel wrapperPanel = new JPanel(new GridBagLayout());
+        wrapperPanel.setBackground(Color.decode("#D3D3D3"));
+        wrapperPanel.add(formPanel);
+        
+        mainPanel.add(wrapperPanel, BorderLayout.CENTER);
         add(mainPanel);
     }
 
