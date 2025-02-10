@@ -13,13 +13,14 @@ import BussinesLogic.ApiRequest.GetDatosCedula;
 import java.sql.Date;
 import BussinesLogic.Entities.Registro.GenerarCredenciales;
 import BussinesLogic.Entities.Registro.RegistrarPersona;
+import UserInterface.CustomerControl.RoundedTextField;
 
 
 
 
 public class RegistroClientesForm extends JFrame {
 
-    private JTextField fieldCedula, fieldNombre, fieldApellido, fieldCiudad, fieldEdad, fieldDireccion, fieldCorreo, fieldTelefono;
+    private RoundedTextField fieldCedula, fieldNombre, fieldApellido, fieldCiudad, fieldEdad, fieldDireccion, fieldCorreo, fieldTelefono;
     private JComboBox<String> comboSexo, comboEstadoCivil;
     private JDateChooser dateChooserFechaNacimiento;
 
@@ -70,18 +71,18 @@ public class RegistroClientesForm extends JFrame {
             JLabel labelCedula = new JLabel("Cédula:");
             labelCedula.setFont(labelFont);
             labelCedula.setForeground(labelColor);
-            fieldCedula = new JTextField(20);
+            fieldCedula = new RoundedTextField(20);
 
 
             JLabel labelNombre = new JLabel("Nombre:");
             labelNombre.setFont(labelFont);
             labelNombre.setForeground(labelColor);
-            fieldNombre = new JTextField(20);
+            fieldNombre = new RoundedTextField(20);
 
             JLabel labelApellido = new JLabel("Apellido:");
             labelApellido.setFont(labelFont);
             labelApellido.setForeground(labelColor);
-            fieldApellido = new JTextField(20);
+            fieldApellido = new RoundedTextField(20);
 
             JLabel labelSexo = new JLabel("Sexo:");
             labelSexo.setFont(labelFont);
@@ -96,12 +97,12 @@ public class RegistroClientesForm extends JFrame {
             JLabel labelCiudad = new JLabel("Ciudad:");
             labelCiudad.setFont(labelFont);
             labelCiudad.setForeground(labelColor);
-            fieldCiudad = new JTextField(20);
+            fieldCiudad = new RoundedTextField(20);
 
             JLabel labelEdad = new JLabel("Edad:");
             labelEdad.setFont(labelFont);
             labelEdad.setForeground(labelColor);
-            fieldEdad = new JTextField(20);
+            fieldEdad = new RoundedTextField(20);
 
             JLabel labelFechaNacimiento = new JLabel("Fecha de Nacimiento:");
             labelFechaNacimiento.setFont(labelFont);
@@ -111,17 +112,17 @@ public class RegistroClientesForm extends JFrame {
             JLabel labelDireccion = new JLabel("Dirección:");
             labelDireccion.setFont(labelFont);
             labelDireccion.setForeground(labelColor);
-            fieldDireccion = new JTextField(20);
+            fieldDireccion = new RoundedTextField(20);
 
             JLabel labelCorreo = new JLabel("Correo:");
             labelCorreo.setFont(labelFont);
             labelCorreo.setForeground(labelColor);
-            fieldCorreo = new JTextField(20);
+            fieldCorreo = new RoundedTextField(20);
 
             JLabel labelTelefono = new JLabel("Teléfono:");
             labelTelefono.setFont(labelFont);
             labelTelefono.setForeground(labelColor);
-            fieldTelefono = new JTextField(20);
+            fieldTelefono = new RoundedTextField(20);
 
             panel.add(labelCedula);
             panel.add(fieldCedula);
