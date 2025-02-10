@@ -1,11 +1,11 @@
 package UserInterface.Form.DashBoardCliente;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import BussinesLogic.Entities.BancoLogic.ValidarTransaccion;
 import DataAccess.DAO.CuentaBancariaDAO;
 import DataAccess.DTO.CuentaBancariaDTO;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 
 public class TransferenciaPanel extends JFrame {
@@ -101,20 +101,22 @@ public class TransferenciaPanel extends JFrame {
 
 
             try {
+                CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
+                CuentaBancariaDTO cuentaDestino = cuentaBancariaDAO.readBycta(numeroCuenta);
                 
-            ValidarTransaccion validarTransaccion = new ValidarTransaccion();
-            CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
-            System.out.println(numeroCuenta);
-            CuentaBancariaDTO cuentaBancariaDTO = cuentaBancariaDAO.readBycta(numeroCuenta);
-            System.out.println(cuentaBancariaDTO.getId_persona());
-                if(validarTransaccion.cuentaDeEnvioExiste(cuentaBancariaDTO.getId_persona())){
+                if (cuentaDestino != null && cuentaDestino.getId_persona() != idUsuario) {
                     JOptionPane.showMessageDialog(this,
                         "Cuenta válida",
                         "Cuenta válida",
                         JOptionPane.INFORMATION_MESSAGE);
+                } else if (cuentaDestino != null && cuentaDestino.getId_persona() == idUsuario) {
+                    JOptionPane.showMessageDialog(this,
+                        "No puede transferir a su propia cuenta",
+                        "Cuenta inválida",
+                        JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this,
-                        "Cuenta inválida",
+                        "Cuenta no encontrada",
                         "Cuenta inválida",
                         JOptionPane.ERROR_MESSAGE);
                 }
@@ -204,9 +206,9 @@ public class TransferenciaPanel extends JFrame {
         String monto = montoField.getText();
 
         if (cuentaDestino.isEmpty() || monto.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor complete todos los campos", 
-                "Campos Incompletos", 
+            JOptionPane.showMessageDialog(this,
+                "Por favor complete todos los campos",
+                "Campos Incompletos",
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -214,24 +216,77 @@ public class TransferenciaPanel extends JFrame {
         try {
             double montoTransferencia = Double.parseDouble(monto);
             if (montoTransferencia <= 0) {
-                JOptionPane.showMessageDialog(this, 
-                    "El monto debe ser mayor a 0", 
-                    "Monto Inválido", 
+                JOptionPane.showMessageDialog(this,
+                    "El monto debe ser mayor a 0",
+                    "Monto Inválido",
                     JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // Aquí iría la lógica de transferencia
-            JOptionPane.showMessageDialog(this, 
-                "Transferencia realizada con éxito", 
-                "Éxito", 
-                JOptionPane.INFORMATION_MESSAGE);
-            regresar();
+            ValidarTransaccion validarTransaccion = new ValidarTransaccion();
+            CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
+            
+            // Obtener la cuenta origen (del usuario actual)
+            CuentaBancariaDTO cuentaOrigen = cuentaBancariaDAO.readByuser(idUsuario);
+            if (cuentaOrigen == null) {
+                JOptionPane.showMessageDialog(this,
+                    "Error: No se encontró su cuenta bancaria",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Obtener la cuenta destino
+            CuentaBancariaDTO cuentaDestinoDB = cuentaBancariaDAO.readBycta(cuentaDestino);
+            if (cuentaDestinoDB == null) {
+                JOptionPane.showMessageDialog(this,
+                    "La cuenta destino no existe",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validar si hay saldo suficiente
+            if (!validarTransaccion.saldoSuficiente(cuentaOrigen.getId_cuentabancaria(), montoTransferencia)) {
+                JOptionPane.showMessageDialog(this,
+                    "Saldo insuficiente para realizar la transferencia",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Realizar la transferencia
+            String resultado = validarTransaccion.procesarTransaccion(
+                cuentaOrigen.getId_cuentabancaria(),
+                cuentaDestinoDB.getId_cuentabancaria(),
+                montoTransferencia,
+                1, // Tipo de transacción (1 para transferencia)
+                "Transferencia bancaria",
+                "" // Email (opcional)
+            );
+
+            if (resultado.equals("Transacción exitosa")) {
+                JOptionPane.showMessageDialog(this,
+                    "Transferencia realizada con éxito",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+                regresar();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    resultado,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese un monto válido", 
-                "Monto Inválido", 
+            JOptionPane.showMessageDialog(this,
+                "Por favor ingrese un monto válido",
+                "Monto Inválido",
+                JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al realizar la transferencia: " + e.getMessage(),
+                "Error",
                 JOptionPane.ERROR_MESSAGE);
         }
     }
