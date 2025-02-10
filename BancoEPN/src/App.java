@@ -8,13 +8,20 @@ import DataAccess.DTO.TransaccionDTO;
 import java.util.List;
 import BussinesLogic.Entities.ATM.Retiro;
 import DataAccess.DAO.TarjetaDAO;
+import BussinesLogic.Entities.BancoLogic.ValidarTransaccion;
 import DataAccess.DTO.TarjetaDTO;
 public class App {
     public static void main(String[] args) {
         try {
            CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
            CuentaBancariaDTO cuentaBancaria = cuentaBancariaDAO.readBycta("40344247");
-           System.out.println(cuentaBancaria);
+           System.out.println(cuentaBancaria.getId_persona());
+           
+           ValidarTransaccion validarTransaccion = new ValidarTransaccion();
+           validarTransaccion.cuentaDeRecepcionExiste(cuentaBancaria.getId_persona());
+           //CuentaBancariaDTO cuentaBancaria2 = cuentaBancariaDAO.readByuser(cuentaBancaria.getId_persona());
+           
+          // System.out.println(cuentaBancaria2);
         } catch (Exception e) {
             
         }

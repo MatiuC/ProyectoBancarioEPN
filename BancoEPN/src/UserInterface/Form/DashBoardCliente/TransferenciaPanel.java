@@ -104,7 +104,9 @@ public class TransferenciaPanel extends JFrame {
                 
             ValidarTransaccion validarTransaccion = new ValidarTransaccion();
             CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
+            System.out.println(numeroCuenta);
             CuentaBancariaDTO cuentaBancariaDTO = cuentaBancariaDAO.readBycta(numeroCuenta);
+            System.out.println(cuentaBancariaDTO.getId_persona());
                 if(validarTransaccion.cuentaDeEnvioExiste(cuentaBancariaDTO.getId_persona())){
                     JOptionPane.showMessageDialog(this,
                         "Cuenta válida",
