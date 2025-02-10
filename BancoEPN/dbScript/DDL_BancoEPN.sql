@@ -42,13 +42,14 @@ CREATE TABLE Persona (
     direccion VARCHAR(50) NOT NULL,
     correo VARCHAR(50) NOT NULL,
     telefono VARCHAR(10) NOT NULL,
-    fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fechaModificacion DATETIME  DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(1) NOT NULL DEFAULT 'A',
-    Rol NOT NULL REFERENCES Rol (nombre_rol)
+    Rol NOT NULL REFERENCES Rol (id_rol)
 );
 CREATE TABLE CuentaBancaria (
     id_cuentabancaria INTEGER PRIMARY KEY AUTOINCREMENT,
+
     numeroCuenta VARCHAR(8) NOT NULL,
     id_persona INTEGER NOT NULL REFERENCES Persona (Id_persona),
     saldo FLOAT NOT NULL,
@@ -96,12 +97,13 @@ CREATE TABLE Tarjeta (
     fecha_expedicion DATE NOT NULL,
     fecha_vencimiento DATE NOT NULL,
     cvv VARCHAR(3) NOT NULL,
-    tipo_tarjeta VARCHAR(20) NOT NULL REFERENCES TipoTarjeta (id_tipo_tarjeta),
-    franquicia VARCHAR(20) NOT NULL REFERENCES Franquicia (id_franquicia),
+    tipo_tarjeta INTEGER NOT NULL REFERENCES TipoTarjeta (id_tipo_tarjeta),
+    franquicia INTEGER NOT NULL REFERENCES Franquicia (id_franquicia),
     fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(1) NOT NULL DEFAULT 'A',
-    Persona NOT NULL REFERENCES Persona (Id_persona),
+    Persona INTEGER NOT NULL REFERENCES Persona (Id_persona),
+
     id_cuentabancaria NOT NULL REFERENCES CuentaBancaria (id_cuentabancaria)
 );
 CREATE TABLE TipoTransaccion (
@@ -114,8 +116,8 @@ CREATE TABLE Transacciones (
     Destino INTEGER NOT NULL REFERENCES CuentaBancaria (id_cuentabancaria),
     Monto FLOAT NOT NULL,
     Fecha DATE NOT NULL,
-    Hora TIME NOT NULL,
-    TipoTransaccion VARCHAR(15) NOT NULL REFERENCES TipoTransaccion (id_tipo_transaccion),
+    Hora TEXT NOT NULL,
+    TipoTransaccion INTEGER NOT NULL REFERENCES TipoTransaccion (id_tipo_transaccion),
     Descripcion TEXT NOT NULL,
     fechaCreacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fechaModificacion DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

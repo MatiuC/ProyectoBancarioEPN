@@ -17,11 +17,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import UserInterface.Form.ClienteTransacciones;
+import UserInterface.CustomerControl.CustomTransactionTable;
 
 public class PanelActividadReciente extends JPanel{
 
     //Llamar a la tabla de transacciones filtrada por el usuario el id de la persona que esta logueado y mostrar las ultimas 5 transacciones
     public PanelActividadReciente() {
+
+
         setLayout(new BorderLayout());
         setBackground(Color.decode("#FFFFFF"));
         setBorder(BorderFactory.createLineBorder(Color.decode("#D3D3D3"), 1, true));
@@ -109,10 +112,13 @@ public class PanelActividadReciente extends JPanel{
             frame.setVisible(true);
         });
 
+        
         // Agregar el botón "Ver más"
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
         buttonPanel.add(btnVerMas);
         add(buttonPanel, BorderLayout.SOUTH);
-    }
-}
+
+
+    }//
+}//

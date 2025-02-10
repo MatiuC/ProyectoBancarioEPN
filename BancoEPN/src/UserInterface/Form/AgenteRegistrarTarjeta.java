@@ -34,7 +34,7 @@ public class AgenteRegistrarTarjeta extends JPanel {
 
     //Llamar a la logica de registrar tarjeta
     
-    private void initializeComponents() {
+    public JPanel initializeComponents() {
         // Panel superior (8% de altura)
         topPanel = new JPanel();
         topPanel.setPreferredSize(new Dimension(getWidth(), (int)(getHeight() * 0.08)));
@@ -115,6 +115,47 @@ public class AgenteRegistrarTarjeta extends JPanel {
         
         // Estado inicial de botones y componentes
         resetComponentStates();
+        
+        JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        
+        // Agregar título
+        centerPanel.add(titleLabel, BorderLayout.NORTH);
+        
+        // Panel de búsqueda y tabla
+        JPanel searchTablePanel = new JPanel(new BorderLayout(5, 5));
+        
+        // Panel para el campo de búsqueda
+        JPanel searchWrapperPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        searchWrapperPanel.add(new JPanel() {{
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+            add(Box.createVerticalStrut(10));
+            add(searchField);
+            add(Box.createVerticalStrut(10));
+        }});
+        searchTablePanel.add(searchWrapperPanel, BorderLayout.NORTH);
+        
+        // Panel para la tabla centrada
+        JPanel tableWrapperPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JScrollPane scrollPane = new JScrollPane(clientTable);
+        scrollPane.setPreferredSize(new Dimension(405, 200)); // Ancho fijo para la tabla
+        tableWrapperPanel.add(scrollPane);
+        searchTablePanel.add(tableWrapperPanel, BorderLayout.CENTER);
+        
+        // Panel de botones
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.add(selectButton);
+        buttonPanel.add(addCardButton);
+        buttonPanel.add(registerButton);
+        
+        centerPanel.add(searchTablePanel, BorderLayout.CENTER);
+        centerPanel.add(buttonPanel, BorderLayout.SOUTH);
+        
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        
+        return mainPanel;  // Retornar el panel principal
     }
     
     private void setupLayout() {
@@ -309,7 +350,7 @@ public class AgenteRegistrarTarjeta extends JPanel {
 
 
 
-    }
+    
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

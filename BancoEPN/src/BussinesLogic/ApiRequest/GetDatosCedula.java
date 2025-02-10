@@ -1,17 +1,19 @@
 package BussinesLogic.ApiRequest;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import DataAccess.DTO.PersonaDTO;
+
+
+
 
 public class GetDatosCedula {
 
-    public void sendPostRequest(String cedula) {
-    String targetUrl = "https://si.secap.gob.ec/sisecap/logeo_web/json/busca_persona_registro_civil.php";
+    public PersonaDTO sendPostRequest(String cedula) {
+        String targetUrl = "https://si.secap.gob.ec/sisecap/logeo_web/json/busca_persona_registro_civil.php";
         
         // Crear los datos para enviar
         Map<String, String> postData = new HashMap<>();
@@ -19,7 +21,6 @@ public class GetDatosCedula {
         postData.put("tipo", "1");
 
         try {
-            @SuppressWarnings("deprecation")
             URL url = new URL(targetUrl);
             
             // Abrir la conexión HTTP
@@ -44,27 +45,81 @@ public class GetDatosCedula {
                 os.write(input, 0, input.length);
             }
 
-            int status = connection.getResponseCode();
-            System.out.println("Status: " + status);
-            // Leer la respuesta en texto
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuilder response = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            // Leer la respuesta
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()))) {
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line);
+                }
+
+                // Extraer datos del JSON manualmente
+                String jsonStr = response.toString();
+                if (jsonStr.contains("nombres") && jsonStr.contains("apellidos")) {
+                    PersonaDTO persona = new PersonaDTO();
+                    persona.setCedula(cedula);
+                    
+                    // Extraer los campos necesarios
+                    persona.setNombre(extractJsonValue(jsonStr, "nombres"));
+                    persona.setApellido(extractJsonValue(jsonStr, "apellidos"));
+                    persona.setSexo(extractJsonValue(jsonStr, "sexo"));
+                    persona.setEstado_civil(extractJsonValue(jsonStr, "estadoCivil"));
+                    String fechaNacStr = extractJsonValue(jsonStr, "fechaNacimiento");
+                    try {
+                        if (fechaNacStr != null && !fechaNacStr.isEmpty()) {
+                            java.sql.Date fechaNac = java.sql.Date.valueOf(fechaNacStr);
+                            persona.setFecha_nacimiento(fechaNac);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error al parsear la fecha: " + fechaNacStr);
+                        persona.setFecha_nacimiento(null);
+                    }
+                    persona.setCiudad(extractJsonValue(jsonStr, "provDomicilio"));
+                    String edadStr = extractJsonValue(jsonStr, "edad");
+                    if (edadStr.endsWith(",")) {
+                        edadStr = edadStr.substring(0, edadStr.length() - 1);
+                    }
+
+                    persona.setEdad(edadStr);
+
+                    return persona;
+                }
+            }
+                
+        } catch (Exception e) {
+            System.out.println("Error al enviar petición: " + e.getMessage());
+        }
+        return null;
+    }
+
+    private String extractJsonValue(String json, String key) {
+        try {
+            key = "\"" + key + "\"";
+            int keyIndex = json.indexOf(key);
+            if (keyIndex == -1) return "";
+
+            int valueStart = json.indexOf(":", keyIndex) + 1;
+            while (valueStart < json.length() && 
+                   (json.charAt(valueStart) == ' ' || json.charAt(valueStart) == '"')) {
+                valueStart++;
             }
 
-            in.close();
-            System.out.println("Respuesta completa: " + response.toString());           
-            int reasponseCode = connection.getResponseCode();
-            System.out.println("Response code: " + reasponseCode);
-            
+            int valueEnd = json.indexOf("\"", valueStart);
+            if (valueEnd == -1) {
+                valueEnd = json.indexOf(",", valueStart);
+                if (valueEnd == -1) {
+                    valueEnd = json.indexOf("}", valueStart);
+                }
+            }
+
+            if (valueEnd > valueStart) {
+                String value = json.substring(valueStart, valueEnd).trim();
+                return value.replace("\"", "");
+            }
         } catch (Exception e) {
-            System.out.println("Error al enviar petición " + e.getMessage());
+            System.out.println("Error extrayendo " + key + ": " + e.getMessage());
         }
-
-
-
-
+        return "";
     }
 }
