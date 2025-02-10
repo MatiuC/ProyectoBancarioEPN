@@ -36,8 +36,7 @@ public class RegistroClientesForm extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+        setContentPane(getFormularioPanel());
     }
 
     private void initializeBusinessLogic() throws SQLException {
