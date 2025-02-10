@@ -1,14 +1,11 @@
 package UserInterface.Form.DashBoardCliente;
 
-import javax.swing.*;
-import java.awt.*;
-import java.sql.SQLException;
-
-import javax.swing.border.*;
-
 import DataAccess.DAO.CuentaBancariaDAO;
 import DataAccess.DTO.CuentaBancariaDTO;
-import UserInterface.CustomerControl.RoundedButton;
+import java.awt.*;
+import java.sql.SQLException;
+import javax.swing.*;
+import javax.swing.border.*;
 
 public class PanelSaldo extends JPanel {
     private boolean balanceVisible = false; // Control de visibilidad del saldo
@@ -78,6 +75,10 @@ public class PanelSaldo extends JPanel {
         setButtonIcon(btnTransferir, "src/UserInterface/Resource/Icon/IconTransferir.png");
         setButtonIcon(btnPagar, "src/UserInterface/Resource/Icon/IconPagar.png");
         setButtonIcon(btnRecargar, "src/UserInterface/Resource/Icon/IconRecargar.png");
+
+        // Añadir los ActionListeners a los botones
+        btnPagar.addActionListener(e -> JOptionPane.showMessageDialog(this, "Opción en desarrollo"));
+        btnRecargar.addActionListener(e -> JOptionPane.showMessageDialog(this, "Opción en desarrollo"));
 
         // Añadir los botones al panel inferior
         bottomButtonsPanel.add(btnTransferir);
