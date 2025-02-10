@@ -54,7 +54,7 @@ public class TransferenciaPanel extends JFrame {
         formPanel.add(titlePanel, gbc);
 
         // Restaurar márgenes y configuraciones normales
-        gbc.insets = new Insets(20, 30, 20, 30);
+        gbc.insets = new Insets(20, 15, 20, 30); // Reducir el margen izquierdo de 30 a 15
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Campo cuenta destino
@@ -66,10 +66,11 @@ public class TransferenciaPanel extends JFrame {
         formPanel.add(cuentaLabel, gbc);
 
         // Panel para agrupar el campo de cuenta y el botón validar
-        JPanel cuentaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JPanel cuentaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         cuentaPanel.setBackground(Color.decode("#D3D3D3"));
 
         cuentaDestinoField = new JTextField(20);
+        cuentaPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10)); // Espacio entre campo y botón
         cuentaDestinoField.setFont(new Font("Arial", Font.PLAIN, 14));
         cuentaDestinoField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.decode("#274156")),
