@@ -61,11 +61,11 @@ public class RegistroClientesForm extends JFrame {
         public JPanel FormularioPanel () {
             JPanel panel = new JPanel();
             panel.setLayout(new GridLayout(11, 2, 10, 10)); // 11 filas, 2 columnas
-            panel.setBackground(Color.white); // Fondo gris claro
+            panel.setBackground(new Color(0xFF, 0xFF, 0xFF)); // White
 
             // Establecer fuentes y colores para las etiquetas
             Font labelFont = new Font("Arial", Font.BOLD, 14);
-            Color labelColor = new Color(0, 51, 102); // Azul oscuro
+            Color labelColor = new Color(0x2F, 0x48, 0x58); // Charcoal
 
 
             JLabel labelCedula = new JLabel("Cédula:");
@@ -153,12 +153,12 @@ public class RegistroClientesForm extends JFrame {
         public JPanel createButtonPanel() {
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
-            panel.setBackground(Color.WHITE); // Fondo gris claro
+            panel.setBackground(new Color(0xD3, 0xD3, 0xD3)); // Timberwolf
 
             // Crear botones con colores personalizados
             JButton buttonGuardar = new JButton("Guardar");
-            buttonGuardar.setBackground(new Color(0, 102, 204)); // Azul
-            buttonGuardar.setForeground(Color.WHITE);
+            buttonGuardar.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
+            buttonGuardar.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
             buttonGuardar.setFont(new Font("Arial", Font.BOLD, 14));
 
             // Acción para el botón "Guardar"
@@ -174,8 +174,8 @@ public class RegistroClientesForm extends JFrame {
             });
 
             JButton buttonNuevoRegistro = new JButton("Nuevo Registro");
-            buttonNuevoRegistro.setBackground(new Color(204, 0, 0)); // Rojo
-            buttonNuevoRegistro.setForeground(Color.WHITE);
+            buttonNuevoRegistro.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
+            buttonNuevoRegistro.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
             buttonNuevoRegistro.setFont(new Font("Arial", Font.BOLD, 14));
 
             // Acción para el botón "Nuevo Registro"
@@ -187,8 +187,8 @@ public class RegistroClientesForm extends JFrame {
 
             
             JButton buttonConsultar = new JButton("Consultar");
-            buttonConsultar.setBackground(new Color(0, 102, 204)); // Azul
-            buttonConsultar.setForeground(Color.WHITE);
+            buttonConsultar.setBackground(new Color(0x27, 0x41, 0x56)); // Charcoal
+            buttonConsultar.setForeground(new Color(0xFF, 0xFF, 0xFF)); // White
             buttonConsultar.setFont(new Font("Arial", Font.BOLD, 14));
 
 
