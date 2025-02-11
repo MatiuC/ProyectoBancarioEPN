@@ -1,12 +1,8 @@
 package UserInterface.Form.DashBoardCliente;
 
 import BussinesLogic.Entities.BancoLogic.ValidarTransaccion;
-import DataAccess.DAO.CuentaBancariaDAO;
-import DataAccess.DTO.CuentaBancariaDTO;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 
 public class TransferenciaPanel extends JFrame {
     private JTextField cuentaDestinoField;
@@ -16,16 +12,16 @@ public class TransferenciaPanel extends JFrame {
     public TransferenciaPanel(int id) {
         this.idUsuario = id;
         setTitle("Transferencia Bancaria");
-        
+
         // Obtener el tamaño de la pantalla
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) (screenSize.width * 0.9);
         int height = (int) (screenSize.height * 0.85);
         setSize(width, height);
-        
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
         // Panel principal
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -36,7 +32,7 @@ public class TransferenciaPanel extends JFrame {
         formPanel.setLayout(new GridBagLayout());
         formPanel.setBackground(Color.decode("#D3D3D3"));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 30, 20, 30); // Márgenes más amplios
+        gbc.insets = new Insets(20, 30, 20, 30);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
@@ -48,7 +44,6 @@ public class TransferenciaPanel extends JFrame {
         titleLabel.setForeground(Color.decode("#274156"));
         titlePanel.add(titleLabel);
 
-        // Agregar el panel del título
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -57,87 +52,19 @@ public class TransferenciaPanel extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(titlePanel, gbc);
 
-        // Restaurar márgenes y configuraciones normales
-        gbc.insets = new Insets(20, 15, 20, 30); // Reducir el margen izquierdo de 30 a 15
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
         // Campo cuenta destino
         JLabel cuentaLabel = new JLabel("Número de Cuenta Destino:");
         cuentaLabel.setFont(new Font("Arial", Font.BOLD, 16));
         gbc.gridy = 1;
         gbc.gridwidth = 1;
-        gbc.anchor = GridBagConstraints.EAST; // Alinear a la derecha
+        gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(cuentaLabel, gbc);
-
-        // Panel para agrupar el campo de cuenta y el botón validar
-        JPanel cuentaPanel = new JPanel();
-        cuentaPanel.setLayout(new BoxLayout(cuentaPanel, BoxLayout.X_AXIS));
-        cuentaPanel.setBackground(Color.decode("#D3D3D3"));
 
         cuentaDestinoField = new JTextField(12);
         cuentaDestinoField.setFont(new Font("Arial", Font.PLAIN, 14));
-        cuentaDestinoField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.decode("#274156")),
-            new EmptyBorder(8, 10, 8, 10)));
-        cuentaDestinoField.setPreferredSize(new Dimension(cuentaDestinoField.getPreferredSize().width, 35));
-
-        // Botón validar cuenta
-        JButton validarButton = new JButton("Validar cuenta");
-        validarButton.setFont(new Font("Arial", Font.BOLD, 14));
-        validarButton.setBackground(new Color(52, 152, 219));
-        validarButton.setForeground(Color.WHITE);
-        validarButton.setFocusPainted(false);
-        validarButton.setBorderPainted(false);
-        validarButton.setPreferredSize(new Dimension(150, 40));
-        validarButton.addActionListener(e -> { 
-            String numeroCuenta = cuentaDestinoField.getText();
-            if (numeroCuenta.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                    "Por favor ingrese un número de cuenta",
-                    "Campo Vacío",
-                    JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-
-            try {
-                CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
-                CuentaBancariaDTO cuentaDestino = cuentaBancariaDAO.readBycta(numeroCuenta);
-                
-                if (cuentaDestino != null && cuentaDestino.getId_persona() != idUsuario) {
-                    JOptionPane.showMessageDialog(this,
-                        "Cuenta válida",
-                        "Cuenta válida",
-                        JOptionPane.INFORMATION_MESSAGE);
-                } else if (cuentaDestino != null && cuentaDestino.getId_persona() == idUsuario) {
-                    JOptionPane.showMessageDialog(this,
-                        "No puede transferir a su propia cuenta",
-                        "Cuenta inválida",
-                        JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                        "Cuenta no encontrada",
-                        "Cuenta inválida",
-                        JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al validar la cuenta: " + ex.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        // Agregar un espacio rígido entre el campo y el botón
-        cuentaPanel.add(cuentaDestinoField);
-        cuentaPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-        cuentaPanel.add(validarButton);
-
-        // Establecer el tamaño preferido del panel para que coincida con el campo de monto
-        cuentaPanel.setPreferredSize(new Dimension(350, 35));
-
+        cuentaDestinoField.setBorder(BorderFactory.createLineBorder(Color.decode("#274156")));
         gbc.gridx = 1;
-        formPanel.add(cuentaPanel, gbc);
+        formPanel.add(cuentaDestinoField, gbc);
 
         // Campo monto
         JLabel montoLabel = new JLabel("Monto a Transferir: $");
@@ -147,147 +74,55 @@ public class TransferenciaPanel extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         formPanel.add(montoLabel, gbc);
 
-        // Configurar el campo de monto para que coincida exactamente con el panel de cuenta
         montoField = new JTextField();
         montoField.setFont(new Font("Arial", Font.PLAIN, 14));
-        montoField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(Color.decode("#274156")),
-            new EmptyBorder(8, 10, 8, 10)));
-        montoField.setPreferredSize(new Dimension(350, 35));
+        montoField.setBorder(BorderFactory.createLineBorder(Color.decode("#274156")));
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
         formPanel.add(montoField, gbc);
 
-        // Panel para botones
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 20));
-        buttonPanel.setBackground(Color.decode("#D3D3D3"));
-
         // Botón transferir
         JButton transferirButton = new JButton("Transferir");
-        transferirButton.setFont(new Font("Arial", Font.BOLD, 16));
-        transferirButton.setBackground(new Color(52, 152, 219));
-        transferirButton.setForeground(Color.WHITE);
-        transferirButton.setFocusPainted(false);
-        transferirButton.setBorderPainted(false);
-        transferirButton.setPreferredSize(new Dimension(150, 40));
         transferirButton.addActionListener(e -> realizarTransferencia());
 
         // Botón regresar
         JButton regresarButton = new JButton("Regresar");
-        regresarButton.setFont(new Font("Arial", Font.BOLD, 16));
-        regresarButton.setBackground(new Color(47, 72, 88));
-        regresarButton.setForeground(Color.WHITE);
-        regresarButton.setFocusPainted(false);
-        regresarButton.setBorderPainted(false);
-        regresarButton.setPreferredSize(new Dimension(150, 40));
         regresarButton.addActionListener(e -> regresar());
 
+        JPanel buttonPanel = new JPanel();
         buttonPanel.add(transferirButton);
         buttonPanel.add(regresarButton);
-
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
-        gbc.insets = new Insets(40, 30, 30, 30); // Más espacio arriba de los botones
         gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(buttonPanel, gbc);
 
-        // Centra el formulario en el panel principal
-        JPanel wrapperPanel = new JPanel(new GridBagLayout());
-        wrapperPanel.setBackground(Color.decode("#D3D3D3"));
-        wrapperPanel.add(formPanel);
-        
-        mainPanel.add(wrapperPanel, BorderLayout.CENTER);
+        mainPanel.add(formPanel, BorderLayout.CENTER);
         add(mainPanel);
     }
 
     private void realizarTransferencia() {
-        String cuentaDestino = cuentaDestinoField.getText();
-        String monto = montoField.getText();
-
-        if (cuentaDestino.isEmpty() || monto.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor complete todos los campos",
-                "Campos Incompletos",
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
         try {
-            double montoTransferencia = Double.parseDouble(monto);
-            if (montoTransferencia <= 0) {
-                JOptionPane.showMessageDialog(this,
-                    "El monto debe ser mayor a 0",
-                    "Monto Inválido",
-                    JOptionPane.WARNING_MESSAGE);
+            String cuentaDestino = cuentaDestinoField.getText();
+            double monto = Double.parseDouble(montoField.getText());
+
+            if (cuentaDestino.isEmpty() || monto <= 0) {
+                JOptionPane.showMessageDialog(this, "Ingrese un número de cuenta válido y un monto mayor a 0");
                 return;
             }
 
             ValidarTransaccion validarTransaccion = new ValidarTransaccion();
-            CuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO();
-            
-            // Obtener la cuenta origen (del usuario actual)
-            CuentaBancariaDTO cuentaOrigen = cuentaBancariaDAO.readByuser(idUsuario);
-            if (cuentaOrigen == null) {
-                JOptionPane.showMessageDialog(this,
-                    "Error: No se encontró su cuenta bancaria",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            String resultado = validarTransaccion.procesarTransaccion(idUsuario, Integer.parseInt(cuentaDestino), monto, 2, "Transferencia bancaria", "");
 
-            // Obtener la cuenta destino
-            CuentaBancariaDTO cuentaDestinoDB = cuentaBancariaDAO.readBycta(cuentaDestino);
-            if (cuentaDestinoDB == null) {
-                JOptionPane.showMessageDialog(this,
-                    "La cuenta destino no existe",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Validar si hay saldo suficiente
-            if (!validarTransaccion.saldoSuficiente(cuentaOrigen.getId_cuentabancaria(), montoTransferencia)) {
-                JOptionPane.showMessageDialog(this,
-                    "Saldo insuficiente para realizar la transferencia",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Realizar la transferencia
-            String resultado = validarTransaccion.procesarTransaccion(
-                cuentaOrigen.getId_cuentabancaria(),
-                cuentaDestinoDB.getId_cuentabancaria(),
-                montoTransferencia,
-                1, // Tipo de transacción (1 para transferencia)
-                "Transferencia bancaria",
-                "" // Email (opcional)
-            );
-
+            JOptionPane.showMessageDialog(this, resultado);
             if (resultado.equals("Transacción exitosa")) {
-                JOptionPane.showMessageDialog(this,
-                    "Transferencia realizada con éxito",
-                    "Éxito",
-                    JOptionPane.INFORMATION_MESSAGE);
                 regresar();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                    resultado,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
             }
-
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor ingrese un monto válido",
-                "Monto Inválido",
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor ingrese valores válidos");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al realizar la transferencia: " + e.getMessage(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al procesar la transacción: " + e.getMessage());
         }
     }
 

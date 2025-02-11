@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import BussinesLogic.Entities.ATM.Retiro;
 
 public class ATMPanel extends JFrame {
 
@@ -33,12 +34,25 @@ public class ATMPanel extends JFrame {
         buttonPanel.setPreferredSize(new Dimension(180, 400));
         buttonPanel.setBackground(Color.BLACK);
 
+        // Campos para tarjeta y PIN
+        JTextField txtTarjeta = new JTextField(16);
+        txtTarjeta.setFont(new Font("Arial", Font.PLAIN, 14));
+        JPasswordField txtPIN = new JPasswordField(3);
+        txtPIN.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        // Panel para campos de entrada
+        JPanel inputPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+        inputPanel.setBackground(Color.BLACK);
+        inputPanel.add(new JLabel("Número de tarjeta:"));
+        inputPanel.add(txtTarjeta);
+        inputPanel.add(new JLabel("PIN (3 dígitos):"));
+        inputPanel.add(txtPIN);
+
         // Botón "Retirar"
         JButton btnRetirar = createStyledButton("Retirar");
         btnRetirar.setPreferredSize(new Dimension(140, 50));
 
-        //Boton Salir
-        // Botón "Retirar"
+        // Botón "Salir"
         JButton btnSalir = createStyledButton("Salir");
         btnSalir.setPreferredSize(new Dimension(140, 50));
 
@@ -46,11 +60,40 @@ public class ATMPanel extends JFrame {
         btnRetirar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String numeroTarjeta = txtTarjeta.getText();
+                String pin = new String(txtPIN.getPassword());
+
+                if (numeroTarjeta.isEmpty() || pin.isEmpty()) {
+                    JOptionPane.showMessageDialog(ATMPanel.this,
+                        "Por favor ingrese número de tarjeta y PIN",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if (pin.length() != 3) {
+                    JOptionPane.showMessageDialog(ATMPanel.this,
+                        "El PIN debe tener exactamente 3 dígitos",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 try {
-                    new RetirarPanel();
-                } catch (SQLException e1) {                   
+                    Retiro retiro = new Retiro();
+                    boolean exito = retiro.realizarRetiro(numeroTarjeta, pin, 0); // Monto se pedirá en RetirarPanel
+                    
+                    if (exito) {
+                        new RetirarPanel();
+                    } else {
+                        JOptionPane.showMessageDialog(ATMPanel.this,
+                            "Error al procesar la tarjeta. Verifique los datos",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (SQLException e1) {
                     e1.printStackTrace();
-                } // Abre la ventana de retiro
+                    JOptionPane.showMessageDialog(ATMPanel.this,
+                        "Error de conexión con la base de datos",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
