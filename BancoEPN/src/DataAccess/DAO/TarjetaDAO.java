@@ -1,8 +1,8 @@
 package DataAccess.DAO;
 
+import DataAccess.DTO.TarjetaDTO;
 import DataAccess.IDAO;
 import DataAccess.SQLiteDataHelper;
-import DataAccess.DTO.TarjetaDTO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +60,9 @@ public class TarjetaDAO extends SQLiteDataHelper implements IDAO<TarjetaDTO> {
      * Método para leer una tarjeta por número (tipo String).
      */
     public TarjetaDTO ReadBy(String numeroTarjeta) throws SQLException {
-        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 'A'" + numeroTarjeta.toString();
+        String query = "SELECT * FROM Tarjeta WHERE numero_tarjeta = ? AND estado = 'A'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(2, numeroTarjeta);
+            stmt.setString(1, numeroTarjeta);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new TarjetaDTO(

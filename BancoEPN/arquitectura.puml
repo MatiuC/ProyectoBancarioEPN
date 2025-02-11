@@ -1,0 +1,79 @@
+@startuml N-Tier Banco EPN
+
+skinparam component {
+  BackgroundColor<<UI>> LightBlue
+  BackgroundColor<<BL>> LightGreen  
+  BackgroundColor<<DA>> LightYellow
+  BackgroundColor<<DB>> LightGray
+}
+
+package "Presentación" {
+  [User Interface] <<UI>>
+  package "Forms" {
+    [LoginPanel]
+    [DashboardCliente] 
+    [RegistroClientes]
+    [ATMPanel]
+  }
+  package "Controls" {
+    [CustomControls]
+  }
+}
+
+package "Lógica de Negocio" {
+  [BussinesLogic] <<BL>>
+  package "Entities" {
+    [AgenteBL]
+    [ATM]
+    [BancoLogic] 
+    [Registro]
+    [Tarjeta]
+  }
+  package "ApiRequest" {
+    [GetDatosCedula]
+    [EnviarMail]
+  }
+}
+
+package "Acceso a Datos" {
+  [DataAccess] <<DA>>
+  package "DAO" {
+    [PersonaDAO]
+    [CuentaBancariaDAO]
+    [TransaccionDAO]
+    [TarjetaDAO]
+  }
+  package "DTO" {
+    [PersonaDTO] 
+    [CuentaBancariaDTO]
+    [TransaccionDTO]
+    [TarjetaDTO]
+  }
+}
+
+database "Base de Datos" {
+  [SQLite] <<DB>>
+}
+
+[Forms] ..> [CustomControls]
+[User Interface] ..> [BussinesLogic]
+[BussinesLogic] ..> [DataAccess]
+[DataAccess] ..> [SQLite]
+
+[LoginPanel] ..> [ValidarIngreso]
+[DashboardCliente] ..> [ValidarTransaccion]
+[RegistroClientes] ..> [RegistrarPersona]
+[ATMPanel] ..> [ATM]
+
+[AgenteBL] ..> [PersonaDAO]
+[ATM] ..> [CuentaBancariaDAO]
+[BancoLogic] ..> [TransaccionDAO]
+[Registro] ..> [PersonaDAO]
+[Tarjeta] ..> [TarjetaDAO]
+
+[PersonaDAO] ..> [PersonaDTO]
+[CuentaBancariaDAO] ..> [CuentaBancariaDTO] 
+[TransaccionDAO] ..> [TransaccionDTO]
+[TarjetaDAO] ..> [TarjetaDTO]
+
+@enduml

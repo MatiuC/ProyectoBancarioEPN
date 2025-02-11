@@ -1,13 +1,12 @@
 package UserInterface.Form;
 
 import BussinesLogic.Entities.BancoLogic.ValidarIngreso;
+import UserInterface.Form.DashBoardCliente.DashBoardCliente;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import javax.swing.*;
 import javax.swing.border.*;
-import UserInterface.Form.DashBoardCliente.DashBoardCliente;
-import UserInterface.Form.PanelMenu;
 
 
 
@@ -26,17 +25,17 @@ public class LoginPanel extends JFrame {
      setLayout(new GridBagLayout()); // Cambiado a GridBagLayout para mejor centrado
      setUndecorated(true);
      setResizable(false);
-     setBackground(Color.WHITE);
+     setBackground(Color.RED);
 
      // Panel principal con fondo blanco
      JPanel mainPanel = new JPanel();
      mainPanel.setLayout(new GridBagLayout());
-     mainPanel.setBackground(Color.WHITE);
+     mainPanel.setBackground(Color.RED);
      
      // Panel interno para los componentes
      JPanel contentPanel = new JPanel();
      contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-     contentPanel.setBackground(Color.WHITE);
+     contentPanel.setBackground(Color.RED);
      contentPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
 
      // Título "Hola, inicia sesión"

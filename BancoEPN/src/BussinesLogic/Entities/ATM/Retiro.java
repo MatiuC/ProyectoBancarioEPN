@@ -1,11 +1,11 @@
 package BussinesLogic.Entities.ATM;
 
-import DataAccess.DAO.TransaccionDAO;
 import DataAccess.DAO.CuentaBancariaDAO;
 import DataAccess.DAO.TarjetaDAO;
-import DataAccess.DTO.TransaccionDTO;
+import DataAccess.DAO.TransaccionDAO;
 import DataAccess.DTO.CuentaBancariaDTO;
 import DataAccess.DTO.TarjetaDTO;
+import DataAccess.DTO.TransaccionDTO;
 
 public class Retiro {
 
@@ -18,9 +18,9 @@ public class Retiro {
             int idCuentaBancaria = tarjeta.getId_cuentabancaria();
             String cvv = tarjeta.getCvv();
 
-            // 3. Verificar el PIN (CVV)
-            if (!cvv.equals(pin.toString())) {
-                System.out.println("PIN incorrecto.");
+            // 3. Verificar el PIN (CVV) de 3 dígitos
+            if (pin.length() != 3 || !cvv.equals(pin)) {
+                System.out.println("PIN incorrecto. Debe ser de 3 dígitos.");
                 return false;
             }
 

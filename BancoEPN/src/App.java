@@ -1,34 +1,14 @@
+package UserInterface;
 
-import UserInterface.Form.LoginPanel;
-import BussinesLogic.ApiRequest.GetDatosCedula;
-import DataAccess.DAO.CuentaBancariaDAO;
-import DataAccess.DAO.TransaccionDAO;
-import DataAccess.DTO.CuentaBancariaDTO;
-import DataAccess.DTO.TransaccionDTO;
-import java.util.List;
-import BussinesLogic.Entities.ATM.Retiro;
-import DataAccess.DAO.TarjetaDAO;
-import BussinesLogic.Entities.BancoLogic.ValidarTransaccion;
-import DataAccess.DTO.TarjetaDTO;
+import UserInterface.Form.DashBoardCliente.TransferenciaPanel;
+import javax.swing.SwingUtilities;
+
 public class App {
     public static void main(String[] args) {
-
-        try {
-            //Inicializar la API
-            TransaccionDAO transaccionDAO = new TransaccionDAO();
-            List<TransaccionDTO> transacciones = transaccionDAO.obtenerUltimasTransacciones(5);
-            System.out.println(transacciones);
-            // Crear y mostrar la ventana de login
-
-
-            LoginPanel loginFrame = new LoginPanel();
-            loginFrame.setVisible(true);
-
-        } catch (Exception e) {
-            System.out.println("Error al iniciar la aplicación: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-
+        SwingUtilities.invokeLater(() -> {
+            int idUsuario = 1; // Simulación de un usuario con ID 1 (puedes cambiarlo según el usuario real)
+            TransferenciaPanel transferenciaPanel = new TransferenciaPanel(idUsuario);
+            transferenciaPanel.setVisible(true);
+        });
     }
 }
